@@ -31,7 +31,7 @@
         const Plus = (props) => <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>;
 
         
-// Parse CSV data - ALL 106 PARTNERS
+// Parse CSV data - ALL 93 PARTNERS
 const partnersData = `Partner Name,Organization Type,Home Port Country,Port,Available Ports,Usual Rate (USD),Rating,Email ,Phone Number
 Tiago Figueirinha,Individual,Portugal,Port of Leixões,"Port of Rotterdam,Port of Hamburg,Port Of Amsterdam,Port of Dunkirk,Port of Le Havre",$350.00,4,tiagofigueirinha@gmail.com,+351 91 609 2928
 MLV Marine,Company,Cyprus,Port of Larnaca,"Port of Larnaca,Port of Limassol,Port of Santos,Port of Shanghai,Antwerp-Bruges,Port of Hamburg,Port of Rotterdam,Port of Singapore,Ningbo-Zhoushan,Guangzhou,Busan,Jebel Ali,Port Of Amsterdam,Port of Thessaloniki,Port of Rafina,Port of Piraeus",,2,operations@mlvmarine.com,+357 24 255 100
@@ -123,20 +123,99 @@ Applied Satellite Technology,Company,USA,Port of Houston,"Port of Houston,Long B
 Clarkson PLC,Company,United Kingdom,Port of Liverpool,Port of Liverpool,,,info@clarksons.com,+44 20 7334 0000`;
 
 const portsData = `Port Name,Country,City,# Partners Based Here,# Partners Can Attend
-Port of Rotterdam,Netherlands,Rotterdam,4,10
-Port of Singapore,Singapore,Singapore,8,13
-Port of Los Angeles,USA,Los Angeles,2,9
-Port of Hamburg,Germany,Hamburg,0,8
-Port of Shanghai,China,Shanghai,4,8
-Port of Santos,Brazil,Santos,1,4
-Port Botany,Australia,Sydney,3,3
-Port of Brisbane,Australia,Brisbane,1,4
+Port of Rotterdam,Netherlands,Rotterdam,4,4
+Port of Singapore,Singapore,Singapore,8,8
+Port of Los Angeles,USA,Los Angeles,2,2
+Port of Hamburg,Germany,Hamburg,0,0
+Port of Shanghai,China,Shanghai,4,4
+Port of Santos,Brazil,Santos,1,1
+Shenzhen,China,Shenzhen,0,0
+Ningbo-Zhoushan,China,Ningbo / Zhoushan,0,0
+Guangzhou,China,Guangzhou,0,0
+Busan,South Korea,Busan,4,4
+Hong Kong,Hong Kong SAR,Hong Kong,0,0
+Qingdao,China,Qingdao,0,0
+Tianjin,China,Tianjin,0,0
+Jebel Ali,United Arab Emirates,Dubai,2,2
+Port Klang,Malaysia,Port Klang,1,1
+Antwerp-Bruges,Belgium,Antwerp,0,0
+Kaohsiung,Taiwan,Kaohsiung,0,0
+Xiamen,China,Xiamen,0,0
+Long Beach,USA,Long Beach,0,0
+Port of Leixões,Portugal,Porto,1,1
 Port of Larnaca,Cyprus,Larnaca,1,1
-Jebel Ali,United Arab Emirates,Dubai,1,5
-Tanjung Priok,Indonesia,Jakarta,1,3
-Port Klang,Malaysia,Port Klang,0,6
-Port of Gdansk,Poland,Gdansk,0,2
-Tema,Ghana,Accra,1,1`;
+Port of Limassol,Cyprus,Limassol,0,0
+Tanjung Priok,Indonesia,Jakarta,1,1
+Port Of Amsterdam,Netherlands,Amsterdam,1,1
+Tema,Ghana,Accra,1,1
+Takora,Ghana,Accra,0,0
+Port of Houston,USA,Houston,2,2
+NOLA port,USA,New Orleans,1,1
+Port of Le Havre,France,Le Havre,0,0
+Port of Dunkirk,France,Dunkirk,0,0
+Tangier,Morocco,Tangier,0,0
+Durban,South Africa,Durban,2,2
+Port Said,Egypt,Port Said,0,0
+Port of Ngqura,South Africa,Cega,0,0
+Gqeberha,South Africa,Port Elizabeth,0,0
+Mombasa,Kenya,Mombasa,1,1
+Casablanca,Morocco,Casablanca,0,0
+Port of Djibouti,Djibouti,Djibouti,0,0
+Lome,Togo,Togo,0,0
+Abidjan,Côte d'Ivoire,Abidjan,0,0
+Port of Algeciras,Spain,Algeciras,0,0
+Port of Valencia,Spain,Valencia,0,0
+Port of Barcelona,Spain,Barcelona,2,2
+Port of Vigo,Spain,Vigo,1,1
+Port of Balboa,Panama,Balboa,1,1
+Port of Cristobal,Panama,Cristobal,0,0
+Port of Nagoya,Japan,Nagoya,0,0
+Port of Yokohama,Japan,Yokohama,0,0
+Port of Tokyo,Japan,Tokyo,0,0
+Port of Osaka,Japan,Osaka,0,0
+Incheon,Korea,Incheon,0,0
+Deendayal Port (Kandla),India,Gujarat,1,1
+Jawaharlal Nehru Port (JNPT),India,Maharashtra,0,0
+Mumbai Port Maharashtra,India,Mumbai,0,0
+Mormugao Port,India,Goa,0,0
+New Mangalore Port,India,Karnataka,0,0
+Cochin Port,India,Kerala,0,0
+Port of Colombo,Sri Lanka,Colombo,0,0
+Port of Piraeus,Greece,Athens,0,0
+Port of Rafina,Greece,Athens,0,0
+Port of Thessaloniki,Greece,Thesalloniki,0,0
+Port of Mersin,Turkey,Mersin,0,0
+Port of Ambarli,Turkey,Marmara,0,0
+Port of Istanbul,Turkey,Istanbul,5,5
+Port of Gdansk,Poland,Gdansk,1,1
+Port of Gdynia,Poland,Gdynia,1,1
+Port Botany,Australia,Sydney,3,3
+Port of Brisbane,Australia,Brisbane,1,1
+Port Hedland,Australia,Hedland,1,1
+Port of Fremantle,Australia,Fremantle,0,0
+Port of Vancouver,Canada,Vancouver,0,0
+Port of Montreal,Canada,Montreal,2,2
+Port of Halifax,Canada,Nova Scotia,0,0
+Port of Prince Rupert,Canada,British Columbia,0,0
+Port of Manila,Philippines,Manila,1,1
+Hai Phong port,Vietnam,Hai Phong,0,0
+Port of Varna,Bulgaria,Varna,2,2
+Port of Burgas,Bulgaria,Burgas,0,0
+Caucedo,Dominican Republic,Caucedo,1,1
+Rio Haina,Dominican Republic,Santo Domingo,0,0
+Port of Spain,Trinidad and Tobago,Port of Spain,3,3
+Port of Immingham,United Kingdom,Immingham,1,1
+Port of Liverpool,United Kingdom,Liverpool,4,4
+Port of Tallinn,Estonia,Talinn,1,1
+Port of Auckland,New Zealand,Auckland,1,1
+Port of Wellington,New Zealand,Wellington,0,0
+Port of San Antonio,Chile,San Antonio,3,3
+Port of Valparaíso,Chile,Valparaiso,0,0
+Port of PUERTO JENNEFER,Bolivia,Puerto Jennefer,0,0
+Port of Cartagena,Colombia,Cartagena,1,1
+Port of Manzanillo,Mexico,Manzanillo,1,1
+Puerto de Manta,Ecuador,Manta,0,0
+Port of Callao,Peru,Callao,0,0`;
 
 const engineersData = `Engineer Name,Office,Email,Phone
 Charis Ioannou,Cyprus,charis.ioannou@wlnet.com,35797875380
@@ -147,7 +226,21 @@ Neofytos Pantopiou,Cyprus,neofytos.pantopiou@wlnet.com,35797726029
 Demetris Vayianos,Cyprus,demetris.vayianos@wlnet.com,35799441351
 Rafael Efstathiou,Cyprus,rafael.efstathiou@wlnet.com,35797803013
 Veselin Kadriev,Bulgaria,veselin.kadriev@wlnet.com,359893777170
-Otto Orta,Colombia,otto.orta@wlnet.com,573151568888`;
+Otto Orta,Colombia,otto.orta@wlnet.com,573151568888
+Jerin Joy,India - Kochi,jerin.joy@wlnet.com,916238811033
+Andres Deroux,Panama,andres.deroux@wlnet.com,50764971476
+Vishal Prasannakumar,Dubai,vishal.prasannakumar@wlnet.com,971525459679
+Clevan Pinto,Dubai,clevan.pinto@wlnet.com,971529726841
+Balasubramanian Shanmugam,Dubai,balasubramanian.shanmugam@wlnet.com,
+Eder Quintero,Panama,eder.quintero@wlnet.com,
+Demetris Demetriou,Cyprus,demetris.demetriou@wlnet.com,35799950405
+Valentin Penev,Bulgaria,valentin.penev@wlnet.com,359879112022
+Ventsislav Kudev,Bulgaria,ventsislav.kudev@wlnet.com,359884648400
+Vishnu Chemmencheri,India - Kochi,vishnu.chemmencheri@wlnet.com,918590602139
+Arjun Satheesh,India - Kochi,arjun.satheesh@wlnet.com,918590605069
+Sujith MS,India - Kochi,sujith.ms@wlnet.com,918089238777
+Akhil Mannarathadathil,India - Kochi,akhil.mannarathadathil@wlnet.com,916238811036
+Midhun Jose,India - Kochi,midhun.jose@wlnet.com,919995129283`;
 
 function parseCSV(csv) {
   const lines = csv.trim().split('\n');
@@ -182,7 +275,8 @@ const PartnerPortal = () => {
       attendeeType: 'partner',
       attendeeName: 'Tiago Figueirinha',
       port: 'Port of Leixões',
-      notes: 'Equipment installation'
+      notes: 'Equipment installation',
+      rating: 5
     },
     {
       id: 2,
@@ -191,7 +285,8 @@ const PartnerPortal = () => {
       attendeeType: 'engineer',
       attendeeName: 'Charis Ioannou',
       port: 'Port of Limassol',
-      notes: 'Routine maintenance'
+      notes: 'Routine maintenance',
+      rating: 4
     }
   ]);
   const [newAttendance, setNewAttendance] = useState({
@@ -199,7 +294,8 @@ const PartnerPortal = () => {
     attendeeType: 'partner',
     attendeeName: '',
     port: '',
-    notes: ''
+    notes: '',
+    rating: null
   });
 
   const partners = useMemo(() => parseCSV(partnersData), []);
@@ -216,7 +312,7 @@ const PartnerPortal = () => {
   }, [partners, searchTerm, selectedType, selectedCountry]);
 
   const ratingStats = useMemo(() => {
-    const validRates = partners.filter(p => p['Usual Rate (USD)'] && p['Usual Rate (USD)'] !== 'NaN');
+    const validRates = partners.filter(p => p['Usual Rate (USD)'] && p['Usual Rate (USD)'] !== '');
     const rates = validRates.map(p => parseFloat(p['Usual Rate (USD)'].replace('$', '').replace(',', '')));
     return {
       average: rates.length ? (rates.reduce((a, b) => a + b, 0) / rates.length).toFixed(2) : 0,
@@ -276,7 +372,8 @@ const PartnerPortal = () => {
       attendeeType: 'partner',
       attendeeName: '',
       port: '',
-      notes: ''
+      notes: '',
+      rating: null
     });
   };
 
@@ -284,41 +381,105 @@ const PartnerPortal = () => {
     setAttendances(attendances.filter(att => att.id !== id));
   };
 
-  const StarRating = ({ rating }) => {
-    if (!rating || rating === 'NaN') return <span className="text-neutral-400 text-sm">No rating</span>;
-    const num = parseInt(rating);
+  // Calculate average rating for a partner or engineer based on their attendances
+  const getAverageRating = (name, type) => {
+    const relevantAttendances = attendances.filter(att => 
+      att.attendeeName === name && 
+      att.attendeeType === type &&
+      att.rating && 
+      att.rating > 0
+    );
+    
+    if (relevantAttendances.length === 0) return null;
+    
+    const sum = relevantAttendances.reduce((acc, att) => acc + att.rating, 0);
+    const average = sum / relevantAttendances.length;
+    return average.toFixed(1);
+  };
+
+  // Get attendance count for a person
+  const getAttendanceCount = (name, type) => {
+    return attendances.filter(att => 
+      att.attendeeName === name && 
+      att.attendeeType === type
+    ).length;
+  };
+
+  const StarRating = ({ rating, size = 14, showScore = true, editable = false, onChange }) => {
+    if (!rating || rating === '' || rating === 'NaN') {
+      if (editable) {
+        return (
+          <div style={{ display: 'flex', gap: '3px', alignItems: 'center' }}>
+            {[...Array(5)].map((_, i) => (
+              <Star
+                key={i}
+                size={size}
+                style={{
+                  fill: 'none',
+                  stroke: '#cbd5e1',
+                  strokeWidth: 2,
+                  cursor: 'pointer'
+                }}
+                onClick={() => onChange && onChange(i + 1)}
+                onMouseEnter={(e) => e.currentTarget.style.stroke = '#fbbf24'}
+                onMouseLeave={(e) => e.currentTarget.style.stroke = '#cbd5e1'}
+              />
+            ))}
+          </div>
+        );
+      }
+      return (
+        <span style={{ fontSize: '0.875rem', color: '#94a3b8' }}>No rating</span>
+      );
+    }
+    const num = parseFloat(rating);
     return (
-      <div className="flex gap-0.5">
+      <div style={{ display: 'flex', gap: '3px', alignItems: 'center' }}>
         {[...Array(5)].map((_, i) => (
           <Star
             key={i}
-            size={14}
-            className={i < num ? "fill-amber-400 text-amber-400" : "text-neutral-300"}
+            size={size}
+            style={{
+              fill: i < num ? '#fbbf24' : 'none',
+              stroke: i < num ? '#fbbf24' : '#cbd5e1',
+              strokeWidth: 2,
+              cursor: editable ? 'pointer' : 'default'
+            }}
+            onClick={() => editable && onChange && onChange(i + 1)}
           />
         ))}
+        {showScore && (
+          <span style={{ 
+            marginLeft: '4px', 
+            fontSize: '0.875rem', 
+            color: '#64748b',
+            fontWeight: '500'
+          }}>
+            {num}/5
+          </span>
+        )}
       </div>
     );
   };
 
   return (
     <div style={{
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+      fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif",
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      color: '#1a1a2e'
+      background: '#f8fafc',
+      color: '#0f172a'
     }}>
-      {/* Header */}
+      {/* Modern Header */}
       <header style={{
-        background: 'rgba(255, 255, 255, 0.95)',
-        backdropFilter: 'blur(10px)',
-        borderBottom: '1px solid rgba(102, 126, 234, 0.2)',
+        background: 'white',
+        borderBottom: '1px solid #e2e8f0',
         padding: '1rem 2rem',
         position: 'sticky',
         top: 0,
         zIndex: 50,
-        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)'
+        boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)'
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', maxWidth: '1400px', margin: '0 auto' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <button 
               onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -327,82 +488,93 @@ const PartnerPortal = () => {
                 background: 'none',
                 border: 'none',
                 cursor: 'pointer',
-                color: '#667eea'
+                color: '#64748b',
+                display: 'flex',
+                alignItems: 'center',
+                borderRadius: '0.5rem',
+                transition: 'all 0.2s'
               }}
+              onMouseEnter={(e) => e.currentTarget.style.background = '#f1f5f9'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'none'}
             >
-              <Menu size={24} />
+              <Menu size={20} />
             </button>
             <h1 style={{
-              fontSize: '1.75rem',
-              fontWeight: '800',
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              letterSpacing: '-0.02em'
+              fontSize: '1.25rem',
+              fontWeight: '700',
+              color: '#0f172a',
+              margin: 0
             }}>
               Partner Tracker
             </h1>
           </div>
-          <div style={{ display: 'flex', gap: '0.75rem' }}>
-            <div style={{
-              position: 'relative',
-              display: 'flex',
-              alignItems: 'center'
-            }}>
-              <Search size={18} style={{
-                position: 'absolute',
-                left: '0.75rem',
-                color: '#94a3b8'
-              }} />
-              <input
-                type="text"
-                placeholder="Search partners..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                style={{
-                  padding: '0.5rem 0.75rem 0.5rem 2.5rem',
-                  borderRadius: '0.5rem',
-                  border: '1px solid #e2e8f0',
-                  width: '300px',
-                  fontSize: '0.875rem',
-                  outline: 'none',
-                  transition: 'all 0.2s'
-                }}
-              />
-            </div>
+          
+          <div style={{
+            position: 'relative',
+            display: 'flex',
+            alignItems: 'center'
+          }}>
+            <Search size={16} style={{
+              position: 'absolute',
+              left: '0.75rem',
+              color: '#94a3b8'
+            }} />
+            <input
+              type="text"
+              placeholder="Search partners..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              style={{
+                padding: '0.5rem 1rem 0.5rem 2.5rem',
+                borderRadius: '0.5rem',
+                border: '1px solid #e2e8f0',
+                width: '320px',
+                fontSize: '0.875rem',
+                outline: 'none',
+                transition: 'all 0.2s',
+                background: '#f8fafc'
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = '#3b82f6';
+                e.target.style.background = 'white';
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = '#e2e8f0';
+                e.target.style.background = '#f8fafc';
+              }}
+            />
           </div>
         </div>
       </header>
 
-      <div style={{ display: 'flex', minHeight: 'calc(100vh - 73px)' }}>
-        {/* Sidebar */}
+      <div style={{ display: 'flex', maxWidth: '1400px', margin: '0 auto', minHeight: 'calc(100vh - 73px)' }}>
+        {/* Compact Sidebar */}
         {sidebarOpen && (
           <aside style={{
-            width: '260px',
-            background: 'rgba(255, 255, 255, 0.95)',
-            backdropFilter: 'blur(10px)',
-            borderRight: '1px solid rgba(102, 126, 234, 0.2)',
-            padding: '1.5rem 0',
-            overflowY: 'auto'
+            width: '240px',
+            background: 'white',
+            borderRight: '1px solid #e2e8f0',
+            padding: '1.5rem 0'
           }}>
             <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
               <h3 style={{
-                fontSize: '0.75rem',
+                fontSize: '0.6875rem',
                 fontWeight: '600',
                 textTransform: 'uppercase',
                 letterSpacing: '0.05em',
-                color: '#64748b',
-                padding: '0 1.5rem',
+                color: '#94a3b8',
+                padding: '0 1rem',
                 marginBottom: '0.5rem'
               }}>
-                Directory
+                Navigation
               </h3>
               {[
                 { id: 'list', label: 'Partners List', icon: Users },
-                { id: 'engineers', label: 'ONG Engineers Directory', icon: Users },
+                { id: 'engineers', label: 'Engineers', icon: Users },
                 { id: 'gallery', label: 'Partner Gallery', icon: MapPin },
                 { id: 'ports', label: 'Port Directory', icon: MapPin },
-                { id: 'calendar', label: 'Attendance Calendar', icon: Calendar },
+                { id: 'calendar', label: 'Calendar', icon: Calendar },
+                { id: 'rates', label: 'Analytics', icon: Star },
               ].map(item => (
                 <button
                   key={item.id}
@@ -411,21 +583,21 @@ const PartnerPortal = () => {
                     display: 'flex',
                     alignItems: 'center',
                     gap: '0.75rem',
-                    padding: '0.75rem 1.5rem',
-                    background: currentView === item.id ? 'rgba(102, 126, 234, 0.1)' : 'transparent',
+                    padding: '0.625rem 1rem',
+                    background: currentView === item.id ? '#eff6ff' : 'transparent',
                     border: 'none',
-                    borderLeft: currentView === item.id ? '3px solid #667eea' : '3px solid transparent',
-                    color: currentView === item.id ? '#667eea' : '#64748b',
+                    borderLeft: currentView === item.id ? '3px solid #3b82f6' : '3px solid transparent',
+                    color: currentView === item.id ? '#1e40af' : '#64748b',
                     cursor: 'pointer',
                     fontSize: '0.875rem',
                     fontWeight: currentView === item.id ? '600' : '500',
                     textAlign: 'left',
-                    transition: 'all 0.2s',
+                    transition: 'all 0.15s',
                     width: '100%'
                   }}
                   onMouseEnter={(e) => {
                     if (currentView !== item.id) {
-                      e.currentTarget.style.background = 'rgba(102, 126, 234, 0.05)';
+                      e.currentTarget.style.background = '#f8fafc';
                     }
                   }}
                   onMouseLeave={(e) => {
@@ -434,45 +606,10 @@ const PartnerPortal = () => {
                     }
                   }}
                 >
-                  <item.icon size={18} />
+                  <item.icon size={16} />
                   {item.label}
                 </button>
               ))}
-              
-              <h3 style={{
-                fontSize: '0.75rem',
-                fontWeight: '600',
-                textTransform: 'uppercase',
-                letterSpacing: '0.05em',
-                color: '#64748b',
-                padding: '0 1.5rem',
-                marginTop: '1.5rem',
-                marginBottom: '0.5rem'
-              }}>
-                Ratings
-              </h3>
-              <button
-                onClick={() => setCurrentView('rates')}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.75rem',
-                  padding: '0.75rem 1.5rem',
-                  background: currentView === 'rates' ? 'rgba(102, 126, 234, 0.1)' : 'transparent',
-                  border: 'none',
-                  borderLeft: currentView === 'rates' ? '3px solid #667eea' : '3px solid transparent',
-                  color: currentView === 'rates' ? '#667eea' : '#64748b',
-                  cursor: 'pointer',
-                  fontSize: '0.875rem',
-                  fontWeight: currentView === 'rates' ? '600' : '500',
-                  textAlign: 'left',
-                  transition: 'all 0.2s',
-                  width: '100%'
-                }}
-              >
-                <Star size={18} />
-                Rates Dashboard
-              </button>
             </nav>
           </aside>
         )}
@@ -481,1064 +618,542 @@ const PartnerPortal = () => {
         <main style={{
           flex: 1,
           padding: '2rem',
-          overflowY: 'auto'
+          overflowY: 'auto',
+          background: '#f8fafc'
         }}>
           {/* Partners List View */}
           {currentView === 'list' && (
             <div>
-              <div style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginBottom: '1.5rem'
-              }}>
+              {/* Page Header */}
+              <div style={{ marginBottom: '2rem' }}>
                 <h2 style={{
-                  fontSize: '1.5rem',
+                  fontSize: '1.875rem',
                   fontWeight: '700',
-                  color: 'white'
+                  color: '#0f172a',
+                  marginBottom: '0.5rem'
                 }}>
-                  Partners List
+                  Partners
                 </h2>
-                <div style={{ display: 'flex', gap: '0.75rem' }}>
-                  <select
-                    value={selectedType}
-                    onChange={(e) => setSelectedType(e.target.value)}
-                    style={{
-                      padding: '0.5rem 2rem 0.5rem 0.75rem',
-                      borderRadius: '0.5rem',
-                      border: '1px solid rgba(255, 255, 255, 0.3)',
-                      background: 'rgba(255, 255, 255, 0.95)',
-                      fontSize: '0.875rem',
-                      cursor: 'pointer',
-                      outline: 'none'
-                    }}
-                  >
-                    <option value="all">All Types</option>
-                    <option value="Company">Company</option>
-                    <option value="Individual">Individual</option>
-                  </select>
-                  <select
-                    value={selectedCountry}
-                    onChange={(e) => setSelectedCountry(e.target.value)}
-                    style={{
-                      padding: '0.5rem 2rem 0.5rem 0.75rem',
-                      borderRadius: '0.5rem',
-                      border: '1px solid rgba(255, 255, 255, 0.3)',
-                      background: 'rgba(255, 255, 255, 0.95)',
-                      fontSize: '0.875rem',
-                      cursor: 'pointer',
-                      outline: 'none'
-                    }}
-                  >
-                    <option value="all">All Countries</option>
-                    <option value="Singapore">Singapore</option>
-                    <option value="Netherlands">Netherlands</option>
-                    <option value="Cyprus">Cyprus</option>
-                    <option value="China">China</option>
-                    <option value="USA">USA</option>
-                  </select>
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center'
+                }}>
+                  <p style={{
+                    color: '#64748b',
+                    fontSize: '0.875rem',
+                    margin: 0
+                  }}>
+                    Showing {filteredPartners.length} of {partners.length} partners
+                  </p>
+                  <div style={{ display: 'flex', gap: '0.75rem' }}>
+                    <select
+                      value={selectedType}
+                      onChange={(e) => setSelectedType(e.target.value)}
+                      style={{
+                        padding: '0.5rem 2rem 0.5rem 0.75rem',
+                        borderRadius: '0.5rem',
+                        border: '1px solid #e2e8f0',
+                        background: 'white',
+                        fontSize: '0.875rem',
+                        cursor: 'pointer',
+                        outline: 'none',
+                        color: '#0f172a'
+                      }}
+                    >
+                      <option value="all">All Types</option>
+                      <option value="Company">Company</option>
+                      <option value="Individual">Individual</option>
+                    </select>
+                    <select
+                      value={selectedCountry}
+                      onChange={(e) => setSelectedCountry(e.target.value)}
+                      style={{
+                        padding: '0.5rem 2rem 0.5rem 0.75rem',
+                        borderRadius: '0.5rem',
+                        border: '1px solid #e2e8f0',
+                        background: 'white',
+                        fontSize: '0.875rem',
+                        cursor: 'pointer',
+                        outline: 'none',
+                        color: '#0f172a'
+                      }}
+                    >
+                      <option value="all">All Countries</option>
+                      <option value="Singapore">Singapore</option>
+                      <option value="Netherlands">Netherlands</option>
+                      <option value="Cyprus">Cyprus</option>
+                      <option value="China">China</option>
+                      <option value="USA">USA</option>
+                    </select>
+                  </div>
                 </div>
               </div>
 
+              {/* Table */}
               <div style={{
-                background: 'rgba(255, 255, 255, 0.95)',
+                background: 'white',
                 borderRadius: '0.75rem',
                 overflow: 'hidden',
-                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)'
+                border: '1px solid #e2e8f0',
+                boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)'
               }}>
+                {/* Table Header */}
                 <div style={{
                   display: 'grid',
-                  gridTemplateColumns: '2fr 1fr 1.5fr 1.5fr 1fr 0.8fr',
+                  gridTemplateColumns: '2.5fr 1.5fr 2fr 1.2fr 1fr',
                   gap: '1rem',
-                  padding: '1rem 1.5rem',
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                  color: 'white',
+                  padding: '0.875rem 1.5rem',
+                  background: '#f8fafc',
+                  borderBottom: '1px solid #e2e8f0',
+                  color: '#64748b',
                   fontSize: '0.75rem',
-                  fontWeight: '700',
+                  fontWeight: '600',
                   textTransform: 'uppercase',
                   letterSpacing: '0.05em'
                 }}>
-                  <div>Partner Name</div>
+                  <div>Partner</div>
                   <div>Port</div>
                   <div>Available Ports</div>
-                  <div>Usual Rate (USD)</div>
+                  <div>Rate</div>
                   <div>Rating</div>
-                  <div></div>
                 </div>
                 
+                {/* Table Rows */}
                 {filteredPartners.map((partner, idx) => (
                   <div
                     key={idx}
                     style={{
                       display: 'grid',
-                      gridTemplateColumns: '2fr 1fr 1.5fr 1.5fr 1fr 0.8fr',
+                      gridTemplateColumns: '2.5fr 1.5fr 2fr 1.2fr 1fr',
                       gap: '1rem',
-                      padding: '1.25rem 1.5rem',
-                      borderBottom: idx < filteredPartners.length - 1 ? '1px solid #e2e8f0' : 'none',
+                      padding: '1rem 1.5rem',
+                      borderBottom: idx < filteredPartners.length - 1 ? '1px solid #f1f5f9' : 'none',
                       alignItems: 'center',
-                      transition: 'background 0.2s',
+                      transition: 'background 0.15s',
                       cursor: 'pointer'
                     }}
-                    onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(102, 126, 234, 0.05)'}
+                    onMouseEnter={(e) => e.currentTarget.style.background = '#f8fafc'}
                     onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
                     onClick={() => setSelectedPartner(partner)}
                   >
+                    {/* Partner Name */}
                     <div>
-                      <div style={{ fontWeight: '600', color: '#1e293b', marginBottom: '0.25rem' }}>
+                      <div style={{ fontWeight: '600', color: '#0f172a', marginBottom: '0.25rem', fontSize: '0.875rem' }}>
                         {partner['Partner Name']}
                       </div>
                       <div style={{
                         display: 'inline-block',
                         padding: '0.125rem 0.5rem',
-                        borderRadius: '0.25rem',
+                        borderRadius: '0.375rem',
                         background: partner['Organization Type'] === 'Company' ? '#dbeafe' : '#fef3c7',
                         color: partner['Organization Type'] === 'Company' ? '#1e40af' : '#92400e',
-                        fontSize: '0.75rem',
-                        fontWeight: '500'
+                        fontSize: '0.6875rem',
+                        fontWeight: '600'
                       }}>
                         {partner['Organization Type']}
                       </div>
                     </div>
-                    <div style={{ fontSize: '0.875rem', color: '#64748b' }}>
+                    
+                    {/* Port */}
+                    <div style={{ fontSize: '0.875rem', color: '#475569' }}>
                       {partner['Port']}
                     </div>
+                    
+                    {/* Available Ports */}
                     <div style={{ fontSize: '0.875rem', color: '#64748b' }}>
-                      {partner['Available Ports'] ? partner['Available Ports'].split(',').slice(0, 2).join(', ') + (partner['Available Ports'].split(',').length > 2 ? '...' : '') : '—'}
-                    </div>
-                    <div style={{ fontSize: '0.875rem', fontWeight: '600', color: '#10b981' }}>
-                      {partner['Usual Rate (USD)'] && partner['Usual Rate (USD)'] !== 'NaN' ? partner['Usual Rate (USD)'] : '—'}
-                    </div>
-                    <div>
-                      <StarRating rating={partner['Rating']} />
-                    </div>
-                    <div style={{ textAlign: 'right' }}>
-                      <ChevronRight size={18} style={{ color: '#94a3b8' }} />
-                    </div>
-                  </div>
-                ))}
-              </div>
-              
-              <div style={{
-                marginTop: '1rem',
-                color: 'white',
-                fontSize: '0.875rem',
-                opacity: 0.8
-              }}>
-                Showing {filteredPartners.length} of {partners.length} partners
-              </div>
-            </div>
-          )}
-
-          {/* ONG Engineers Directory View */}
-          {currentView === 'engineers' && (
-            <div>
-              <h2 style={{
-                fontSize: '1.5rem',
-                fontWeight: '700',
-                color: 'white',
-                marginBottom: '0.5rem'
-              }}>
-                ONG Engineers Directory
-              </h2>
-              <p style={{
-                color: 'rgba(255, 255, 255, 0.8)',
-                fontSize: '0.875rem',
-                marginBottom: '1.5rem'
-              }}>
-                Explore and browse all ONG Engineers, grouped by their office location
-              </p>
-
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                {Object.entries(engineersByOffice).map(([office, engs]) => (
-                  <div
-                    key={office}
-                    style={{
-                      background: 'rgba(255, 255, 255, 0.95)',
-                      borderRadius: '0.75rem',
-                      overflow: 'hidden',
-                      boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)'
-                    }}
-                  >
-                    <button
-                      onClick={() => setExpandedOffice(expandedOffice === office ? null : office)}
-                      style={{
-                        width: '100%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        padding: '1.25rem 1.5rem',
-                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                        border: 'none',
-                        cursor: 'pointer',
-                        color: 'white'
-                      }}
-                    >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                        {expandedOffice === office ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
-                        <span style={{ fontSize: '1.125rem', fontWeight: '600' }}>
-                          {office}
-                        </span>
-                        <span style={{
-                          padding: '0.25rem 0.75rem',
-                          borderRadius: '1rem',
-                          background: 'rgba(255, 255, 255, 0.2)',
-                          fontSize: '0.875rem',
-                          fontWeight: '500'
-                        }}>
-                          {engs.length} engineer{engs.length !== 1 ? 's' : ''}
-                        </span>
-                      </div>
-                    </button>
-
-                    {expandedOffice === office && (
-                      <div>
-                        <div style={{
-                          display: 'grid',
-                          gridTemplateColumns: '2fr 2fr 1.5fr 0.5fr',
-                          gap: '1rem',
-                          padding: '1rem 1.5rem',
-                          background: '#f8fafc',
-                          fontSize: '0.75rem',
-                          fontWeight: '700',
-                          textTransform: 'uppercase',
-                          letterSpacing: '0.05em',
-                          color: '#64748b'
-                        }}>
-                          <div>Engineer Name</div>
-                          <div>Email</div>
-                          <div>Phone</div>
-                          <div>Attendances</div>
-                        </div>
-                        {engs.map((eng, idx) => (
-                          <div
-                            key={idx}
-                            style={{
-                              display: 'grid',
-                              gridTemplateColumns: '2fr 2fr 1.5fr 0.5fr',
-                              gap: '1rem',
-                              padding: '1.25rem 1.5rem',
-                              borderBottom: idx < engs.length - 1 ? '1px solid #e2e8f0' : 'none',
-                              alignItems: 'center',
-                              transition: 'background 0.2s'
-                            }}
-                            onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(102, 126, 234, 0.05)'}
-                            onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
-                          >
-                            <div style={{ fontWeight: '600', color: '#1e293b' }}>
-                              {eng['Engineer Name']}
-                            </div>
-                            <div style={{ fontSize: '0.875rem', color: '#3b82f6' }}>
-                              <a href={`mailto:${eng.Email}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                                {eng.Email}
-                              </a>
-                            </div>
-                            <div style={{ fontSize: '0.875rem', color: '#64748b' }}>
-                              {eng.Phone}
-                            </div>
-                            <div style={{ fontSize: '0.875rem', color: '#64748b', textAlign: 'center' }}>
-                              —
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Partner Gallery View */}
-          {currentView === 'gallery' && (
-            <div>
-              <h2 style={{
-                fontSize: '1.5rem',
-                fontWeight: '700',
-                color: 'white',
-                marginBottom: '0.5rem'
-              }}>
-                Partner Gallery
-              </h2>
-              <p style={{
-                color: 'rgba(255, 255, 255, 0.8)',
-                fontSize: '0.875rem',
-                marginBottom: '1.5rem'
-              }}>
-                Browse and search partner profiles as cards
-              </p>
-
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
-                gap: '1.5rem'
-              }}>
-                {filteredPartners.map((partner, idx) => (
-                  <div
-                    key={idx}
-                    style={{
-                      background: 'rgba(255, 255, 255, 0.95)',
-                      borderRadius: '0.75rem',
-                      padding: '1.5rem',
-                      boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
-                      cursor: 'pointer',
-                      transition: 'all 0.3s',
-                      border: '2px solid transparent'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translateY(-4px)';
-                      e.currentTarget.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.15)';
-                      e.currentTarget.style.borderColor = '#667eea';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'translateY(0)';
-                      e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.1)';
-                      e.currentTarget.style.borderColor = 'transparent';
-                    }}
-                    onClick={() => setSelectedPartner(partner)}
-                  >
-                    <div style={{
-                      width: '80px',
-                      height: '80px',
-                      borderRadius: '0.5rem',
-                      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                      marginBottom: '1rem',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: '2rem',
-                      fontWeight: '700',
-                      color: 'white'
-                    }}>
-                      {partner['Partner Name'].charAt(0)}
-                    </div>
-
-                    <h3 style={{
-                      fontSize: '1.125rem',
-                      fontWeight: '700',
-                      color: '#1e293b',
-                      marginBottom: '0.5rem'
-                    }}>
-                      {partner['Partner Name']}
-                    </h3>
-
-                    <div style={{
-                      display: 'inline-block',
-                      padding: '0.25rem 0.75rem',
-                      borderRadius: '0.25rem',
-                      background: partner['Organization Type'] === 'Company' ? '#dbeafe' : '#fef3c7',
-                      color: partner['Organization Type'] === 'Company' ? '#1e40af' : '#92400e',
-                      fontSize: '0.75rem',
-                      fontWeight: '600',
-                      marginBottom: '1rem'
-                    }}>
-                      {partner['Organization Type']}
-                    </div>
-
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        <MapPin size={16} style={{ color: '#64748b', flexShrink: 0 }} />
-                        <span style={{ fontSize: '0.875rem', color: '#64748b' }}>
-                          {partner['Home Port Country']}
-                        </span>
-                      </div>
-
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        <MapPin size={16} style={{ color: '#64748b', flexShrink: 0 }} />
-                        <span style={{ fontSize: '0.875rem', color: '#64748b' }}>
-                          {partner['Port']}
-                        </span>
-                      </div>
-
-                      {partner['Usual Rate (USD)'] && partner['Usual Rate (USD)'] !== 'NaN' && (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                          <DollarSign size={16} style={{ color: '#10b981', flexShrink: 0 }} />
-                          <span style={{ fontSize: '0.875rem', fontWeight: '600', color: '#10b981' }}>
-                            {partner['Usual Rate (USD)']}
-                          </span>
-                        </div>
-                      )}
-
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        <Star size={16} style={{ color: '#fbbf24', flexShrink: 0 }} />
-                        <StarRating rating={partner['Rating']} />
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Port Directory View */}
-          {currentView === 'ports' && (
-            <div>
-              <h2 style={{
-                fontSize: '1.5rem',
-                fontWeight: '700',
-                color: 'white',
-                marginBottom: '0.5rem'
-              }}>
-                Port Directory
-              </h2>
-              <p style={{
-                color: 'rgba(255, 255, 255, 0.8)',
-                fontSize: '0.875rem',
-                marginBottom: '1.5rem'
-              }}>
-                View ports with partner availability
-              </p>
-
-              <div style={{
-                background: 'rgba(255, 255, 255, 0.95)',
-                borderRadius: '0.75rem',
-                overflow: 'hidden',
-                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)'
-              }}>
-                <div style={{
-                  display: 'grid',
-                  gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr',
-                  gap: '1rem',
-                  padding: '1rem 1.5rem',
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                  color: 'white',
-                  fontSize: '0.75rem',
-                  fontWeight: '700',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em'
-                }}>
-                  <div>Port Name</div>
-                  <div>Country</div>
-                  <div>City</div>
-                  <div># Partners Based</div>
-                  <div># Partners Can Attend</div>
-                </div>
-                
-                {ports.map((port, idx) => (
-                  <div
-                    key={idx}
-                    style={{
-                      display: 'grid',
-                      gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr',
-                      gap: '1rem',
-                      padding: '1.25rem 1.5rem',
-                      borderBottom: idx < ports.length - 1 ? '1px solid #e2e8f0' : 'none',
-                      alignItems: 'center',
-                      transition: 'background 0.2s'
-                    }}
-                    onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(102, 126, 234, 0.05)'}
-                    onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
-                  >
-                    <div style={{ fontWeight: '600', color: '#1e293b' }}>
-                      {port['Port Name']}
-                    </div>
-                    <div style={{ fontSize: '0.875rem', color: '#64748b' }}>
-                      {port['Country']}
-                    </div>
-                    <div style={{ fontSize: '0.875rem', color: '#64748b' }}>
-                      {port['City']}
-                    </div>
-                    <div style={{
-                      fontSize: '0.875rem',
-                      fontWeight: '600',
-                      color: '#667eea',
-                      textAlign: 'center'
-                    }}>
-                      {port['# Partners Based Here']}
-                    </div>
-                    <div style={{
-                      fontSize: '0.875rem',
-                      fontWeight: '600',
-                      color: '#10b981',
-                      textAlign: 'center'
-                    }}>
-                      {port['# Partners Can Attend']}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Attendance Calendar View */}
-          {currentView === 'calendar' && (
-            <div>
-              <h2 style={{
-                fontSize: '1.5rem',
-                fontWeight: '700',
-                color: 'white',
-                marginBottom: '0.5rem'
-              }}>
-                Attendance Calendar
-              </h2>
-              <p style={{
-                color: 'rgba(255, 255, 255, 0.8)',
-                fontSize: '0.875rem',
-                marginBottom: '1.5rem'
-              }}>
-                Schedule and track vessel attendances with partners and engineers
-              </p>
-
-              <div style={{
-                background: 'rgba(255, 255, 255, 0.95)',
-                borderRadius: '0.75rem',
-                overflow: 'hidden',
-                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
-                padding: '2rem'
-              }}>
-                {/* Calendar Header */}
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  marginBottom: '2rem'
-                }}>
-                  <button
-                    onClick={() => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1))}
-                    style={{
-                      padding: '0.5rem',
-                      background: 'none',
-                      border: '1px solid #e2e8f0',
-                      borderRadius: '0.5rem',
-                      cursor: 'pointer',
-                      color: '#64748b',
-                      display: 'flex',
-                      alignItems: 'center',
-                      transition: 'all 0.2s'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = '#f1f5f9';
-                      e.currentTarget.style.borderColor = '#667eea';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'none';
-                      e.currentTarget.style.borderColor = '#e2e8f0';
-                    }}
-                  >
-                    <ChevronLeft size={20} />
-                  </button>
-
-                  <h3 style={{
-                    fontSize: '1.5rem',
-                    fontWeight: '700',
-                    color: '#1e293b'
-                  }}>
-                    {currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
-                  </h3>
-
-                  <button
-                    onClick={() => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1))}
-                    style={{
-                      padding: '0.5rem',
-                      background: 'none',
-                      border: '1px solid #e2e8f0',
-                      borderRadius: '0.5rem',
-                      cursor: 'pointer',
-                      color: '#64748b',
-                      display: 'flex',
-                      alignItems: 'center',
-                      transition: 'all 0.2s'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = '#f1f5f9';
-                      e.currentTarget.style.borderColor = '#667eea';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'none';
-                      e.currentTarget.style.borderColor = '#e2e8f0';
-                    }}
-                  >
-                    <ChevronRight size={20} />
-                  </button>
-                </div>
-
-                {/* Calendar Grid */}
-                <div style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(7, 1fr)',
-                  gap: '0.5rem'
-                }}>
-                  {/* Day headers */}
-                  {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-                    <div
-                      key={day}
-                      style={{
-                        padding: '0.75rem',
-                        textAlign: 'center',
-                        fontSize: '0.875rem',
-                        fontWeight: '700',
-                        color: '#64748b',
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.05em'
-                      }}
-                    >
-                      {day}
-                    </div>
-                  ))}
-
-                  {/* Calendar days */}
-                  {(() => {
-                    const { daysInMonth, startingDayOfWeek, year, month } = getDaysInMonth(currentDate);
-                    const days = [];
-
-                    // Empty cells for days before month starts
-                    for (let i = 0; i < startingDayOfWeek; i++) {
-                      days.push(
-                        <div
-                          key={`empty-${i}`}
-                          style={{
-                            aspectRatio: '1',
-                            background: '#f8fafc',
-                            borderRadius: '0.5rem'
-                          }}
-                        />
-                      );
-                    }
-
-                    // Actual days
-                    for (let day = 1; day <= daysInMonth; day++) {
-                      const date = new Date(year, month, day);
-                      const dateStr = formatDate(date);
-                      const dayAttendances = getAttendancesForDate(dateStr);
-                      const isToday = formatDate(new Date()) === dateStr;
-
-                      days.push(
-                        <div
-                          key={day}
-                          style={{
-                            aspectRatio: '1',
-                            border: isToday ? '2px solid #667eea' : '1px solid #e2e8f0',
-                            borderRadius: '0.5rem',
-                            padding: '0.5rem',
-                            cursor: 'pointer',
-                            transition: 'all 0.2s',
-                            background: 'white',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            position: 'relative'
-                          }}
-                          onClick={() => {
-                            setSelectedDate(date);
-                            setShowAttendanceModal(true);
-                          }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.background = '#f8fafc';
-                            e.currentTarget.style.borderColor = '#667eea';
-                            e.currentTarget.style.transform = 'scale(1.02)';
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.background = 'white';
-                            e.currentTarget.style.borderColor = isToday ? '#667eea' : '#e2e8f0';
-                            e.currentTarget.style.transform = 'scale(1)';
-                          }}
-                        >
-                          <div style={{
-                            fontSize: '0.875rem',
-                            fontWeight: '600',
-                            color: '#1e293b',
-                            marginBottom: '0.25rem'
-                          }}>
-                            {day}
-                          </div>
-
-                          {dayAttendances.length > 0 && (
-                            <div style={{
-                              display: 'flex',
-                              flexDirection: 'column',
-                              gap: '2px',
-                              marginTop: 'auto'
-                            }}>
-                              {dayAttendances.slice(0, 2).map(att => (
-                                <div
-                                  key={att.id}
-                                  style={{
-                                    fontSize: '0.625rem',
-                                    padding: '2px 4px',
-                                    borderRadius: '0.25rem',
-                                    background: att.attendeeType === 'partner' ? '#dbeafe' : '#fef3c7',
-                                    color: att.attendeeType === 'partner' ? '#1e40af' : '#92400e',
-                                    fontWeight: '500',
-                                    overflow: 'hidden',
-                                    textOverflow: 'ellipsis',
-                                    whiteSpace: 'nowrap'
-                                  }}
-                                  title={`${att.vesselName} - ${att.attendeeName}`}
-                                >
-                                  <Ship size={8} style={{ display: 'inline', marginRight: '2px' }} />
-                                  {att.vesselName}
-                                </div>
-                              ))}
-                              {dayAttendances.length > 2 && (
-                                <div style={{
-                                  fontSize: '0.625rem',
-                                  padding: '2px 4px',
-                                  borderRadius: '0.25rem',
-                                  background: '#f1f5f9',
-                                  color: '#64748b',
-                                  fontWeight: '600',
-                                  textAlign: 'center'
-                                }}>
-                                  +{dayAttendances.length - 2} more
-                                </div>
-                              )}
-                            </div>
+                      {partner['Available Ports'] ? (
+                        <span>
+                          {partner['Available Ports'].split(',').slice(0, 2).map((p, i) => p.trim()).join(', ')}
+                          {partner['Available Ports'].split(',').length > 2 && (
+                            <span style={{ color: '#94a3b8' }}> +{partner['Available Ports'].split(',').length - 2} more</span>
                           )}
-                        </div>
-                      );
-                    }
-
-                    return days;
-                  })()}
-                </div>
-              </div>
-
-              {/* Upcoming Attendances List */}
-              <div style={{
-                background: 'rgba(255, 255, 255, 0.95)',
-                borderRadius: '0.75rem',
-                overflow: 'hidden',
-                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
-                marginTop: '2rem'
-              }}>
-                <div style={{
-                  padding: '1.5rem',
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                  color: 'white'
-                }}>
-                  <h3 style={{
-                    fontSize: '1.125rem',
-                    fontWeight: '700'
-                  }}>
-                    All Scheduled Attendances
-                  </h3>
-                </div>
-
-                {attendances.length === 0 ? (
-                  <div style={{
-                    padding: '3rem',
-                    textAlign: 'center',
-                    color: '#94a3b8'
-                  }}>
-                    <Calendar size={48} style={{ margin: '0 auto 1rem', opacity: 0.5 }} />
-                    <p>No attendances scheduled yet. Click on a date to add one.</p>
+                        </span>
+                      ) : '—'}
+                    </div>
+                    
+                    {/* Rate */}
+                    <div style={{ fontSize: '0.875rem', fontWeight: '600', color: partner['Usual Rate (USD)'] && partner['Usual Rate (USD)'] !== '' ? '#059669' : '#94a3b8' }}>
+                      {partner['Usual Rate (USD)'] && partner['Usual Rate (USD)'] !== '' ? partner['Usual Rate (USD)'] : '—'}
+                    </div>
+                    
+                    {/* Rating */}
+                    <div>
+                      {(() => {
+                        const avgRating = getAverageRating(partner['Partner Name'], 'partner');
+                        const attendanceCount = getAttendanceCount(partner['Partner Name'], 'partner');
+                        return (
+                          <div>
+                            <StarRating rating={avgRating || partner['Rating']} />
+                            {attendanceCount > 0 && (
+                              <div style={{ fontSize: '0.6875rem', color: '#94a3b8', marginTop: '2px' }}>
+                                {attendanceCount} attendance{attendanceCount !== 1 ? 's' : ''}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })()}
+                    </div>
                   </div>
-                ) : (
-                  <div>
-                    {attendances
-                      .sort((a, b) => new Date(a.date) - new Date(b.date))
-                      .map((att, idx) => (
-                        <div
-                          key={att.id}
-                          style={{
-                            padding: '1.5rem',
-                            borderBottom: idx < attendances.length - 1 ? '1px solid #e2e8f0' : 'none',
-                            display: 'grid',
-                            gridTemplateColumns: '120px 1fr 1fr 1fr 1fr auto',
-                            gap: '1rem',
-                            alignItems: 'center',
-                            transition: 'background 0.2s'
-                          }}
-                          onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(102, 126, 234, 0.05)'}
-                          onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
-                        >
-                          <div>
-                            <div style={{
-                              fontSize: '0.75rem',
-                              color: '#64748b',
-                              fontWeight: '500',
-                              marginBottom: '0.25rem'
-                            }}>
-                              {new Date(att.date + 'T00:00:00').toLocaleDateString('en-US', { 
-                                month: 'short', 
-                                day: 'numeric',
-                                year: 'numeric'
-                              })}
-                            </div>
-                            <div style={{
-                              fontSize: '0.75rem',
-                              color: '#94a3b8'
-                            }}>
-                              {new Date(att.date + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'short' })}
-                            </div>
-                          </div>
+                ))}
+              </div>
+            </div>
+          )}
 
-                          <div>
-                            <div style={{
-                              fontSize: '0.875rem',
-                              fontWeight: '600',
-                              color: '#1e293b',
-                              marginBottom: '0.25rem',
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: '0.5rem'
-                            }}>
-                              <Ship size={16} style={{ color: '#667eea' }} />
-                              {att.vesselName}
-                            </div>
-                          </div>
+          {/* Other views would go here with similar clean styling... */}
+          {/* For brevity, I'll add placeholders that you can see work */}
+          
+          {// REPLACE THE PLACEHOLDER SECTION WITH THIS CODE
+// This includes: Calendar (with rating), Engineers View, Ports View, Gallery View, and Analytics
 
-                          <div>
-                            <div style={{
-                              display: 'inline-block',
-                              padding: '0.25rem 0.75rem',
-                              borderRadius: '0.25rem',
-                              background: att.attendeeType === 'partner' ? '#dbeafe' : '#fef3c7',
-                              color: att.attendeeType === 'partner' ? '#1e40af' : '#92400e',
-                              fontSize: '0.75rem',
-                              fontWeight: '600',
-                              textTransform: 'capitalize'
-                            }}>
-                              {att.attendeeType}
-                            </div>
-                          </div>
+{/* Calendar View with Rating */}
+{currentView === 'calendar' && (
+  <div>
+    <div style={{ marginBottom: '2rem' }}>
+      <h2 style={{
+        fontSize: '1.875rem',
+        fontWeight: '700',
+        color: '#0f172a',
+        marginBottom: '0.5rem'
+      }}>
+        Attendance Calendar
+      </h2>
+      <p style={{
+        color: '#64748b',
+        fontSize: '0.875rem',
+        margin: 0
+      }}>
+        Schedule vessel attendances and rate partner/engineer performance
+      </p>
+    </div>
 
-                          <div>
-                            <div style={{
-                              fontSize: '0.875rem',
-                              fontWeight: '600',
-                              color: '#1e293b'
-                            }}>
-                              {att.attendeeName}
-                            </div>
-                          </div>
+    {/* Calendar Grid */}
+    <div style={{
+      background: 'white',
+      borderRadius: '0.75rem',
+      padding: '2rem',
+      border: '1px solid #e2e8f0',
+      marginBottom: '2rem'
+    }}>
+      {/* Calendar Header */}
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: '2rem'
+      }}>
+        <button
+          onClick={() => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1))}
+          style={{
+            padding: '0.5rem',
+            background: 'none',
+            border: '1px solid #e2e8f0',
+            borderRadius: '0.5rem',
+            cursor: 'pointer',
+            color: '#64748b',
+            display: 'flex'
+          }}
+        >
+          <ChevronLeft size={20} />
+        </button>
 
-                          <div>
-                            <div style={{
-                              fontSize: '0.875rem',
-                              color: '#64748b'
-                            }}>
-                              {att.port}
-                            </div>
-                          </div>
+        <h3 style={{
+          fontSize: '1.25rem',
+          fontWeight: '700',
+          color: '#0f172a'
+        }}>
+          {currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+        </h3>
 
-                          <button
-                            onClick={() => handleDeleteAttendance(att.id)}
-                            style={{
-                              padding: '0.5rem',
-                              background: 'none',
-                              border: '1px solid #fee2e2',
-                              borderRadius: '0.375rem',
-                              cursor: 'pointer',
-                              color: '#ef4444',
-                              transition: 'all 0.2s'
-                            }}
-                            onMouseEnter={(e) => {
-                              e.currentTarget.style.background = '#fee2e2';
-                            }}
-                            onMouseLeave={(e) => {
-                              e.currentTarget.style.background = 'none';
-                            }}
-                          >
-                            <X size={16} />
-                          </button>
-                        </div>
-                      ))}
+        <button
+          onClick={() => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1))}
+          style={{
+            padding: '0.5rem',
+            background: 'none',
+            border: '1px solid #e2e8f0',
+            borderRadius: '0.5rem',
+            cursor: 'pointer',
+            color: '#64748b',
+            display: 'flex'
+          }}
+        >
+          <ChevronRight size={20} />
+        </button>
+      </div>
+
+      {/* Calendar Days */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(7, 1fr)',
+        gap: '0.5rem'
+      }}>
+        {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
+          <div
+            key={day}
+            style={{
+              padding: '0.5rem',
+              textAlign: 'center',
+              fontSize: '0.75rem',
+              fontWeight: '600',
+              color: '#94a3b8',
+              textTransform: 'uppercase'
+            }}
+          >
+            {day}
+          </div>
+        ))}
+
+        {(() => {
+          const { daysInMonth, startingDayOfWeek, year, month } = getDaysInMonth(currentDate);
+          const days = [];
+
+          // Empty cells
+          for (let i = 0; i < startingDayOfWeek; i++) {
+            days.push(<div key={`empty-${i}`} style={{ aspectRatio: '1' }} />);
+          }
+
+          // Days
+          for (let day = 1; day <= daysInMonth; day++) {
+            const date = new Date(year, month, day);
+            const dateStr = formatDate(date);
+            const dayAttendances = getAttendancesForDate(dateStr);
+            const isToday = formatDate(new Date()) === dateStr;
+
+            days.push(
+              <div
+                key={day}
+                style={{
+                  aspectRatio: '1',
+                  border: isToday ? '2px solid #3b82f6' : '1px solid #e2e8f0',
+                  borderRadius: '0.5rem',
+                  padding: '0.5rem',
+                  cursor: 'pointer',
+                  transition: 'all 0.15s',
+                  background: dayAttendances.length > 0 ? '#f8fafc' : 'white'
+                }}
+                onClick={() => {
+                  setSelectedDate(date);
+                  setShowAttendanceModal(true);
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = '#eff6ff';
+                  e.currentTarget.style.borderColor = '#3b82f6';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = dayAttendances.length > 0 ? '#f8fafc' : 'white';
+                  e.currentTarget.style.borderColor = isToday ? '#3b82f6' : '#e2e8f0';
+                }}
+              >
+                <div style={{
+                  fontSize: '0.875rem',
+                  fontWeight: '600',
+                  color: '#0f172a',
+                  marginBottom: '0.25rem'
+                }}>
+                  {day}
+                </div>
+
+                {dayAttendances.length > 0 && (
+                  <div style={{ fontSize: '0.625rem', color: '#64748b' }}>
+                    {dayAttendances.length} event{dayAttendances.length !== 1 ? 's' : ''}
                   </div>
                 )}
               </div>
-            </div>
-          )}
+            );
+          }
 
-          {/* Rates Dashboard View */}
-          {currentView === 'rates' && (
-            <div>
-              <h2 style={{
-                fontSize: '1.5rem',
-                fontWeight: '700',
-                color: 'white',
-                marginBottom: '0.5rem'
-              }}>
-                Partner Rates & Ratings Overview
-              </h2>
-              <p style={{
-                color: 'rgba(255, 255, 255, 0.8)',
-                fontSize: '0.875rem',
-                marginBottom: '1.5rem'
-              }}>
-                Visualize average, min, and max usual rates for partners
-              </p>
+          return days;
+        })()}
+      </div>
+    </div>
 
-              <div style={{
+    {/* Upcoming Attendances */}
+    <div style={{
+      background: 'white',
+      borderRadius: '0.75rem',
+      border: '1px solid #e2e8f0'
+    }}>
+      <div style={{
+        padding: '1.5rem',
+        borderBottom: '1px solid #e2e8f0'
+      }}>
+        <h3 style={{
+          fontSize: '1.125rem',
+          fontWeight: '700',
+          color: '#0f172a'
+        }}>
+          All Scheduled Attendances
+        </h3>
+      </div>
+
+      {attendances.length === 0 ? (
+        <div style={{
+          padding: '3rem',
+          textAlign: 'center',
+          color: '#94a3b8'
+        }}>
+          <Calendar size={48} style={{ margin: '0 auto 1rem', opacity: 0.5 }} />
+          <p>No attendances scheduled. Click a date to add one.</p>
+        </div>
+      ) : (
+        <div>
+          {attendances.sort((a, b) => new Date(a.date) - new Date(b.date)).map((att, idx) => (
+            <div
+              key={att.id}
+              style={{
+                padding: '1.25rem 1.5rem',
+                borderBottom: idx < attendances.length - 1 ? '1px solid #f1f5f9' : 'none',
                 display: 'grid',
-                gridTemplateColumns: 'repeat(3, 1fr)',
-                gap: '1.5rem',
-                marginBottom: '2rem'
-              }}>
-                {[
-                  { label: 'Average Usual Rate (USD)', value: `$${ratingStats.average}`, color: '#667eea' },
-                  { label: 'Minimum Usual Rate (USD)', value: `$${ratingStats.min}`, color: '#10b981' },
-                  { label: 'Maximum Usual Rate (USD)', value: `$${ratingStats.max}`, color: '#f59e0b' }
-                ].map((stat, idx) => (
-                  <div
-                    key={idx}
-                    style={{
-                      background: 'rgba(255, 255, 255, 0.95)',
-                      borderRadius: '0.75rem',
-                      padding: '1.5rem',
-                      boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
-                      borderTop: `4px solid ${stat.color}`
-                    }}
-                  >
-                    <div style={{
-                      fontSize: '0.875rem',
-                      color: '#64748b',
-                      marginBottom: '0.5rem',
-                      fontWeight: '500'
-                    }}>
-                      {stat.label}
-                    </div>
-                    <div style={{
-                      fontSize: '2.5rem',
-                      fontWeight: '700',
-                      color: stat.color
-                    }}>
-                      {stat.value}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div style={{
-                background: 'rgba(255, 255, 255, 0.95)',
-                borderRadius: '0.75rem',
-                padding: '2rem',
-                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
-                marginBottom: '2rem'
-              }}>
-                <h3 style={{
-                  fontSize: '1.125rem',
-                  fontWeight: '700',
-                  color: '#1e293b',
-                  marginBottom: '1.5rem'
+                gridTemplateColumns: '120px 1.5fr 1fr 1fr 1fr 100px auto',
+                gap: '1rem',
+                alignItems: 'center'
+              }}
+            >
+              <div>
+                <div style={{
+                  fontSize: '0.875rem',
+                  fontWeight: '600',
+                  color: '#0f172a'
                 }}>
-                  Partner Rating Distribution
-                </h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                  {[5, 4, 3, 2].map(rating => {
-                    const count = partners.filter(p => parseInt(p.Rating) === rating).length;
-                    const percentage = (count / partners.filter(p => p.Rating && p.Rating !== 'NaN').length) * 100;
-                    return (
-                      <div key={rating} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                        <div style={{
-                          width: '80px',
-                          fontSize: '0.875rem',
-                          fontWeight: '600',
-                          color: '#64748b',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '0.25rem'
-                        }}>
-                          <span>{rating}</span>
-                          <Star size={14} className="fill-amber-400 text-amber-400" />
-                        </div>
-                        <div style={{ flex: 1, height: '32px', background: '#e2e8f0', borderRadius: '0.5rem', overflow: 'hidden', position: 'relative' }}>
-                          <div style={{
-                            height: '100%',
-                            width: `${percentage}%`,
-                            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                            transition: 'width 0.5s ease',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            color: 'white',
-                            fontSize: '0.875rem',
-                            fontWeight: '600'
-                          }}>
-                            {count > 0 && `${count} partner${count !== 1 ? 's' : ''}`}
-                          </div>
-                        </div>
-                      </div>
-                    );
+                  {new Date(att.date + 'T00:00:00').toLocaleDateString('en-US', { 
+                    month: 'short', 
+                    day: 'numeric'
                   })}
                 </div>
               </div>
 
               <div style={{
-                background: 'rgba(255, 255, 255, 0.95)',
-                borderRadius: '0.75rem',
-                overflow: 'hidden',
-                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)'
+                fontSize: '0.875rem',
+                fontWeight: '600',
+                color: '#0f172a'
               }}>
-                <div style={{ padding: '1.5rem', borderBottom: '1px solid #e2e8f0' }}>
-                  <h3 style={{
-                    fontSize: '1.125rem',
-                    fontWeight: '700',
-                    color: '#1e293b'
-                  }}>
-                    Partners List with Editable Ratings
-                  </h3>
-                </div>
-                
-                <div style={{
-                  display: 'grid',
-                  gridTemplateColumns: '2fr 1.5fr 1.5fr 1fr 1fr',
-                  gap: '1rem',
-                  padding: '1rem 1.5rem',
-                  background: '#f8fafc',
-                  fontSize: '0.75rem',
-                  fontWeight: '700',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em',
-                  color: '#64748b'
-                }}>
-                  <div>Partner Name</div>
-                  <div>Port</div>
-                  <div>Available Ports</div>
-                  <div>Usual Rate (USD)</div>
-                  <div>Rating</div>
-                </div>
-                
-                {partners.filter(p => p['Usual Rate (USD)'] && p['Usual Rate (USD)'] !== 'NaN').map((partner, idx) => (
-                  <div
-                    key={idx}
-                    style={{
-                      display: 'grid',
-                      gridTemplateColumns: '2fr 1.5fr 1.5fr 1fr 1fr',
-                      gap: '1rem',
-                      padding: '1.25rem 1.5rem',
-                      borderBottom: '1px solid #e2e8f0',
-                      alignItems: 'center'
-                    }}
-                  >
-                    <div style={{ fontWeight: '600', color: '#1e293b' }}>
-                      {partner['Partner Name']}
-                    </div>
-                    <div style={{ fontSize: '0.875rem', color: '#64748b' }}>
-                      {partner['Port']}
-                    </div>
-                    <div style={{ fontSize: '0.875rem', color: '#64748b' }}>
-                      {partner['Available Ports'] ? partner['Available Ports'].split(',').length + ' ports' : '—'}
-                    </div>
-                    <div style={{ fontSize: '0.875rem', fontWeight: '600', color: '#10b981' }}>
-                      {partner['Usual Rate (USD)']}
-                    </div>
-                    <div>
-                      <StarRating rating={partner['Rating']} />
-                    </div>
-                  </div>
-                ))}
+                <Ship size={14} style={{ display: 'inline', marginRight: '0.5rem', color: '#3b82f6' }} />
+                {att.vesselName}
               </div>
-            </div>
-          )}
-        </main>
-      </div>
 
-      {/* Add Attendance Modal */}
-      {showAttendanceModal && selectedDate && (
-        <div
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: 'rgba(0, 0, 0, 0.5)',
-            backdropFilter: 'blur(4px)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 100,
-            padding: '2rem'
-          }}
+              <div>
+                <div style={{
+                  display: 'inline-block',
+                  padding: '0.25rem 0.5rem',
+                  borderRadius: '0.375rem',
+                  background: att.attendeeType === 'partner' ? '#dbeafe' : '#fef3c7',
+                  color: att.attendeeType === 'partner' ? '#1e40af' : '#92400e',
+                  fontSize: '0.75rem',
+                  fontWeight: '600'
+                }}>
+                  {att.attendeeType}
+                </div>
+              </div>
+
+              <div style={{
+                fontSize: '0.875rem',
+                color: '#475569'
+              }}>
+                {att.attendeeName}
+              </div>
+
+              <div style={{
+                fontSize: '0.875rem',
+                color: '#64748b'
+              }}>
+                {att.port}
+              </div>
+
+              <div>
+                {att.rating ? (
+                  <StarRating rating={att.rating} size={14} showScore={false} />
+                ) : (
+                  <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Not rated</span>
+                )}
+              </div>
+
+              <button
+                onClick={() => handleDeleteAttendance(att.id)}
+                style={{
+                  padding: '0.375rem',
+                  background: 'none',
+                  border: '1px solid #fee2e2',
+                  borderRadius: '0.375rem',
+                  cursor: 'pointer',
+                  color: '#ef4444'
+                }}
+              >
+                <X size={16} />
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  </div>
+)}
+
+{/* Add Attendance Modal with Rating */}
+{showAttendanceModal && selectedDate && (
+  <div
+    style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      background: 'rgba(0, 0, 0, 0.4)',
+      backdropFilter: 'blur(4px)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      zIndex: 100,
+      padding: '2rem'
+    }}
+    onClick={() => {
+      setShowAttendanceModal(false);
+      setNewAttendance({
+        vesselName: '',
+        attendeeType: 'partner',
+        attendeeName: '',
+        port: '',
+        notes: '',
+        rating: null
+      });
+    }}
+  >
+    <div
+      style={{
+        background: 'white',
+        borderRadius: '1rem',
+        maxWidth: '600px',
+        width: '100%',
+        maxHeight: '90vh',
+        overflow: 'auto'
+      }}
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div style={{
+        padding: '1.5rem 2rem',
+        borderBottom: '1px solid #e2e8f0',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'start'
+      }}>
+        <div>
+          <h2 style={{
+            fontSize: '1.5rem',
+            fontWeight: '700',
+            color: '#0f172a',
+            marginBottom: '0.5rem'
+          }}>
+            Add Vessel Attendance
+          </h2>
+          <div style={{ fontSize: '0.875rem', color: '#64748b' }}>
+            {selectedDate.toLocaleDateString('en-US', { 
+              weekday: 'long',
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            })}
+          </div>
+        </div>
+        <button
           onClick={() => {
             setShowAttendanceModal(false);
             setNewAttendance({
@@ -1546,412 +1161,336 @@ const PartnerPortal = () => {
               attendeeType: 'partner',
               attendeeName: '',
               port: '',
-              notes: ''
+              notes: '',
+              rating: null
             });
           }}
+          style={{
+            background: 'none',
+            border: '1px solid #e2e8f0',
+            borderRadius: '0.5rem',
+            padding: '0.5rem',
+            cursor: 'pointer',
+            color: '#64748b'
+          }}
         >
-          <div
-            style={{
-              background: 'white',
-              borderRadius: '1rem',
-              maxWidth: '600px',
-              width: '100%',
-              maxHeight: '80vh',
-              overflow: 'auto',
-              boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)'
-            }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div style={{
-              padding: '2rem',
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-              color: 'white',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'start'
+          <X size={20} />
+        </button>
+      </div>
+
+      <form onSubmit={(e) => { e.preventDefault(); handleAddAttendance(); }} style={{ padding: '2rem' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          {/* Vessel Name */}
+          <div>
+            <label style={{
+              display: 'block',
+              fontSize: '0.875rem',
+              fontWeight: '600',
+              color: '#0f172a',
+              marginBottom: '0.5rem'
             }}>
-              <div>
-                <h2 style={{
-                  fontSize: '1.75rem',
-                  fontWeight: '700',
-                  marginBottom: '0.5rem'
-                }}>
-                  Add Vessel Attendance
-                </h2>
-                <div style={{
-                  fontSize: '0.875rem',
-                  opacity: 0.9
-                }}>
-                  {selectedDate.toLocaleDateString('en-US', { 
-                    weekday: 'long',
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}
-                </div>
-              </div>
-              <button
-                onClick={() => {
-                  setShowAttendanceModal(false);
-                  setNewAttendance({
-                    vesselName: '',
-                    attendeeType: 'partner',
-                    attendeeName: '',
-                    port: '',
-                    notes: ''
-                  });
-                }}
-                style={{
-                  background: 'rgba(255, 255, 255, 0.2)',
-                  border: 'none',
-                  borderRadius: '0.5rem',
-                  padding: '0.5rem',
-                  cursor: 'pointer',
-                  color: 'white',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}
-              >
-                <X size={20} />
-              </button>
-            </div>
+              Vessel Name *
+            </label>
+            <input
+              type="text"
+              value={newAttendance.vesselName}
+              onChange={(e) => setNewAttendance({ ...newAttendance, vesselName: e.target.value })}
+              placeholder="e.g., MV Ocean Star"
+              required
+              style={{
+                width: '100%',
+                padding: '0.75rem',
+                borderRadius: '0.5rem',
+                border: '1px solid #e2e8f0',
+                fontSize: '0.875rem',
+                outline: 'none'
+              }}
+            />
+          </div>
 
-            <div style={{ padding: '2rem' }}>
-              {/* Existing attendances for this date */}
-              {getAttendancesForDate(formatDate(selectedDate)).length > 0 && (
-                <div style={{
-                  marginBottom: '2rem',
-                  padding: '1rem',
-                  background: '#f8fafc',
-                  borderRadius: '0.5rem',
-                  border: '1px solid #e2e8f0'
-                }}>
-                  <div style={{
-                    fontSize: '0.75rem',
-                    fontWeight: '700',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.05em',
-                    color: '#64748b',
-                    marginBottom: '0.75rem'
-                  }}>
-                    Scheduled for this day:
-                  </div>
-                  {getAttendancesForDate(formatDate(selectedDate)).map(att => (
-                    <div
-                      key={att.id}
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        padding: '0.75rem',
-                        background: 'white',
-                        borderRadius: '0.375rem',
-                        marginBottom: '0.5rem',
-                        border: '1px solid #e2e8f0'
-                      }}
-                    >
-                      <div>
-                        <div style={{
-                          fontSize: '0.875rem',
-                          fontWeight: '600',
-                          color: '#1e293b',
-                          marginBottom: '0.25rem'
-                        }}>
-                          {att.vesselName}
-                        </div>
-                        <div style={{
-                          fontSize: '0.75rem',
-                          color: '#64748b'
-                        }}>
-                          {att.attendeeName} ({att.attendeeType})
-                        </div>
-                      </div>
-                      <button
-                        onClick={() => handleDeleteAttendance(att.id)}
-                        style={{
-                          padding: '0.375rem',
-                          background: 'none',
-                          border: '1px solid #fee2e2',
-                          borderRadius: '0.25rem',
-                          cursor: 'pointer',
-                          color: '#ef4444'
-                        }}
-                      >
-                        <X size={14} />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              <form onSubmit={(e) => { e.preventDefault(); handleAddAttendance(); }}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                  {/* Vessel Name */}
-                  <div>
-                    <label style={{
-                      display: 'block',
-                      fontSize: '0.875rem',
-                      fontWeight: '600',
-                      color: '#1e293b',
-                      marginBottom: '0.5rem'
-                    }}>
-                      Vessel Name *
-                    </label>
-                    <input
-                      type="text"
-                      value={newAttendance.vesselName}
-                      onChange={(e) => setNewAttendance({ ...newAttendance, vesselName: e.target.value })}
-                      placeholder="e.g., MV Ocean Star"
-                      required
-                      style={{
-                        width: '100%',
-                        padding: '0.75rem',
-                        borderRadius: '0.5rem',
-                        border: '1px solid #e2e8f0',
-                        fontSize: '0.875rem',
-                        outline: 'none',
-                        transition: 'border-color 0.2s'
-                      }}
-                      onFocus={(e) => e.target.style.borderColor = '#667eea'}
-                      onBlur={(e) => e.target.style.borderColor = '#e2e8f0'}
-                    />
-                  </div>
-
-                  {/* Attendee Type */}
-                  <div>
-                    <label style={{
-                      display: 'block',
-                      fontSize: '0.875rem',
-                      fontWeight: '600',
-                      color: '#1e293b',
-                      marginBottom: '0.5rem'
-                    }}>
-                      Attendee Type *
-                    </label>
-                    <div style={{ display: 'flex', gap: '1rem' }}>
-                      <label style={{
-                        flex: 1,
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.5rem',
-                        padding: '0.75rem 1rem',
-                        borderRadius: '0.5rem',
-                        border: newAttendance.attendeeType === 'partner' ? '2px solid #667eea' : '2px solid #e2e8f0',
-                        background: newAttendance.attendeeType === 'partner' ? 'rgba(102, 126, 234, 0.05)' : 'white',
-                        cursor: 'pointer',
-                        transition: 'all 0.2s'
-                      }}>
-                        <input
-                          type="radio"
-                          name="attendeeType"
-                          value="partner"
-                          checked={newAttendance.attendeeType === 'partner'}
-                          onChange={(e) => {
-                            setNewAttendance({ ...newAttendance, attendeeType: e.target.value, attendeeName: '' });
-                          }}
-                          style={{ cursor: 'pointer' }}
-                        />
-                        <span style={{ fontSize: '0.875rem', fontWeight: '600', color: '#1e293b' }}>
-                          Partner
-                        </span>
-                      </label>
-                      <label style={{
-                        flex: 1,
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.5rem',
-                        padding: '0.75rem 1rem',
-                        borderRadius: '0.5rem',
-                        border: newAttendance.attendeeType === 'engineer' ? '2px solid #667eea' : '2px solid #e2e8f0',
-                        background: newAttendance.attendeeType === 'engineer' ? 'rgba(102, 126, 234, 0.05)' : 'white',
-                        cursor: 'pointer',
-                        transition: 'all 0.2s'
-                      }}>
-                        <input
-                          type="radio"
-                          name="attendeeType"
-                          value="engineer"
-                          checked={newAttendance.attendeeType === 'engineer'}
-                          onChange={(e) => {
-                            setNewAttendance({ ...newAttendance, attendeeType: e.target.value, attendeeName: '' });
-                          }}
-                          style={{ cursor: 'pointer' }}
-                        />
-                        <span style={{ fontSize: '0.875rem', fontWeight: '600', color: '#1e293b' }}>
-                          ONG Engineer
-                        </span>
-                      </label>
-                    </div>
-                  </div>
-
-                  {/* Attendee Name */}
-                  <div>
-                    <label style={{
-                      display: 'block',
-                      fontSize: '0.875rem',
-                      fontWeight: '600',
-                      color: '#1e293b',
-                      marginBottom: '0.5rem'
-                    }}>
-                      {newAttendance.attendeeType === 'partner' ? 'Partner' : 'Engineer'} Name *
-                    </label>
-                    <select
-                      value={newAttendance.attendeeName}
-                      onChange={(e) => setNewAttendance({ ...newAttendance, attendeeName: e.target.value })}
-                      required
-                      style={{
-                        width: '100%',
-                        padding: '0.75rem',
-                        borderRadius: '0.5rem',
-                        border: '1px solid #e2e8f0',
-                        fontSize: '0.875rem',
-                        outline: 'none',
-                        cursor: 'pointer',
-                        background: 'white'
-                      }}
-                    >
-                      <option value="">Select {newAttendance.attendeeType}...</option>
-                      {newAttendance.attendeeType === 'partner' 
-                        ? partners.map(p => (
-                            <option key={p['Partner Name']} value={p['Partner Name']}>
-                              {p['Partner Name']} - {p['Port']}
-                            </option>
-                          ))
-                        : engineers.map(e => (
-                            <option key={e['Engineer Name']} value={e['Engineer Name']}>
-                              {e['Engineer Name']} - {e.Office}
-                            </option>
-                          ))
-                      }
-                    </select>
-                  </div>
-
-                  {/* Port */}
-                  <div>
-                    <label style={{
-                      display: 'block',
-                      fontSize: '0.875rem',
-                      fontWeight: '600',
-                      color: '#1e293b',
-                      marginBottom: '0.5rem'
-                    }}>
-                      Port
-                    </label>
-                    <input
-                      type="text"
-                      value={newAttendance.port}
-                      onChange={(e) => setNewAttendance({ ...newAttendance, port: e.target.value })}
-                      placeholder="e.g., Port of Singapore"
-                      style={{
-                        width: '100%',
-                        padding: '0.75rem',
-                        borderRadius: '0.5rem',
-                        border: '1px solid #e2e8f0',
-                        fontSize: '0.875rem',
-                        outline: 'none'
-                      }}
-                    />
-                  </div>
-
-                  {/* Notes */}
-                  <div>
-                    <label style={{
-                      display: 'block',
-                      fontSize: '0.875rem',
-                      fontWeight: '600',
-                      color: '#1e293b',
-                      marginBottom: '0.5rem'
-                    }}>
-                      Notes
-                    </label>
-                    <textarea
-                      value={newAttendance.notes}
-                      onChange={(e) => setNewAttendance({ ...newAttendance, notes: e.target.value })}
-                      placeholder="Additional details about the attendance..."
-                      rows={3}
-                      style={{
-                        width: '100%',
-                        padding: '0.75rem',
-                        borderRadius: '0.5rem',
-                        border: '1px solid #e2e8f0',
-                        fontSize: '0.875rem',
-                        outline: 'none',
-                        resize: 'vertical',
-                        fontFamily: 'inherit'
-                      }}
-                    />
-                  </div>
-
-                  {/* Action Buttons */}
-                  <div style={{
-                    display: 'flex',
-                    gap: '1rem',
-                    paddingTop: '1rem',
-                    borderTop: '1px solid #e2e8f0'
-                  }}>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setShowAttendanceModal(false);
-                        setNewAttendance({
-                          vesselName: '',
-                          attendeeType: 'partner',
-                          attendeeName: '',
-                          port: '',
-                          notes: ''
-                        });
-                      }}
-                      style={{
-                        flex: 1,
-                        padding: '0.75rem',
-                        borderRadius: '0.5rem',
-                        border: '1px solid #e2e8f0',
-                        background: 'white',
-                        color: '#64748b',
-                        fontSize: '0.875rem',
-                        fontWeight: '600',
-                        cursor: 'pointer',
-                        transition: 'all 0.2s'
-                      }}
-                      onMouseEnter={(e) => e.currentTarget.style.background = '#f8fafc'}
-                      onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="submit"
-                      style={{
-                        flex: 1,
-                        padding: '0.75rem',
-                        borderRadius: '0.5rem',
-                        border: 'none',
-                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                        color: 'white',
-                        fontSize: '0.875rem',
-                        fontWeight: '600',
-                        cursor: 'pointer',
-                        transition: 'all 0.2s',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: '0.5rem'
-                      }}
-                      onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
-                      onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
-                    >
-                      <Plus size={16} />
-                      Add Attendance
-                    </button>
-                  </div>
-                </div>
-              </form>
+          {/* Attendee Type */}
+          <div>
+            <label style={{
+              display: 'block',
+              fontSize: '0.875rem',
+              fontWeight: '600',
+              color: '#0f172a',
+              marginBottom: '0.5rem'
+            }}>
+              Attendee Type *
+            </label>
+            <div style={{ display: 'flex', gap: '1rem' }}>
+              <label style={{
+                flex: 1,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                padding: '0.75rem 1rem',
+                borderRadius: '0.5rem',
+                border: newAttendance.attendeeType === 'partner' ? '2px solid #3b82f6' : '2px solid #e2e8f0',
+                background: newAttendance.attendeeType === 'partner' ? '#eff6ff' : 'white',
+                cursor: 'pointer'
+              }}>
+                <input
+                  type="radio"
+                  name="attendeeType"
+                  value="partner"
+                  checked={newAttendance.attendeeType === 'partner'}
+                  onChange={(e) => setNewAttendance({ ...newAttendance, attendeeType: e.target.value, attendeeName: '' })}
+                  style={{ cursor: 'pointer' }}
+                />
+                <span style={{ fontSize: '0.875rem', fontWeight: '600', color: '#0f172a' }}>
+                  Partner
+                </span>
+              </label>
+              <label style={{
+                flex: 1,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                padding: '0.75rem 1rem',
+                borderRadius: '0.5rem',
+                border: newAttendance.attendeeType === 'engineer' ? '2px solid #3b82f6' : '2px solid #e2e8f0',
+                background: newAttendance.attendeeType === 'engineer' ? '#eff6ff' : 'white',
+                cursor: 'pointer'
+              }}>
+                <input
+                  type="radio"
+                  name="attendeeType"
+                  value="engineer"
+                  checked={newAttendance.attendeeType === 'engineer'}
+                  onChange={(e) => setNewAttendance({ ...newAttendance, attendeeType: e.target.value, attendeeName: '' })}
+                  style={{ cursor: 'pointer' }}
+                />
+                <span style={{ fontSize: '0.875rem', fontWeight: '600', color: '#0f172a' }}>
+                  ONG Engineer
+                </span>
+              </label>
             </div>
           </div>
-        </div>
-      )}
 
-      {/* Partner Detail Modal */}
+          {/* Attendee Name */}
+          <div>
+            <label style={{
+              display: 'block',
+              fontSize: '0.875rem',
+              fontWeight: '600',
+              color: '#0f172a',
+              marginBottom: '0.5rem'
+            }}>
+              {newAttendance.attendeeType === 'partner' ? 'Partner' : 'Engineer'} Name *
+            </label>
+            <select
+              value={newAttendance.attendeeName}
+              onChange={(e) => setNewAttendance({ ...newAttendance, attendeeName: e.target.value })}
+              required
+              style={{
+                width: '100%',
+                padding: '0.75rem',
+                borderRadius: '0.5rem',
+                border: '1px solid #e2e8f0',
+                fontSize: '0.875rem',
+                outline: 'none',
+                cursor: 'pointer',
+                background: 'white'
+              }}
+            >
+              <option value="">Select {newAttendance.attendeeType}...</option>
+              {newAttendance.attendeeType === 'partner' 
+                ? partners.map(p => (
+                    <option key={p['Partner Name']} value={p['Partner Name']}>
+                      {p['Partner Name']}
+                    </option>
+                  ))
+                : engineers.map(e => (
+                    <option key={e['Engineer Name']} value={e['Engineer Name']}>
+                      {e['Engineer Name']}
+                    </option>
+                  ))
+              }
+            </select>
+          </div>
+
+          {/* Port */}
+          <div>
+            <label style={{
+              display: 'block',
+              fontSize: '0.875rem',
+              fontWeight: '600',
+              color: '#0f172a',
+              marginBottom: '0.5rem'
+            }}>
+              Port
+            </label>
+            <select
+              value={newAttendance.port}
+              onChange={(e) => setNewAttendance({ ...newAttendance, port: e.target.value })}
+              style={{
+                width: '100%',
+                padding: '0.75rem',
+                borderRadius: '0.5rem',
+                border: '1px solid #e2e8f0',
+                fontSize: '0.875rem',
+                outline: 'none',
+                cursor: 'pointer',
+                background: 'white'
+              }}
+            >
+              <option value="">Select port...</option>
+              {ports.map(p => (
+                <option key={p['Port Name']} value={p['Port Name']}>
+                  {p['Port Name']} - {p['Country']}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Rating - NEW FEATURE */}
+          <div>
+            <label style={{
+              display: 'block',
+              fontSize: '0.875rem',
+              fontWeight: '600',
+              color: '#0f172a',
+              marginBottom: '0.5rem'
+            }}>
+              Performance Rating (Optional)
+            </label>
+            <div style={{
+              padding: '1rem',
+              background: '#f8fafc',
+              borderRadius: '0.5rem',
+              border: '1px solid #e2e8f0'
+            }}>
+              <p style={{ fontSize: '0.75rem', color: '#64748b', marginBottom: '0.75rem' }}>
+                Rate the {newAttendance.attendeeType}'s performance on this attendance
+              </p>
+              <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
+                {[1, 2, 3, 4, 5].map(rating => (
+                  <button
+                    key={rating}
+                    type="button"
+                    onClick={() => setNewAttendance({ ...newAttendance, rating })}
+                    style={{
+                      padding: '0.5rem',
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    <Star
+                      size={32}
+                      style={{
+                        fill: newAttendance.rating >= rating ? '#fbbf24' : 'none',
+                        stroke: newAttendance.rating >= rating ? '#fbbf24' : '#cbd5e1',
+                        strokeWidth: 2
+                      }}
+                    />
+                  </button>
+                ))}
+              </div>
+              {newAttendance.rating && (
+                <p style={{ textAlign: 'center', marginTop: '0.5rem', fontSize: '0.875rem', fontWeight: '600', color: '#0f172a' }}>
+                  Rating: {newAttendance.rating}/5
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Notes */}
+          <div>
+            <label style={{
+              display: 'block',
+              fontSize: '0.875rem',
+              fontWeight: '600',
+              color: '#0f172a',
+              marginBottom: '0.5rem'
+            }}>
+              Notes
+            </label>
+            <textarea
+              value={newAttendance.notes}
+              onChange={(e) => setNewAttendance({ ...newAttendance, notes: e.target.value })}
+              placeholder="Additional details..."
+              rows={3}
+              style={{
+                width: '100%',
+                padding: '0.75rem',
+                borderRadius: '0.5rem',
+                border: '1px solid #e2e8f0',
+                fontSize: '0.875rem',
+                outline: 'none',
+                resize: 'vertical',
+                fontFamily: 'inherit'
+              }}
+            />
+          </div>
+
+          {/* Action Buttons */}
+          <div style={{
+            display: 'flex',
+            gap: '1rem',
+            paddingTop: '1rem',
+            borderTop: '1px solid #e2e8f0'
+          }}>
+            <button
+              type="button"
+              onClick={() => {
+                setShowAttendanceModal(false);
+                setNewAttendance({
+                  vesselName: '',
+                  attendeeType: 'partner',
+                  attendeeName: '',
+                  port: '',
+                  notes: '',
+                  rating: null
+                });
+              }}
+              style={{
+                flex: 1,
+                padding: '0.75rem',
+                borderRadius: '0.5rem',
+                border: '1px solid #e2e8f0',
+                background: 'white',
+                color: '#64748b',
+                fontSize: '0.875rem',
+                fontWeight: '600',
+                cursor: 'pointer'
+              }}
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              style={{
+                flex: 1,
+                padding: '0.75rem',
+                borderRadius: '0.5rem',
+                border: 'none',
+                background: 'linear-gradient(135deg, #3b82f6 0%, #1e40af 100%)',
+                color: 'white',
+                fontSize: '0.875rem',
+                fontWeight: '600',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.5rem'
+              }}
+            >
+              <Plus size={16} />
+              Add Attendance
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+)}
+</main>
+      </div>
+
+      {/* Partner Detail Modal - Clean & Modern */}
       {selectedPartner && (
         <div
           style={{
@@ -1960,7 +1499,7 @@ const PartnerPortal = () => {
             left: 0,
             right: 0,
             bottom: 0,
-            background: 'rgba(0, 0, 0, 0.5)',
+            background: 'rgba(0, 0, 0, 0.4)',
             backdropFilter: 'blur(4px)',
             display: 'flex',
             alignItems: 'center',
@@ -1978,11 +1517,11 @@ const PartnerPortal = () => {
               width: '100%',
               maxHeight: '90vh',
               overflow: 'auto',
-              boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)'
+              boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Header */}
+            {/* Modal Header */}
             <div style={{
               padding: '1.5rem 2rem',
               borderBottom: '1px solid #e2e8f0',
@@ -1993,7 +1532,7 @@ const PartnerPortal = () => {
               <h2 style={{
                 fontSize: '1.5rem',
                 fontWeight: '700',
-                color: '#1e293b',
+                color: '#0f172a',
                 margin: 0
               }}>
                 {selectedPartner['Partner Name']}
@@ -2009,14 +1548,17 @@ const PartnerPortal = () => {
                   color: '#64748b',
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'center'
+                  justifyContent: 'center',
+                  transition: 'all 0.2s'
                 }}
+                onMouseEnter={(e) => e.currentTarget.style.background = '#f8fafc'}
+                onMouseLeave={(e) => e.currentTarget.style.background = 'none'}
               >
                 <X size={20} />
               </button>
             </div>
 
-            {/* Content - Two Column Layout */}
+            {/* Modal Content - Two Column Layout */}
             <div style={{ 
               display: 'grid', 
               gridTemplateColumns: '200px 1fr',
@@ -2029,14 +1571,14 @@ const PartnerPortal = () => {
                   width: '180px',
                   height: '180px',
                   borderRadius: '0.75rem',
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  background: 'linear-gradient(135deg, #3b82f6 0%, #1e40af 100%)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   fontSize: '4rem',
                   fontWeight: '700',
                   color: 'white',
-                  boxShadow: '0 10px 30px rgba(102, 126, 234, 0.3)'
+                  boxShadow: '0 10px 15px -3px rgba(59, 130, 246, 0.3)'
                 }}>
                   {selectedPartner['Partner Name'].charAt(0)}
                 </div>
@@ -2047,17 +1589,19 @@ const PartnerPortal = () => {
                 {/* Organization Type */}
                 <div>
                   <div style={{
-                    fontSize: '0.875rem',
+                    fontSize: '0.75rem',
                     fontWeight: '600',
-                    color: '#64748b',
-                    marginBottom: '0.5rem'
+                    color: '#94a3b8',
+                    marginBottom: '0.5rem',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em'
                   }}>
                     Organization Type
                   </div>
                   <div style={{
                     display: 'inline-block',
                     padding: '0.375rem 0.875rem',
-                    borderRadius: '0.375rem',
+                    borderRadius: '0.5rem',
                     background: selectedPartner['Organization Type'] === 'Company' ? '#dbeafe' : '#fef3c7',
                     color: selectedPartner['Organization Type'] === 'Company' ? '#1e40af' : '#92400e',
                     fontSize: '0.875rem',
@@ -2067,40 +1611,23 @@ const PartnerPortal = () => {
                   </div>
                 </div>
 
-                {/* Partner Name */}
-                <div>
-                  <div style={{
-                    fontSize: '0.875rem',
-                    fontWeight: '600',
-                    color: '#64748b',
-                    marginBottom: '0.5rem'
-                  }}>
-                    Partner Name
-                  </div>
-                  <div style={{ 
-                    fontSize: '1rem', 
-                    color: '#1e293b',
-                    fontWeight: '500'
-                  }}>
-                    {selectedPartner['Partner Name']}
-                  </div>
-                </div>
-
                 {/* Usual Rate */}
                 {selectedPartner['Usual Rate (USD)'] && selectedPartner['Usual Rate (USD)'] !== '' && (
                   <div>
                     <div style={{
-                      fontSize: '0.875rem',
+                      fontSize: '0.75rem',
                       fontWeight: '600',
-                      color: '#64748b',
-                      marginBottom: '0.5rem'
+                      color: '#94a3b8',
+                      marginBottom: '0.5rem',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em'
                     }}>
                       Usual Rate (USD)
                     </div>
                     <div style={{
-                      fontSize: '1.25rem',
+                      fontSize: '1.5rem',
                       fontWeight: '700',
-                      color: '#10b981'
+                      color: '#059669'
                     }}>
                       {selectedPartner['Usual Rate (USD)']}
                     </div>
@@ -2110,87 +1637,128 @@ const PartnerPortal = () => {
                 {/* Rating */}
                 <div>
                   <div style={{
-                    fontSize: '0.875rem',
+                    fontSize: '0.75rem',
                     fontWeight: '600',
-                    color: '#64748b',
-                    marginBottom: '0.5rem'
+                    color: '#94a3b8',
+                    marginBottom: '0.5rem',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em'
                   }}>
-                    Rating
+                    Performance Rating
                   </div>
-                  <StarRating rating={selectedPartner['Rating']} />
+                  {(() => {
+                    const avgRating = getAverageRating(selectedPartner['Partner Name'], 'partner');
+                    const attendanceCount = getAttendanceCount(selectedPartner['Partner Name'], 'partner');
+                    const partnerAttendances = attendances.filter(att => 
+                      att.attendeeName === selectedPartner['Partner Name'] && 
+                      att.attendeeType === 'partner'
+                    );
+                    
+                    return (
+                      <div>
+                        <StarRating rating={avgRating || selectedPartner['Rating']} size={18} />
+                        {attendanceCount > 0 && (
+                          <div style={{
+                            marginTop: '0.75rem',
+                            padding: '0.75rem',
+                            background: '#f8fafc',
+                            borderRadius: '0.5rem',
+                            border: '1px solid #e2e8f0'
+                          }}>
+                            <div style={{
+                              fontSize: '0.75rem',
+                              color: '#64748b',
+                              marginBottom: '0.5rem',
+                              fontWeight: '600'
+                            }}>
+                              Based on {attendanceCount} attendance{attendanceCount !== 1 ? 's' : ''}
+                            </div>
+                            {partnerAttendances.slice(0, 3).map((att, idx) => (
+                              <div key={att.id} style={{
+                                fontSize: '0.75rem',
+                                color: '#475569',
+                                marginTop: '0.25rem',
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center'
+                              }}>
+                                <span>{att.vesselName} - {new Date(att.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+                                {att.rating && <StarRating rating={att.rating} size={12} showScore={false} />}
+                              </div>
+                            ))}
+                            {partnerAttendances.length > 3 && (
+                              <div style={{ fontSize: '0.6875rem', color: '#94a3b8', marginTop: '0.5rem' }}>
+                                +{partnerAttendances.length - 3} more attendance{partnerAttendances.length - 3 !== 1 ? 's' : ''}
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })()}
                 </div>
 
-                {/* Email */}
-                {selectedPartner['Email '] && (
-                  <div>
-                    <div style={{
-                      fontSize: '0.875rem',
-                      fontWeight: '600',
-                      color: '#64748b',
-                      marginBottom: '0.5rem'
-                    }}>
-                      Email
+                {/* Contact Info */}
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: '1fr 1fr',
+                  gap: '1rem'
+                }}>
+                  {selectedPartner['Email '] && (
+                    <div>
+                      <div style={{
+                        fontSize: '0.75rem',
+                        fontWeight: '600',
+                        color: '#94a3b8',
+                        marginBottom: '0.5rem',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.05em'
+                      }}>
+                        Email
+                      </div>
+                      <a 
+                        href={`mailto:${selectedPartner['Email ']}`}
+                        style={{
+                          color: '#3b82f6',
+                          textDecoration: 'none',
+                          fontSize: '0.875rem',
+                          wordBreak: 'break-all'
+                        }}
+                      >
+                        {selectedPartner['Email ']}
+                      </a>
                     </div>
-                    <a 
-                      href={`mailto:${selectedPartner['Email ']}`}
-                      style={{
-                        color: '#3b82f6',
-                        textDecoration: 'none',
-                        fontSize: '0.875rem'
-                      }}
-                    >
-                      {selectedPartner['Email ']}
-                    </a>
-                  </div>
-                )}
+                  )}
+                  {selectedPartner['Phone Number'] && (
+                    <div>
+                      <div style={{
+                        fontSize: '0.75rem',
+                        fontWeight: '600',
+                        color: '#94a3b8',
+                        marginBottom: '0.5rem',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.05em'
+                      }}>
+                        Phone
+                      </div>
+                      <div style={{ fontSize: '0.875rem', color: '#0f172a' }}>
+                        {selectedPartner['Phone Number']}
+                      </div>
+                    </div>
+                  )}
+                </div>
 
-                {/* Phone Number */}
-                {selectedPartner['Phone Number'] && (
-                  <div>
-                    <div style={{
-                      fontSize: '0.875rem',
-                      fontWeight: '600',
-                      color: '#64748b',
-                      marginBottom: '0.5rem'
-                    }}>
-                      Phone Number
-                    </div>
-                    <div style={{ fontSize: '0.875rem', color: '#1e293b' }}>
-                      {selectedPartner['Phone Number']}
-                    </div>
-                  </div>
-                )}
-
-                {/* Number of Available Ports */}
-                {selectedPartner['Available Ports'] && (
-                  <div>
-                    <div style={{
-                      fontSize: '0.875rem',
-                      fontWeight: '600',
-                      color: '#64748b',
-                      marginBottom: '0.5rem'
-                    }}>
-                      Number of Available Ports
-                    </div>
-                    <div style={{ 
-                      fontSize: '1.125rem', 
-                      fontWeight: '600',
-                      color: '#667eea' 
-                    }}>
-                      {selectedPartner['Available Ports'].split(',').length}
-                    </div>
-                  </div>
-                )}
-
-                {/* Home Port Country */}
+                {/* Port Info */}
                 <div>
                   <div style={{
-                    fontSize: '0.875rem',
+                    fontSize: '0.75rem',
                     fontWeight: '600',
-                    color: '#64748b',
-                    marginBottom: '0.5rem'
+                    color: '#94a3b8',
+                    marginBottom: '0.5rem',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em'
                   }}>
-                    Home Port Country
+                    Home Port
                   </div>
                   <div style={{
                     padding: '0.75rem',
@@ -2201,51 +1769,16 @@ const PartnerPortal = () => {
                     <div style={{
                       fontSize: '0.875rem',
                       fontWeight: '600',
-                      color: '#1e293b'
+                      color: '#0f172a'
+                    }}>
+                      {selectedPartner['Port']}
+                    </div>
+                    <div style={{
+                      fontSize: '0.75rem',
+                      color: '#64748b',
+                      marginTop: '0.25rem'
                     }}>
                       {selectedPartner['Home Port Country']}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Port */}
-                <div>
-                  <div style={{
-                    fontSize: '0.875rem',
-                    fontWeight: '600',
-                    color: '#64748b',
-                    marginBottom: '0.5rem'
-                  }}>
-                    Port
-                  </div>
-                  <div style={{
-                    padding: '0.75rem',
-                    background: '#f8fafc',
-                    borderRadius: '0.5rem',
-                    border: '1px solid #e2e8f0',
-                    display: 'grid',
-                    gridTemplateColumns: 'auto 1fr 1fr',
-                    gap: '1rem',
-                    alignItems: 'center'
-                  }}>
-                    <div>
-                      <MapPin size={16} style={{ color: '#667eea' }} />
-                    </div>
-                    <div>
-                      <div style={{ fontSize: '0.75rem', color: '#64748b', marginBottom: '0.25rem' }}>
-                        Country
-                      </div>
-                      <div style={{ fontSize: '0.875rem', fontWeight: '600', color: '#1e293b' }}>
-                        {selectedPartner['Home Port Country']}
-                      </div>
-                    </div>
-                    <div>
-                      <div style={{ fontSize: '0.75rem', color: '#64748b', marginBottom: '0.25rem' }}>
-                        Port
-                      </div>
-                      <div style={{ fontSize: '0.875rem', fontWeight: '600', color: '#1e293b' }}>
-                        {selectedPartner['Port']}
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -2254,15 +1787,17 @@ const PartnerPortal = () => {
                 {selectedPartner['Available Ports'] && (
                   <div>
                     <div style={{
-                      fontSize: '0.875rem',
+                      fontSize: '0.75rem',
                       fontWeight: '600',
-                      color: '#64748b',
-                      marginBottom: '0.5rem'
+                      color: '#94a3b8',
+                      marginBottom: '0.5rem',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em'
                     }}>
-                      Available Ports
+                      Available Ports ({selectedPartner['Available Ports'].split(',').length})
                     </div>
                     <div style={{
-                      maxHeight: '300px',
+                      maxHeight: '200px',
                       overflowY: 'auto',
                       border: '1px solid #e2e8f0',
                       borderRadius: '0.5rem'
@@ -2271,18 +1806,14 @@ const PartnerPortal = () => {
                         <div
                           key={idx}
                           style={{
-                            padding: '0.75rem 1rem',
-                            borderBottom: idx < selectedPartner['Available Ports'].split(',').length - 1 ? '1px solid #e2e8f0' : 'none',
-                            background: idx % 2 === 0 ? '#f8fafc' : 'white'
+                            padding: '0.625rem 0.875rem',
+                            borderBottom: idx < selectedPartner['Available Ports'].split(',').length - 1 ? '1px solid #f1f5f9' : 'none',
+                            background: idx % 2 === 0 ? '#fafafa' : 'white',
+                            fontSize: '0.875rem',
+                            color: '#475569'
                           }}
                         >
-                          <div style={{
-                            fontSize: '0.875rem',
-                            fontWeight: '600',
-                            color: '#1e293b'
-                          }}>
-                            {port.trim()}
-                          </div>
+                          {port.trim()}
                         </div>
                       ))}
                     </div>
