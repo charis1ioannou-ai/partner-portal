@@ -473,13 +473,13 @@ const PartnerPortal = () => {
       <header style={{
         background: 'white',
         borderBottom: '1px solid #e2e8f0',
-        padding: '1rem 2rem',
+        padding: '0.875rem 2rem',
         position: 'sticky',
         top: 0,
         zIndex: 50,
-        boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)'
+        boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05)'
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', maxWidth: '1400px', margin: '0 auto' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', maxWidth: '1600px', margin: '0 auto' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <button 
               onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -491,19 +491,26 @@ const PartnerPortal = () => {
                 color: '#64748b',
                 display: 'flex',
                 alignItems: 'center',
-                borderRadius: '0.5rem',
+                borderRadius: '0.375rem',
                 transition: 'all 0.2s'
               }}
-              onMouseEnter={(e) => e.currentTarget.style.background = '#f1f5f9'}
-              onMouseLeave={(e) => e.currentTarget.style.background = 'none'}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = '#f1f5f9';
+                e.currentTarget.style.color = '#0f172a';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'none';
+                e.currentTarget.style.color = '#64748b';
+              }}
             >
               <Menu size={20} />
             </button>
             <h1 style={{
-              fontSize: '1.25rem',
+              fontSize: '1.125rem',
               fontWeight: '700',
               color: '#0f172a',
-              margin: 0
+              margin: 0,
+              letterSpacing: '-0.01em'
             }}>
               Partner Tracker
             </h1>
@@ -514,18 +521,21 @@ const PartnerPortal = () => {
             display: 'flex',
             alignItems: 'center'
           }}>
-            <Search size={16} style={{
+            <div style={{
               position: 'absolute',
-              left: '0.75rem',
+              left: '0.875rem',
+              pointerEvents: 'none',
               color: '#94a3b8'
-            }} />
+            }}>
+              <Search size={16} />
+            </div>
             <input
               type="text"
               placeholder="Search partners..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               style={{
-                padding: '0.5rem 1rem 0.5rem 2.5rem',
+                padding: '0.625rem 1rem 0.625rem 2.75rem',
                 borderRadius: '0.5rem',
                 border: '1px solid #e2e8f0',
                 width: '320px',
@@ -537,10 +547,12 @@ const PartnerPortal = () => {
               onFocus={(e) => {
                 e.target.style.borderColor = '#3b82f6';
                 e.target.style.background = 'white';
+                e.target.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.1)';
               }}
               onBlur={(e) => {
                 e.target.style.borderColor = '#e2e8f0';
                 e.target.style.background = '#f8fafc';
+                e.target.style.boxShadow = 'none';
               }}
             />
           </div>
