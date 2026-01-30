@@ -1481,6 +1481,643 @@ const PartnerPortal = () => {
     </div>
   </div>
 )}
+
+          {/* Engineers View */}
+          {currentView === 'engineers' && (
+            <div>
+              <div style={{ marginBottom: '2rem' }}>
+                <h2 style={{
+                  fontSize: '1.875rem',
+                  fontWeight: '700',
+                  color: '#0f172a',
+                  marginBottom: '0.5rem'
+                }}>
+                  ONG Engineers
+                </h2>
+                <p style={{
+                  color: '#64748b',
+                  fontSize: '0.875rem',
+                  margin: 0
+                }}>
+                  {engineers.length} engineers across {Object.keys(engineersByOffice).length} offices
+                </p>
+              </div>
+
+              {/* Engineers by Office */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                {Object.entries(engineersByOffice).map(([office, officeEngineers]) => (
+                  <div
+                    key={office}
+                    style={{
+                      background: 'white',
+                      borderRadius: '0.75rem',
+                      border: '1px solid #e2e8f0',
+                      overflow: 'hidden'
+                    }}
+                  >
+                    {/* Office Header */}
+                    <button
+                      onClick={() => setExpandedOffice(expandedOffice === office ? null : office)}
+                      style={{
+                        width: '100%',
+                        padding: '1.25rem 1.5rem',
+                        background: expandedOffice === office ? '#f8fafc' : 'white',
+                        border: 'none',
+                        borderBottom: '1px solid #e2e8f0',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        cursor: 'pointer',
+                        transition: 'background 0.15s'
+                      }}
+                      onMouseEnter={(e) => e.currentTarget.style.background = '#f8fafc'}
+                      onMouseLeave={(e) => e.currentTarget.style.background = expandedOffice === office ? '#f8fafc' : 'white'}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                        <MapPin size={20} style={{ color: '#3b82f6' }} />
+                        <div style={{ textAlign: 'left' }}>
+                          <div style={{
+                            fontSize: '1.125rem',
+                            fontWeight: '700',
+                            color: '#0f172a'
+                          }}>
+                            {office}
+                          </div>
+                          <div style={{
+                            fontSize: '0.875rem',
+                            color: '#64748b',
+                            marginTop: '0.25rem'
+                          }}>
+                            {officeEngineers.length} engineer{officeEngineers.length !== 1 ? 's' : ''}
+                          </div>
+                        </div>
+                      </div>
+                      {expandedOffice === office ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
+                    </button>
+
+                    {/* Engineers List */}
+                    {expandedOffice === office && (
+                      <div>
+                        {officeEngineers.map((engineer, idx) => {
+                          const avgRating = getAverageRating(engineer['Engineer Name'], 'engineer');
+                          const attendanceCount = getAttendanceCount(engineer['Engineer Name'], 'engineer');
+                          
+                          return (
+                            <div
+                              key={idx}
+                              style={{
+                                padding: '1.25rem 1.5rem',
+                                borderBottom: idx < officeEngineers.length - 1 ? '1px solid #f1f5f9' : 'none',
+                                display: 'grid',
+                                gridTemplateColumns: '2fr 1.5fr 1fr',
+                                gap: '1rem',
+                                alignItems: 'center',
+                                transition: 'background 0.15s'
+                              }}
+                              onMouseEnter={(e) => e.currentTarget.style.background = '#f8fafc'}
+                              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                            >
+                              <div>
+                                <div style={{
+                                  fontSize: '0.875rem',
+                                  fontWeight: '600',
+                                  color: '#0f172a',
+                                  marginBottom: '0.25rem'
+                                }}>
+                                  {engineer['Engineer Name']}
+                                </div>
+                                {engineer['Email'] && (
+                                  <a
+                                    href={`mailto:${engineer['Email']}`}
+                                    style={{
+                                      fontSize: '0.75rem',
+                                      color: '#3b82f6',
+                                      textDecoration: 'none'
+                                    }}
+                                  >
+                                    {engineer['Email']}
+                                  </a>
+                                )}
+                              </div>
+
+                              <div>
+                                {engineer['Phone'] && (
+                                  <div style={{
+                                    fontSize: '0.875rem',
+                                    color: '#64748b',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '0.5rem'
+                                  }}>
+                                    <Phone size={14} />
+                                    {engineer['Phone']}
+                                  </div>
+                                )}
+                              </div>
+
+                              <div>
+                                {avgRating ? (
+                                  <div>
+                                    <StarRating rating={avgRating} />
+                                    {attendanceCount > 0 && (
+                                      <div style={{ fontSize: '0.6875rem', color: '#94a3b8', marginTop: '2px' }}>
+                                        {attendanceCount} attendance{attendanceCount !== 1 ? 's' : ''}
+                                      </div>
+                                    )}
+                                  </div>
+                                ) : (
+                                  <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>No ratings yet</span>
+                                )}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Port Directory */}
+          {currentView === 'ports' && (
+            <div>
+              <div style={{ marginBottom: '2rem' }}>
+                <h2 style={{
+                  fontSize: '1.875rem',
+                  fontWeight: '700',
+                  color: '#0f172a',
+                  marginBottom: '0.5rem'
+                }}>
+                  Port Directory
+                </h2>
+                <p style={{
+                  color: '#64748b',
+                  fontSize: '0.875rem',
+                  margin: 0
+                }}>
+                  {ports.length} ports worldwide
+                </p>
+              </div>
+
+              <div style={{
+                background: 'white',
+                borderRadius: '0.75rem',
+                border: '1px solid #e2e8f0'
+              }}>
+                {/* Header */}
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: '2fr 1fr 1fr 120px 120px',
+                  gap: '1rem',
+                  padding: '0.875rem 1.5rem',
+                  background: '#f8fafc',
+                  borderBottom: '1px solid #e2e8f0',
+                  fontSize: '0.75rem',
+                  fontWeight: '600',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em',
+                  color: '#64748b'
+                }}>
+                  <div>Port Name</div>
+                  <div>Country</div>
+                  <div>City</div>
+                  <div>Based Here</div>
+                  <div>Can Attend</div>
+                </div>
+
+                {/* Port Rows */}
+                {ports.map((port, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: '2fr 1fr 1fr 120px 120px',
+                      gap: '1rem',
+                      padding: '1rem 1.5rem',
+                      borderBottom: idx < ports.length - 1 ? '1px solid #f1f5f9' : 'none',
+                      alignItems: 'center',
+                      transition: 'background 0.15s'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.background = '#f8fafc'}
+                    onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                  >
+                    <div style={{
+                      fontSize: '0.875rem',
+                      fontWeight: '600',
+                      color: '#0f172a'
+                    }}>
+                      {port['Port Name']}
+                    </div>
+                    <div style={{ fontSize: '0.875rem', color: '#475569' }}>
+                      {port['Country']}
+                    </div>
+                    <div style={{ fontSize: '0.875rem', color: '#64748b' }}>
+                      {port['City']}
+                    </div>
+                    <div style={{ fontSize: '0.875rem', color: '#64748b', textAlign: 'center' }}>
+                      {port['# Partners Based Here']}
+                    </div>
+                    <div style={{ fontSize: '0.875rem', color: '#64748b', textAlign: 'center' }}>
+                      {port['# Partners Can Attend']}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Partner Gallery */}
+          {currentView === 'gallery' && (
+            <div>
+              <div style={{ marginBottom: '2rem' }}>
+                <h2 style={{
+                  fontSize: '1.875rem',
+                  fontWeight: '700',
+                  color: '#0f172a',
+                  marginBottom: '0.5rem'
+                }}>
+                  Partner Gallery
+                </h2>
+                <p style={{
+                  color: '#64748b',
+                  fontSize: '0.875rem',
+                  margin: 0
+                }}>
+                  Browse all {partners.length} partners
+                </p>
+              </div>
+
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+                gap: '1.5rem'
+              }}>
+                {filteredPartners.map((partner, idx) => {
+                  const avgRating = getAverageRating(partner['Partner Name'], 'partner');
+                  const attendanceCount = getAttendanceCount(partner['Partner Name'], 'partner');
+                  
+                  return (
+                    <div
+                      key={idx}
+                      onClick={() => setSelectedPartner(partner)}
+                      style={{
+                        background: 'white',
+                        borderRadius: '0.75rem',
+                        border: '1px solid #e2e8f0',
+                        padding: '1.5rem',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s',
+                        boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-4px)';
+                        e.currentTarget.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.1)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 1px 2px rgba(0, 0, 0, 0.05)';
+                      }}
+                    >
+                      {/* Logo */}
+                      <div style={{
+                        width: '80px',
+                        height: '80px',
+                        borderRadius: '0.75rem',
+                        background: 'linear-gradient(135deg, #3b82f6 0%, #1e40af 100%)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '2rem',
+                        fontWeight: '700',
+                        color: 'white',
+                        marginBottom: '1rem',
+                        boxShadow: '0 4px 6px rgba(59, 130, 246, 0.2)'
+                      }}>
+                        {partner['Partner Name'].charAt(0)}
+                      </div>
+
+                      {/* Name */}
+                      <h3 style={{
+                        fontSize: '1.125rem',
+                        fontWeight: '700',
+                        color: '#0f172a',
+                        marginBottom: '0.5rem'
+                      }}>
+                        {partner['Partner Name']}
+                      </h3>
+
+                      {/* Type Badge */}
+                      <div style={{
+                        display: 'inline-block',
+                        padding: '0.25rem 0.5rem',
+                        borderRadius: '0.375rem',
+                        background: partner['Organization Type'] === 'Company' ? '#dbeafe' : '#fef3c7',
+                        color: partner['Organization Type'] === 'Company' ? '#1e40af' : '#92400e',
+                        fontSize: '0.75rem',
+                        fontWeight: '600',
+                        marginBottom: '1rem'
+                      }}>
+                        {partner['Organization Type']}
+                      </div>
+
+                      {/* Port */}
+                      <div style={{
+                        fontSize: '0.875rem',
+                        color: '#64748b',
+                        marginBottom: '0.5rem',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem'
+                      }}>
+                        <MapPin size={14} />
+                        {partner['Port']}, {partner['Home Port Country']}
+                      </div>
+
+                      {/* Rate */}
+                      {partner['Usual Rate (USD)'] && partner['Usual Rate (USD)'] !== '' && (
+                        <div style={{
+                          fontSize: '1.25rem',
+                          fontWeight: '700',
+                          color: '#059669',
+                          marginBottom: '0.75rem'
+                        }}>
+                          {partner['Usual Rate (USD)']}
+                        </div>
+                      )}
+
+                      {/* Rating */}
+                      <div style={{
+                        paddingTop: '0.75rem',
+                        borderTop: '1px solid #f1f5f9'
+                      }}>
+                        <StarRating rating={avgRating || partner['Rating']} />
+                        {attendanceCount > 0 && (
+                          <div style={{ fontSize: '0.6875rem', color: '#94a3b8', marginTop: '4px' }}>
+                            {attendanceCount} attendance{attendanceCount !== 1 ? 's' : ''}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Analytics Dashboard */}
+          {currentView === 'rates' && (
+            <div>
+              <div style={{ marginBottom: '2rem' }}>
+                <h2 style={{
+                  fontSize: '1.875rem',
+                  fontWeight: '700',
+                  color: '#0f172a',
+                  marginBottom: '0.5rem'
+                }}>
+                  Analytics Dashboard
+                </h2>
+                <p style={{
+                  color: '#64748b',
+                  fontSize: '0.875rem',
+                  margin: 0
+                }}>
+                  Performance metrics and statistics
+                </p>
+              </div>
+
+              {/* Stats Cards */}
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+                gap: '1.5rem',
+                marginBottom: '2rem'
+              }}>
+                {/* Average Rate */}
+                <div style={{
+                  background: 'white',
+                  borderRadius: '0.75rem',
+                  border: '1px solid #e2e8f0',
+                  padding: '1.5rem'
+                }}>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.75rem',
+                    marginBottom: '1rem'
+                  }}>
+                    <div style={{
+                      padding: '0.75rem',
+                      background: '#dcfce7',
+                      borderRadius: '0.5rem'
+                    }}>
+                      <DollarSign size={24} style={{ color: '#059669' }} />
+                    </div>
+                    <div>
+                      <div style={{
+                        fontSize: '0.75rem',
+                        color: '#64748b',
+                        textTransform: 'uppercase',
+                        fontWeight: '600'
+                      }}>
+                        Average Rate
+                      </div>
+                      <div style={{
+                        fontSize: '1.875rem',
+                        fontWeight: '700',
+                        color: '#0f172a'
+                      }}>
+                        ${ratingStats.average}
+                      </div>
+                    </div>
+                  </div>
+                  <div style={{
+                    fontSize: '0.875rem',
+                    color: '#64748b'
+                  }}>
+                    Across {partners.filter(p => p['Usual Rate (USD)'] && p['Usual Rate (USD)'] !== '').length} partners
+                  </div>
+                </div>
+
+                {/* Min Rate */}
+                <div style={{
+                  background: 'white',
+                  borderRadius: '0.75rem',
+                  border: '1px solid #e2e8f0',
+                  padding: '1.5rem'
+                }}>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.75rem',
+                    marginBottom: '1rem'
+                  }}>
+                    <div style={{
+                      padding: '0.75rem',
+                      background: '#dbeafe',
+                      borderRadius: '0.5rem'
+                    }}>
+                      <DollarSign size={24} style={{ color: '#3b82f6' }} />
+                    </div>
+                    <div>
+                      <div style={{
+                        fontSize: '0.75rem',
+                        color: '#64748b',
+                        textTransform: 'uppercase',
+                        fontWeight: '600'
+                      }}>
+                        Minimum Rate
+                      </div>
+                      <div style={{
+                        fontSize: '1.875rem',
+                        fontWeight: '700',
+                        color: '#0f172a'
+                      }}>
+                        ${ratingStats.min}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Max Rate */}
+                <div style={{
+                  background: 'white',
+                  borderRadius: '0.75rem',
+                  border: '1px solid #e2e8f0',
+                  padding: '1.5rem'
+                }}>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.75rem',
+                    marginBottom: '1rem'
+                  }}>
+                    <div style={{
+                      padding: '0.75rem',
+                      background: '#fef3c7',
+                      borderRadius: '0.5rem'
+                    }}>
+                      <DollarSign size={24} style={{ color: '#d97706' }} />
+                    </div>
+                    <div>
+                      <div style={{
+                        fontSize: '0.75rem',
+                        color: '#64748b',
+                        textTransform: 'uppercase',
+                        fontWeight: '600'
+                      }}>
+                        Maximum Rate
+                      </div>
+                      <div style={{
+                        fontSize: '1.875rem',
+                        fontWeight: '700',
+                        color: '#0f172a'
+                      }}>
+                        ${ratingStats.max}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Total Attendances */}
+                <div style={{
+                  background: 'white',
+                  borderRadius: '0.75rem',
+                  border: '1px solid #e2e8f0',
+                  padding: '1.5rem'
+                }}>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.75rem',
+                    marginBottom: '1rem'
+                  }}>
+                    <div style={{
+                      padding: '0.75rem',
+                      background: '#f3e8ff',
+                      borderRadius: '0.5rem'
+                    }}>
+                      <Calendar size={24} style={{ color: '#9333ea' }} />
+                    </div>
+                    <div>
+                      <div style={{
+                        fontSize: '0.75rem',
+                        color: '#64748b',
+                        textTransform: 'uppercase',
+                        fontWeight: '600'
+                      }}>
+                        Total Attendances
+                      </div>
+                      <div style={{
+                        fontSize: '1.875rem',
+                        fontWeight: '700',
+                        color: '#0f172a'
+                      }}>
+                        {attendances.length}
+                      </div>
+                    </div>
+                  </div>
+                  <div style={{
+                    fontSize: '0.875rem',
+                    color: '#64748b'
+                  }}>
+                    {attendances.filter(a => a.rating).length} rated
+                  </div>
+                </div>
+              </div>
+
+              {/* Rating Distribution */}
+              <div style={{
+                background: 'white',
+                borderRadius: '0.75rem',
+                border: '1px solid #e2e8f0',
+                padding: '2rem'
+              }}>
+                <h3 style={{
+                  fontSize: '1.125rem',
+                  fontWeight: '700',
+                  color: '#0f172a',
+                  marginBottom: '1.5rem'
+                }}>
+                  Rating Distribution
+                </h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                  {[5, 4, 3, 2, 1].map(rating => {
+                    const count = attendances.filter(a => a.rating === rating).length;
+                    const percentage = attendances.length > 0 ? (count / attendances.length) * 100 : 0;
+                    
+                    return (
+                      <div key={rating} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                        <div style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.25rem',
+                          minWidth: '80px'
+                        }}>
+                          <span style={{ fontSize: '0.875rem', fontWeight: '600', color: '#0f172a' }}>
+                            {rating}
+                          </span>
+                          <Star size={14} style={{ fill: '#fbbf24', stroke: '#fbbf24' }} />
+                        </div>
+                        <div style={{ flex: 1, background: '#f1f5f9', borderRadius: '9999px', height: '8px', overflow: 'hidden' }}>
+                          <div style={{
+                            width: `${percentage}%`,
+                            height: '100%',
+                            background: 'linear-gradient(135deg, #3b82f6 0%, #1e40af 100%)',
+                            transition: 'width 0.3s'
+                          }} />
+                        </div>
+                        <span style={{ fontSize: '0.875rem', color: '#64748b', minWidth: '60px', textAlign: 'right' }}>
+                          {count} ({percentage.toFixed(0)}%)
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
 </main>
       </div>
 
