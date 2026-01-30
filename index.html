@@ -3,1052 +3,1048 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Partner Tracker - Airtable Style</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <title>ShipSat to Zwana Migration Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; overflow: hidden; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
+            color: white;
+            padding: 24px 32px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        header .subtitle {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 24px;
+        }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Drop Zone */
+        .drop-zone {
+            border: 2px dashed #cbd5e0;
+            border-radius: 12px;
+            padding: 48px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+        }
+
+        .drop-zone:hover, .drop-zone.dragover {
+            border-color: #4299e1;
+            background: #ebf8ff;
+        }
+
+        .drop-zone-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+
+        .drop-zone-text {
+            font-size: 1.1rem;
+            color: #4a5568;
+            margin-bottom: 8px;
+        }
+
+        .drop-zone-hint {
+            font-size: 0.85rem;
+            color: #718096;
+        }
+
+        #file-input {
+            display: none;
+        }
+
+        /* Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .metric-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .metric-card.total::before { background: #4a5568; }
+        .metric-card.completed::before { background: #48bb78; }
+        .metric-card.transit::before { background: #4299e1; }
+        .metric-card.scheduled::before { background: #9f7aea; }
+        .metric-card.discussion::before { background: #ed8936; }
+        .metric-card.pending::before { background: #ecc94b; }
+        .metric-card.blocked::before { background: #f56565; }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .metric-label {
+            font-size: 0.85rem;
+            color: #718096;
+            margin-bottom: 4px;
+        }
+
+        .metric-percent {
+            font-size: 0.8rem;
+            color: #a0aec0;
+        }
+
+        /* Charts */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 900px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+
+        /* Tables */
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background: #f7fafc;
+            font-weight: 600;
+            color: #4a5568;
+            white-space: nowrap;
+        }
+
+        tr:hover {
+            background: #f7fafc;
+        }
+
+        /* Status Badges */
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-completed { background: #c6f6d5; color: #22543d; }
+        .status-transit { background: #bee3f8; color: #2a4365; }
+        .status-scheduled { background: #e9d8fd; color: #553c9a; }
+        .status-discussion { background: #feebc8; color: #744210; }
+        .status-pending { background: #fefcbf; color: #744210; }
+        .status-blocked { background: #fed7d7; color: #742a2a; }
+        .status-notstarted { background: #e2e8f0; color: #4a5568; }
+
+        /* Progress Bar */
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #48bb78, #38a169);
+            transition: width 0.5s ease;
+        }
+
+        /* Filters */
+        .filters {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .filter-group label {
+            font-size: 0.75rem;
+            color: #718096;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .filter-group select, .filter-group input {
+            padding: 8px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            min-width: 180px;
+        }
+
+        .filter-group select:focus, .filter-group input:focus {
+            outline: none;
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+        }
+
+        /* History */
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-danger {
+            background: #f56565;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #e53e3e;
+        }
+
+        .change-positive {
+            color: #22543d;
+            font-weight: 600;
+        }
+
+        .change-negative {
+            color: #742a2a;
+            font-weight: 600;
+        }
+
+        /* Hidden state */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Fleet summary */
+        .fleet-progress {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .fleet-progress-text {
+            font-size: 0.85rem;
+            color: #718096;
+            white-space: nowrap;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .filters {
+                flex-direction: column;
+            }
+
+            .filter-group select, .filter-group input {
+                min-width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
-    <div id="root"></div>
-    <script type="text/babel">
-        const { useState, useMemo } = React;
-        
-        
+    <div class="container">
+        <header>
+            <h1>ShipSat to Zwana Migration Dashboard</h1>
+            <div class="subtitle" id="report-date">Upload an Excel file to begin</div>
+        </header>
 
-// ============================================================================
-// PARTNER TRACKER - AIRTABLE EXACT REPLICA
-// Clean, simple, beautiful - matching Airtable design exactly
-// ============================================================================
-
-// ALL DATA FROM YOUR CSVs
-const partnersData = `Partner Name,Organization Type,Home Port Country,Port,Available Ports,Usual Rate (USD),Rating,Email ,Phone Number
-Tiago Figueirinha,Individual,Portugal,Port of Leixões,"Port of Rotterdam,Port of Hamburg,Port Of Amsterdam,Port of Dunkirk,Port of Le Havre",$350.00,4,tiagofigueirinha@gmail.com,+351 91 609 2928
-MLV Marine,Company,Cyprus,Port of Larnaca,"Port of Larnaca,Port of Limassol,Port of Santos,Port of Shanghai,Antwerp-Bruges,Port of Hamburg,Port of Rotterdam,Port of Singapore,Ningbo-Zhoushan,Guangzhou,Busan,Jebel Ali,Port Of Amsterdam,Port of Thessaloniki,Port of Rafina,Port of Piraeus",,2,operations@mlvmarine.com,+357 24 255 100
-Precision Infocomm,Company,Singapore,Port of Singapore,"Port Klang,Port of Singapore,Port of Osaka,Port of Tokyo,Port of Yokohama,Port of Nagoya",$650.00,4,service@precisioninfocomm.com,+65 6316 6867
-Dedi Rahman,Individual,Indonesia,Tanjung Priok,"Port of Singapore,Port Klang,Tanjung Priok",$350.00,3,di.rahman@gmail.com,+62 811933136
-Mariapps Singapore,Company,Singapore,Port of Singapore,"Port of Singapore,Port Klang",$450.00,4,it-purchase@memphis-marine.com,+65 87981907
-Mariapps China,Company,China,Port of Shanghai,"Shenzhen,Ningbo-Zhoushan,Guangzhou,Port of Shanghai,Qingdao,Tianjin,Hong Kong,Xiamen",$450.00,4,linfeng.zhang@memphis-marine.com,+86 13923242958
-Azimuth Radio Technologies,Company,Netherlands,Port of Rotterdam,"Port of Rotterdam,Port of Hamburg,Port Of Amsterdam,Port of Dunkirk,Port of Le Havre",$650.00,4,info@azimuthtechnologies.com,+49 (0)40 309 674 35
-Offshore Technologies,Company,Ghana,Tema,"Tema,Takora,Port of Los Angeles,Tangier,Port Said,Durban,Abidjan,Lome,Port of Djibouti,Casablanca,Mombasa,Gqeberha,Port of Ngqura,Port of San Antonio,Port of Valparaíso",,4,isidore.ilboudo@offshoretechnologies.net,+226 55 11 42 57
-Theron Moore,Individual,USA,Port of Los Angeles,"Port of Los Angeles,Port of Houston,NOLA port,Long Beach",,2,theron.moore@pacificmarinetechnologies.com,+1 (808) 498-6191
-CWN Marine B.V.,Company,Netherlands,Port of Rotterdam,"Port of Rotterdam,Antwerp-Bruges,Port Of Amsterdam,Port of Dunkirk,Port of Le Havre",,4,service@cwnmarine.com,+31 6 15918867
-Zener Marine,Company,United Arab Emirates,Jebel Ali,"Jebel Ali,Tangier,Casablanca,Durban,Port Said",,2,coordinator@zeneronenet.com,+971 4 5577402
-Syntelix,Company,Spain,Port of Vigo,"Port of Barcelona,Port of Algeciras,Port of Valencia,Port of Vigo,Port of Balboa,Port of Cristobal",,,orders@syntelix.net,
-Eclipse System,Company,South Korea,Busan,Incheon,,,eclipse@e-sys.co.kr,+82-70-7007-1931
-GlobalTech marine solutions,Company,India,Deendayal Port (Kandla),"Port of Colombo,Cochin Port,New Mangalore Port,Mormugao Port,Mumbai Port Maharashtra,Jawaharlal Nehru Port (JNPT),Deendayal Port (Kandla)",,,service@globaltech.net.in,+91-22-27752388
-Radio Holland,Company,Netherlands,Port of Rotterdam,"Port of Rotterdam,Port Of Amsterdam,Antwerp-Bruges,Port of Algeciras,Port of Valencia,Port of Barcelona,Port of Vigo,Port of Hamburg,Jebel Ali,Port of Singapore,Port of Houston",,2,service@radioholland.com,+31104283344
-Global Satcoms,Company,Turkey,Port of Istanbul,"Port of Ambarli,Port of Istanbul,Port of Mersin,Port of Hamburg,Port of Los Angeles,Port of Rotterdam,Antwerp-Bruges,Port Of Amsterdam,Tangier,Durban,Port Said,Lome,Port of Algeciras",,3,hderriche@globalsatcoms.com,+44 7587 162 394
-Alphatron Marine,Company,Netherlands,Port of Rotterdam,"Port of Rotterdam,Port Of Amsterdam,Port of Gdansk,Port of Gdynia,Antwerp-Bruges,Port of Algeciras,Port of Valencia,Port of Barcelona,Port of Singapore,Port of Houston,Incheon,Busan,Port Klang,Port of Le Havre,Port of Dunkirk,Port of Hamburg",,,Service@alphatronmarine.com,+31 255 510 947
-ElektroDeniz,Company,Turkey,Port of Istanbul,"Port of Mersin,Port of Ambarli,Port of Istanbul",,,service@elektrodeniz.com,+90 216 392 77 29
-Acutec Systems,Company,Australia,Port of Brisbane,"Port Botany,Port of Fremantle,Port Hedland,Port of Brisbane",,,info@acutec.com.au,+61 8 6369 2000
-Dworkin,Company,United Kingdom,Port of Barcelona,"Port of Rotterdam,Port of Singapore,Port of Los Angeles,Port of Hamburg,Port of Shanghai,Port of Santos,Shenzhen,Busan,Hong Kong,Qingdao,Tianjin,Jebel Ali,Port Klang,Antwerp-Bruges,Kaohsiung,Long Beach,Port of Leixões,Port of Larnaca,Port of Limassol,Tanjung Priok,Port Of Amsterdam,Tema,Takora",,,Barcelona@dworkin.eu,+63 908 7518743
-Tricom Solutions,Company,Malaysia,Port Klang,Port Klang,,,khgoh@tricomsolution.com.my,+6012 3101999
-DeepSea Electronics,Company,Singapore,Port of Singapore,Port of Singapore,$560.00,,info@deepsea-electronics.com,+65 97372356
-Value Ship iot Pte Ltd,Company,Singapore,Port of Singapore,Port of Singapore,,,shankar@vs-iot.com,+65 9340 0807
-HostMost Group,Company,Singapore,Port of Singapore,"Port of Singapore,Port of Shanghai,Shenzhen,Ningbo-Zhoushan,Guangzhou,Hong Kong,Qingdao,Tianjin,Port Klang,Port of Prince Rupert,Port of Halifax,Port of Montreal,Port of Vancouver,Port of Manila,Hai Phong port",,,singapore@hostmostgroup.com,+852 25549207
-Vcommtech,Company,Philippines,Port of Manila,Port of Manila,,,service@vcommtechph.com,+639954858519
-Manimar IT,Company,Bulgaria,Port of Varna,"Port of Varna,Port of Burgas",$720.00,,manimarit@gmail.com,+359 879 289887
-Aage Hempel,Company,Singapore,Port of Singapore,"Port of Rotterdam,Port of Los Angeles,Port of Shanghai,Caucedo,Port of Singapore,Port of Hamburg,Port of Santos,Shenzhen,Ningbo-Zhoushan,Guangzhou,Busan,Hong Kong,Qingdao,Tianjin,Jebel Ali,Port Klang,Antwerp-Bruges,Kaohsiung,Xiamen,Long Beach,Port of Leixões,Port of Osaka",,,service@aagehempel.com,+357 25 954548
-Radio Ondas,Company,Spain,Port of Barcelona,"Port of Valencia,Port of Algeciras,Port of Barcelona,Port of Vigo",,,service@rosmgroup.com,+34 956 66 12 16
-Seatec Communications,Company,China,Port of Shanghai,"Port of Shanghai,Shenzhen,Ningbo-Zhoushan,Guangzhou,Qingdao,Tianjin,Hong Kong,Xiamen",$650.00,,yan.wei@seatec-comms.com,+86 177 1528 8186
-Deckhouse,Company,Turkey,Port of Istanbul,"Port of Mersin,Port of Ambarli,Port of Istanbul",,,goker@deckhouseusa.com,+90-532-208-1930
-SidLink Group,Company,China,Port of Shanghai,"Port of Shanghai,Ningbo-Zhoushan,Guangzhou,Shenzhen,Qingdao,Tianjin,Hong Kong,Xiamen",,,info@sidlink.cn,+86 186 0162 2404
-Seatechnic,Company,Turkey,Port of Istanbul,"Port of Istanbul,Port of Ambarli,Port of Mersin",,,sedat.okumus@seatechnic.com,+90216 507 2 333
-Arion IT,Company,South Korea,Busan,Busan,,,sales@ationit.com,+82-2-2679-8707
-Communis,Company,South Korea,Busan,Busan,,,brkim@thecommunis.com,+82 51 714 5830
-Synersat,Company,South Korea,Busan,Busan,,,sales@synersat.com,+82 51 784 4811
-Sevenseas-Marine,Company,China,Port of Shanghai,"Guangzhou,Ningbo-Zhoushan,Tianjin,Qingdao,Xiamen,Hong Kong",,,china@sevenseas-marine.com,+86 21 5855 2626
-Jason Marine,Company,Singapore,Port of Singapore,"Port of Singapore,Port of Vigo,Port of Algeciras,Port of Valencia,Port of Barcelona,Shenzhen,Port of Shanghai,Ningbo-Zhoushan,Guangzhou,Qingdao,Tianjin,Xiamen",$820.00,,service@jasoneurope.com,0034 856 03 40 35
-Electro Nautica,Company,Dominican Republic,Caucedo,"Caucedo,Rio Haina",,,service@electronauticadr.com,+1 829 932 2692
-Konstantin Angelov,Individual,Bulgaria,Port of Varna,"Port of Varna,Port of Burgas",,,,
-Rremcon,Company,Trinidad and Tobago,Port of Spain,Port of Spain,,,operations@rremcon.com,+1-832-757-2138
-Smd Marine,Company,South Africa,Durban,"Durban,Port of Ngqura,Gqeberha",,,Service@smd-marine.com,+27 21 511 0556
-Shevon.Co,Company,South Africa,Durban,"Port of Ngqura,Gqeberha",,,frontdoor@shevon.co.za,+27 87 351 6111
-Closelinknetworks,Company,Kenya,Mombasa,Mombasa,,,don.m@closelinknetworks.net,254724454375
-Ozsaysatellite,Company,Turkey,Port of Istanbul,"Port of Mersin,Port of Ambarli,Port of Istanbul",,,support@ozsaysatellite.com,+90 216 493 36 10
-Mastersystems,Company,United Arab Emirates,Jebel Ali,Jebel Ali,,,fujairah@mastersystems.com,+971 92227009
-Seacoastmarine,Company,Canada,Port of Montreal,"Port of Vancouver,Port of Montreal,Port of Halifax,Port of Prince Rupert",,,service@seacoastmarine.ca,+1902.982.6652
-Visionmarine,Company,Canada,Port of Montreal,"Port of Montreal,Port of Vancouver,Port of Prince Rupert,Port of Halifax",,,dave@visionmarine.ca,(418) 682-8818
-Bluetidecomm,Company,USA,Port of Los Angeles,"NOLA port,Long Beach,Port of Houston,Port of Los Angeles",,,eregard@bluetidecomm.com,+1 337.577.0231
-GFA Systems,Company,USA,NOLA port,"NOLA port,Long Beach,Port of Houston,Port of Los Angeles",$900.00,,cgonzalez@gfasys.com,+1-713-780-9090
-Bcsatellite,Company,USA,Port of Houston,"Port of Houston,Long Beach,NOLA port,Port of Los Angeles",,,maxim.usatov@bcsatellite.net,+1 (202) 505-5330
-As-Tech,Company,Poland,Port of Gdansk,"Port of Gdynia,Port of Gdansk",,,pgosciniecki@as-tech.pl,+48 58 660 97 36
-Satmar,Company,Poland,Port of Gdynia,"Port of Gdynia,Port of Gdansk",,,service@satmar.pl,+48.695.18.15.15
-Itatsea,Company,United Kingdom,Port of Liverpool,"Port of Immingham,Port of Liverpool",,,garymcdonald@itatsea.net,+44 (0)161 660 5445
-Bluesat,Company,United Kingdom,Port of Liverpool,"Port of Immingham,Port of Liverpool",,,service@bluesat.co.uk,+44 151 933 3900
-Avanti satnet,Company,United Kingdom,Port of Immingham,"Port of Immingham,Port of Liverpool",,,info@avantisatnet.co.uk,+44 1472 267 057
-Bluetronic,Company,Denmark,Copenhagen,Copenhagen,,,info@bluetronic.eu,+45 96 10 30 50
-M4Sat,Company,Denmark,Copenhagen,Copenhagen,,,m4sat@m4sat.com,+45 46 18 00 77
-Ajbmarineservices,Company,Australia,Port Botany,"Port Botany,Hong Kong",,,info@ajbmarineservices.com,+61 2 9700 9299
-Infotel Marine,Company,South Africa,Durban,Durban,,,sales@infotel.co.za,+27 31 569 8200
-Commtact,Company,South Africa,Durban,"Durban,Gqeberha,Port of Ngqura",,,info@commtact.co.za,+27 (0) 31 569 3696
-M3 Systems,Company,United Kingdom,Port of Liverpool,"Port of Liverpool,Port of Immingham",,,service@m3systems.co.uk,+44 333 772 0946
-Amiconnect,Company,Singapore,Port of Singapore,"Hai Phong port,Port of Singapore",,,service@amiconnect.com,+65 6291 0818
-Fsdatalink,Company,USA,Port of Los Angeles,"Port of Los Angeles,Long Beach",,,fstechusa@gmail.com,+1 310 639 3336
-Infotransgroup,Company,Brazil,Port of Santos,Port of Santos,,,support@itg.net.br,+55 13 4062-0000
-Ajb China,Company,China,Hong Kong,Hong Kong,,,apl@ajbmarine.com,+852 2516 7118
-Ajb Greece,Company,Greece,Port of Piraeus,Port of Piraeus,,,greece@ajbmarine.com,+30 210 4298200
-Ajb Turkey,Company,Turkey,Port of Istanbul,"Port of Istanbul,Port of Mersin,Port of Ambarli",,,turkey@ajbmarine.com,+90 216 606 9922
-Ajb Romania,Company,Romania,Port of Constanta,Port of Constanta,,,romania@ajbmarine.com,+40 241 618 130
-Ajb USA,Company,USA,Port of Houston,"Port of Houston,Port of Los Angeles,Long Beach,NOLA port",,,usa@ajbmarine.com,+1 713 670 6144
-Sat-Nav,Company,United Arab Emirates,Jebel Ali,"Jebel Ali,Port of Fujairah",,,satnavuae@satnav.ae,+971 4 3417700
-Fern Marine,Company,India,Mumbai Port Maharashtra,"Mumbai Port Maharashtra,Jawaharlal Nehru Port (JNPT)",,,service@fernmarine.com,+91 22 2201 8121
-Ais-Global,Company,France,Port of Le Havre,"Port of Le Havre,Port of Dunkirk",,,contact@ais-global.fr,+33 2 35 26 55 90
-RMS Maritime,Company,Belgium,Antwerp-Bruges,Antwerp-Bruges,,,info@rmsmaritime.be,+32 3 206 04 50
-NAV-COM,Company,Germany,Port of Hamburg,"Port of Hamburg,Port of Bremen",,,info@nav-com.de,+49 40 752 687 0
-Telenor Maritime,Company,Norway,Oslo,"Oslo,Bergen",,,info@telenormaritime.com,+47 55 27 45 00
-Marlink,Company,France,Port of Le Havre,"Port of Le Havre,Port of Marseille",,,service@marlink.com,+33 1 77 86 81 00
-KVH Industries,Company,USA,Port of Los Angeles,"Port of Los Angeles,Port of Houston,Long Beach",,,service@kvh.com,+1 401 847 3327
-Speedcast,Company,Singapore,Port of Singapore,"Port of Singapore,Port Klang",,,support@speedcast.com,+65 6571 6740
-Iridium,Company,USA,Port of Los Angeles,"Port of Los Angeles,Port of Houston",,,maritime@iridium.com,+1 866 947 4348
-Inmarsat,Company,United Kingdom,Port of Liverpool,"Port of Liverpool,Port of Immingham",,,maritime@inmarsat.com,+44 20 7728 1000
-Globalstar,Company,USA,Port of Houston,"Port of Houston,Port of Los Angeles",,,maritime@globalstar.com,+1 985 335 1500
-Thuraya,Company,United Arab Emirates,Jebel Ali,Jebel Ali,,,maritime@thuraya.com,+971 4 448 2000
-ORBCOMM,Company,USA,NOLA port,"NOLA port,Port of Houston,Port of Los Angeles",,,maritime@orbcomm.com,+1 703 433 6300
-Navarino,Company,Greece,Port of Piraeus,Port of Piraeus,,,support@navarino.co.uk,+30 210 970 7500
-GTMaritime,Company,United Kingdom,Port of Immingham,Port of Immingham,,,info@gtmaritime.com,+44 1472 262 100
-Pole Star,Company,United Kingdom,Port of Liverpool,Port of Liverpool,,,info@polestarglobal.com,+44 20 3409 6510
-Applied Satellite Technology,Company,USA,Port of Houston,"Port of Houston,Long Beach",,,info@ast-science.com,+1 301 727 3332
-Clarkson PLC,Company,United Kingdom,Port of Liverpool,Port of Liverpool,,,info@clarksons.com,+44 20 7334 0000`;
-
-const portsData = `Port Name,Country,City,# Partners Based Here,# Partners Can Attend
-Port of Rotterdam,Netherlands,Rotterdam,4,4
-Port of Singapore,Singapore,Singapore,8,8
-Port of Los Angeles,USA,Los Angeles,2,2
-Port of Hamburg,Germany,Hamburg,0,0
-Port of Shanghai,China,Shanghai,4,4
-Port of Santos,Brazil,Santos,1,1
-Shenzhen,China,Shenzhen,0,0
-Ningbo-Zhoushan,China,Ningbo / Zhoushan,0,0
-Guangzhou,China,Guangzhou,0,0
-Busan,South Korea,Busan,4,4
-Hong Kong,Hong Kong SAR,Hong Kong,0,0
-Qingdao,China,Qingdao,0,0
-Tianjin,China,Tianjin,0,0
-Jebel Ali,United Arab Emirates,Dubai,2,2
-Port Klang,Malaysia,Port Klang,1,1
-Antwerp-Bruges,Belgium,Antwerp,0,0
-Kaohsiung,Taiwan,Kaohsiung,0,0
-Xiamen,China,Xiamen,0,0
-Long Beach,USA,Long Beach,0,0
-Port of Leixões,Portugal,Porto,1,1
-Port of Larnaca,Cyprus,Larnaca,1,1
-Port of Limassol,Cyprus,Limassol,0,0
-Tanjung Priok,Indonesia,Jakarta,1,1
-Port Of Amsterdam,Netherlands,Amsterdam,1,1
-Tema,Ghana,Accra,1,1
-Takora,Ghana,Accra,0,0
-Port of Houston,USA,Houston,2,2
-NOLA port,USA,New Orleans,1,1
-Port of Le Havre,France,Le Havre,0,0
-Port of Dunkirk,France,Dunkirk,0,0
-Tangier,Morocco,Tangier,0,0
-Durban,South Africa,Durban,2,2
-Port Said,Egypt,Port Said,0,0
-Port of Ngqura,South Africa,Cega,0,0
-Gqeberha,South Africa,Port Elizabeth,0,0
-Mombasa,Kenya,Mombasa,1,1
-Casablanca,Morocco,Casablanca,0,0
-Port of Djibouti,Djibouti,Djibouti,0,0
-Lome,Togo,Togo,0,0
-Abidjan,Côte d'Ivoire,Abidjan,0,0
-Port of Algeciras,Spain,Algeciras,0,0
-Port of Valencia,Spain,Valencia,0,0
-Port of Barcelona,Spain,Barcelona,2,2
-Port of Vigo,Spain,Vigo,1,1
-Port of Balboa,Panama,Balboa,1,1
-Port of Cristobal,Panama,Cristobal,0,0
-Port of Nagoya,Japan,Nagoya,0,0
-Port of Yokohama,Japan,Yokohama,0,0
-Port of Tokyo,Japan,Tokyo,0,0
-Port of Osaka,Japan,Osaka,0,0
-Incheon,Korea,Incheon,0,0
-Deendayal Port (Kandla),India,Gujarat,1,1
-Jawaharlal Nehru Port (JNPT),India,Maharashtra,0,0
-Mumbai Port Maharashtra,India,Mumbai,0,0
-Mormugao Port,India,Goa,0,0
-New Mangalore Port,India,Karnataka,0,0
-Cochin Port,India,Kerala,0,0
-Port of Colombo,Sri Lanka,Colombo,0,0
-Port of Piraeus,Greece,Athens,0,0
-Port of Rafina,Greece,Athens,0,0
-Port of Thessaloniki,Greece,Thesalloniki,0,0
-Port of Mersin,Turkey,Mersin,0,0
-Port of Ambarli,Turkey,Marmara,0,0
-Port of Istanbul,Turkey,Istanbul,5,5
-Port of Gdansk,Poland,Gdansk,1,1
-Port of Gdynia,Poland,Gdynia,1,1
-Port Botany,Australia,Sydney,3,3
-Port of Brisbane,Australia,Brisbane,1,1
-Port Hedland,Australia,Hedland,1,1
-Port of Fremantle,Australia,Fremantle,0,0
-Port of Vancouver,Canada,Vancouver,0,0
-Port of Montreal,Canada,Montreal,2,2
-Port of Halifax,Canada,Nova Scotia,0,0
-Port of Prince Rupert,Canada,British Columbia,0,0
-Port of Manila,Philippines,Manila,1,1
-Hai Phong port,Vietnam,Hai Phong,0,0
-Port of Varna,Bulgaria,Varna,2,2
-Port of Burgas,Bulgaria,Burgas,0,0
-Caucedo,Dominican Republic,Caucedo,1,1
-Rio Haina,Dominican Republic,Santo Domingo,0,0
-Port of Spain,Trinidad and Tobago,Port of Spain,3,3
-Port of Immingham,United Kingdom,Immingham,1,1
-Port of Liverpool,United Kingdom,Liverpool,4,4
-Port of Tallinn,Estonia,Talinn,1,1
-Port of Auckland,New Zealand,Auckland,1,1
-Port of Wellington,New Zealand,Wellington,0,0
-Port of San Antonio,Chile,San Antonio,3,3
-Port of Valparaíso,Chile,Valparaiso,0,0
-Port of PUERTO JENNEFER,Bolivia,Puerto Jennefer,0,0
-Port of Cartagena,Colombia,Cartagena,1,1
-Port of Manzanillo,Mexico,Manzanillo,1,1
-Puerto de Manta,Ecuador,Manta,0,0
-Port of Callao,Peru,Callao,0,0`;
-
-const engineersData = `Engineer Name,Office,Email,Phone
-Charis Ioannou,Cyprus,charis.ioannou@wlnet.com,35797875380
-Panayiotis Nikolaou,Cyprus,panayiotis.nikolaou@wlnet.com,35799083933
-Lefteris Anastasiou,Cyprus,lefteris.anastasiou@wlnet.com,35796467644
-Constantinos Charalambos,Cyprus,constantinos.charalambous@wlnet.com,35799835111
-Neofytos Pantopiou,Cyprus,neofytos.pantopiou@wlnet.com,35797726029
-Demetris Vayianos,Cyprus,demetris.vayianos@wlnet.com,35799441351
-Rafael Efstathiou,Cyprus,rafael.efstathiou@wlnet.com,35797803013
-Veselin Kadriev,Bulgaria,veselin.kadriev@wlnet.com,359893777170
-Otto Orta,Colombia,otto.orta@wlnet.com,573151568888
-Jerin Joy,India - Kochi,jerin.joy@wlnet.com,916238811033
-Andres Deroux,Panama,andres.deroux@wlnet.com,50764971476
-Vishal Prasannakumar,Dubai,vishal.prasannakumar@wlnet.com,971525459679
-Clevan Pinto,Dubai,clevan.pinto@wlnet.com,971529726841
-Balasubramanian Shanmugam,Dubai,balasubramanian.shanmugam@wlnet.com,
-Eder Quintero,Panama,eder.quintero@wlnet.com,
-Demetris Demetriou,Cyprus,demetris.demetriou@wlnet.com,35799950405
-Valentin Penev,Bulgaria,valentin.penev@wlnet.com,359879112022
-Ventsislav Kudev,Bulgaria,ventsislav.kudev@wlnet.com,359884648400
-Vishnu Chemmencheri,India - Kochi,vishnu.chemmencheri@wlnet.com,918590602139
-Arjun Satheesh,India - Kochi,arjun.satheesh@wlnet.com,918590605069
-Sujith MS,India - Kochi,sujith.ms@wlnet.com,918089238777
-Akhil Mannarathadathil,India - Kochi,akhil.mannarathadathil@wlnet.com,916238811036
-Midhun Jose,India - Kochi,midhun.jose@wlnet.com,919995129283`;
-
-function parseCSV(csv) {
-  const lines = csv.trim().split('\n');
-  const headers = lines[0].split(',');
-  return lines.slice(1).map(line => {
-    const values = [];
-    let current = '';
-    let inQuotes = false;
-    
-    for (let char of line) {
-      if (char === '"') {
-        inQuotes = !inQuotes;
-      } else if (char === ',' && !inQuotes) {
-        values.push(current);
-        current = '';
-      } else {
-        current += char;
-      }
-    }
-    values.push(current);
-    
-    return headers.reduce((obj, header, index) => {
-      obj[header.trim()] = values[index]?.trim() || '';
-      return obj;
-    }, {});
-  });
-}
-
-const PartnerPortal = () => {
-  const [currentView, setCurrentView] = useState('list');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedPartner, setSelectedPartner] = useState(null);
-  const [expandedOffice, setExpandedOffice] = useState('Cyprus');
-
-  const partners = useMemo(() => parseCSV(partnersData), []);
-  const ports = useMemo(() => parseCSV(portsData), []);
-  const engineers = useMemo(() => parseCSV(engineersData), []);
-
-  const filteredPartners = useMemo(() => {
-    return partners.filter(partner =>
-      partner['Partner Name'].toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }, [partners, searchTerm]);
-
-  const engineersByOffice = useMemo(() => {
-    return engineers.reduce((acc, eng) => {
-      const office = eng.Office;
-      if (!acc[office]) acc[office] = [];
-      acc[office].push(eng);
-      return acc;
-    }, {});
-  }, [engineers]);
-
-  const StarRating = ({ rating }) => {
-    if (!rating || rating === '') {
-      return <span style={{ fontSize: '13px', color: '#9CA3AF' }}>—</span>;
-    }
-    const num = parseInt(rating);
-    return (
-      <div style={{ display: 'flex', gap: '2px', alignItems: 'center' }}>
-        {[...Array(5)].map((_, i) => (
-          <span key={i} style={{ color: i < num ? '#FBBF24' : '#E5E7EB', fontSize: '14px' }}>★</span>
-        ))}
-      </div>
-    );
-  };
-
-  return (
-    <div style={{
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
-      display: 'flex',
-      height: '100vh',
-      overflow: 'hidden'
-    }}>
-      {/* AIRTABLE BLUE SIDEBAR - ALWAYS VISIBLE */}
-      <aside style={{
-        width: '190px',
-        background: '#1D4ED8',
-        color: 'white',
-        display: 'flex',
-        flexDirection: 'column',
-        flexShrink: 0
-      }}>
-        {/* Logo */}
-        <div style={{
-          padding: '1rem',
-          borderBottom: '1px solid rgba(255,255,255,0.1)',
-          fontWeight: '600',
-          fontSize: '15px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px'
-        }}>
-          <svg width="20" height="20" fill="white" viewBox="0 0 24 24">
-            <path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z"/>
-          </svg>
-          Partner Tracker
+        <!-- Drop Zone -->
+        <div class="card" id="upload-section">
+            <div class="drop-zone" id="drop-zone">
+                <div class="drop-zone-icon">ðŸ“Š</div>
+                <div class="drop-zone-text">Drop Excel file here or click to browse</div>
+                <div class="drop-zone-hint">Expected columns: No., Fleet, CAM, TAM, Vessel, Connectivity, Comments from CAM</div>
+                <input type="file" id="file-input" accept=".xlsx,.xls">
+            </div>
         </div>
 
-        {/* Navigation */}
-        <nav style={{ padding: '0.5rem 0', flex: 1, overflowY: 'auto' }}>
-          {/* Directory */}
-          <div style={{ marginBottom: '1.5rem' }}>
-            <div style={{
-              fontSize: '11px',
-              textTransform: 'uppercase',
-              color: 'rgba(255,255,255,0.6)',
-              padding: '0.5rem 1rem',
-              fontWeight: '600',
-              letterSpacing: '0.05em'
-            }}>
-              Directory
+        <!-- Dashboard Content (hidden until file loaded) -->
+        <div id="dashboard-content" class="hidden">
+            <!-- Metrics -->
+            <div class="metrics-grid" id="metrics-grid">
+                <div class="metric-card total">
+                    <div class="metric-value" id="metric-total">0</div>
+                    <div class="metric-label">Total Vessels</div>
+                    <div class="metric-percent">100%</div>
+                </div>
+                <div class="metric-card completed">
+                    <div class="metric-value" id="metric-completed">0</div>
+                    <div class="metric-label">Completed</div>
+                    <div class="metric-percent" id="percent-completed">0%</div>
+                </div>
+                <div class="metric-card transit">
+                    <div class="metric-value" id="metric-transit">0</div>
+                    <div class="metric-label">In Transit</div>
+                    <div class="metric-percent" id="percent-transit">0%</div>
+                </div>
+                <div class="metric-card scheduled">
+                    <div class="metric-value" id="metric-scheduled">0</div>
+                    <div class="metric-label">Scheduled</div>
+                    <div class="metric-percent" id="percent-scheduled">0%</div>
+                </div>
+                <div class="metric-card discussion">
+                    <div class="metric-value" id="metric-discussion">0</div>
+                    <div class="metric-label">In Discussion</div>
+                    <div class="metric-percent" id="percent-discussion">0%</div>
+                </div>
+                <div class="metric-card pending">
+                    <div class="metric-value" id="metric-pending">0</div>
+                    <div class="metric-label">Pending Action</div>
+                    <div class="metric-percent" id="percent-pending">0%</div>
+                </div>
+                <div class="metric-card blocked">
+                    <div class="metric-value" id="metric-blocked">0</div>
+                    <div class="metric-label">Blocked/Lost</div>
+                    <div class="metric-percent" id="percent-blocked">0%</div>
+                </div>
             </div>
-            
-            {[
-              { id: 'list', label: 'Partners List' },
-              { id: 'engineers', label: 'ONG Engineers Directory' },
-              { id: 'gallery', label: 'Partner Gallery' },
-              { id: 'ports', label: 'Port Directory' },
-            ].map(item => (
-              <div
-                key={item.id}
-                onClick={() => setCurrentView(item.id)}
-                style={{
-                  padding: '0.5rem 1rem',
-                  cursor: 'pointer',
-                  fontSize: '13.5px',
-                  background: currentView === item.id ? 'rgba(255,255,255,0.15)' : 'transparent',
-                  borderLeft: currentView === item.id ? '3px solid white' : '3px solid transparent',
-                  transition: 'all 0.15s'
-                }}
-                onMouseEnter={(e) => {
-                  if (currentView !== item.id) {
-                    e.currentTarget.style.background = 'rgba(255,255,255,0.08)';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (currentView !== item.id) {
-                    e.currentTarget.style.background = 'transparent';
-                  }
-                }}
-              >
-                {item.label}
-              </div>
-            ))}
-          </div>
 
-          {/* Ratings */}
-          <div>
-            <div style={{
-              fontSize: '11px',
-              textTransform: 'uppercase',
-              color: 'rgba(255,255,255,0.6)',
-              padding: '0.5rem 1rem',
-              fontWeight: '600',
-              letterSpacing: '0.05em'
-            }}>
-              Ratings
+            <!-- Charts -->
+            <div class="charts-grid">
+                <div class="card">
+                    <div class="card-title">ðŸ“ˆ Migration Pipeline by Status</div>
+                    <div class="chart-container">
+                        <canvas id="pipeline-chart"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title">ðŸ›°ï¸ Vessels by Connectivity</div>
+                    <div class="chart-container">
+                        <canvas id="connectivity-chart"></canvas>
+                    </div>
+                </div>
             </div>
-            
-            {[
-              { id: 'rates', label: 'Rates Dashboard' },
-              { id: 'timeline', label: 'Partner Events Timeline' },
-            ].map(item => (
-              <div
-                key={item.id}
-                onClick={() => setCurrentView(item.id)}
-                style={{
-                  padding: '0.5rem 1rem',
-                  cursor: 'pointer',
-                  fontSize: '13.5px',
-                  background: currentView === item.id ? 'rgba(255,255,255,0.15)' : 'transparent',
-                  borderLeft: currentView === item.id ? '3px solid white' : '3px solid transparent',
-                  transition: 'all 0.15s'
-                }}
-                onMouseEnter={(e) => {
-                  if (currentView !== item.id) {
-                    e.currentTarget.style.background = 'rgba(255,255,255,0.08)';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (currentView !== item.id) {
-                    e.currentTarget.style.background = 'transparent';
-                  }
-                }}
-              >
-                {item.label}
-              </div>
-            ))}
-          </div>
-        </nav>
-      </aside>
 
-      {/* MAIN CONTENT AREA */}
-      <main style={{
-        flex: 1,
-        background: 'white',
-        overflowY: 'auto',
-        display: 'flex',
-        flexDirection: 'column'
-      }}>
-        {/* Top Bar with Search */}
-        <div style={{
-          padding: '1rem 1.5rem',
-          borderBottom: '1px solid #E5E7EB',
-          background: 'white',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between'
-        }}>
-          <h1 style={{
-            fontSize: '20px',
-            fontWeight: '600',
-            color: '#111827',
-            margin: 0
-          }}>
-            {currentView === 'list' && 'Partners List'}
-            {currentView === 'engineers' && 'ONG Engineers Directory'}
-            {currentView === 'gallery' && 'Partner Gallery'}
-            {currentView === 'ports' && 'Port Directory'}
-            {currentView === 'rates' && 'Rates Dashboard'}
-            {currentView === 'timeline' && 'Partner Events Timeline'}
-          </h1>
+            <!-- History -->
+            <div class="card">
+                <div class="history-header">
+                    <div class="card-title">ðŸ“… Week-over-Week History</div>
+                    <button class="btn btn-danger" id="clear-history-btn">Clear History</button>
+                </div>
+                <div class="table-wrapper">
+                    <table id="history-table">
+                        <thead>
+                            <tr>
+                                <th>Week</th>
+                                <th>Total</th>
+                                <th>Completed</th>
+                                <th>Change</th>
+                                <th>In Transit</th>
+                                <th>Scheduled</th>
+                                <th>In Discussion</th>
+                                <th>Pending</th>
+                                <th>Blocked/Lost</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-body"></tbody>
+                    </table>
+                </div>
+            </div>
 
-          <input
-            type="text"
-            placeholder="Search partners..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            style={{
-              padding: '0.5rem 1rem',
-              border: '1px solid #E5E7EB',
-              borderRadius: '6px',
-              fontSize: '14px',
-              width: '300px',
-              outline: 'none'
-            }}
-            onFocus={(e) => e.target.style.borderColor = '#1D4ED8'}
-            onBlur={(e) => e.target.style.borderColor = '#E5E7EB'}
-          />
+            <!-- Fleet Summary -->
+            <div class="card">
+                <div class="card-title">ðŸš¢ Fleet Summary</div>
+                <div class="table-wrapper">
+                    <table id="fleet-table">
+                        <thead>
+                            <tr>
+                                <th>Fleet</th>
+                                <th>Total</th>
+                                <th>Completed</th>
+                                <th>In Transit</th>
+                                <th>Scheduled</th>
+                                <th>In Discussion</th>
+                                <th>Pending</th>
+                                <th>Blocked</th>
+                                <th>Progress</th>
+                            </tr>
+                        </thead>
+                        <tbody id="fleet-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Vessel Details -->
+            <div class="card">
+                <div class="card-title">ðŸ“‹ Vessel Details</div>
+                <div class="filters">
+                    <div class="filter-group">
+                        <label>Status</label>
+                        <select id="filter-status">
+                            <option value="">All Statuses</option>
+                            <option value="Completed">Completed</option>
+                            <option value="In Transit">In Transit</option>
+                            <option value="Scheduled">Scheduled</option>
+                            <option value="In Discussion">In Discussion</option>
+                            <option value="Pending Action">Pending Action</option>
+                            <option value="Blocked/Lost">Blocked/Lost</option>
+                            <option value="Not Started">Not Started</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>CAM</label>
+                        <select id="filter-cam">
+                            <option value="">All CAMs</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Search</label>
+                        <input type="text" id="filter-search" placeholder="Search vessels...">
+                    </div>
+                </div>
+                <div class="table-wrapper">
+                    <table id="vessel-table">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Fleet</th>
+                                <th>CAM</th>
+                                <th>TAM</th>
+                                <th>Vessel</th>
+                                <th>Connectivity</th>
+                                <th>Status</th>
+                                <th>Comments</th>
+                            </tr>
+                        </thead>
+                        <tbody id="vessel-body"></tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-
-        {/* Content */}
-        <div style={{ flex: 1, padding: '1.5rem', overflowY: 'auto' }}>
-          
-          {/* PARTNERS LIST VIEW */}
-          {currentView === 'list' && (
-            <div>
-              <div style={{
-                background: 'white',
-                border: '1px solid #E5E7EB',
-                borderRadius: '8px',
-                overflow: 'hidden'
-              }}>
-                {/* Table Header */}
-                <div style={{
-                  display: 'grid',
-                  gridTemplateColumns: '2.5fr 1.5fr 2fr 1fr 0.8fr',
-                  padding: '12px 16px',
-                  background: '#F9FAFB',
-                  borderBottom: '1px solid #E5E7EB',
-                  fontSize: '12px',
-                  fontWeight: '600',
-                  color: '#6B7280',
-                  textTransform: 'uppercase'
-                }}>
-                  <div>Partner Name</div>
-                  <div>Port</div>
-                  <div>Available Ports</div>
-                  <div>Rate</div>
-                  <div>Rating</div>
-                </div>
-
-                {/* Table Rows */}
-                {filteredPartners.map((partner, idx) => (
-                  <div
-                    key={idx}
-                    onClick={() => setSelectedPartner(partner)}
-                    style={{
-                      display: 'grid',
-                      gridTemplateColumns: '2.5fr 1.5fr 2fr 1fr 0.8fr',
-                      padding: '14px 16px',
-                      borderBottom: idx < filteredPartners.length - 1 ? '1px solid #F3F4F6' : 'none',
-                      cursor: 'pointer',
-                      alignItems: 'center',
-                      transition: 'background 0.1s'
-                    }}
-                    onMouseEnter={(e) => e.currentTarget.style.background = '#F9FAFB'}
-                    onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
-                  >
-                    {/* Name + Badge */}
-                    <div>
-                      <div style={{ fontSize: '14px', fontWeight: '500', color: '#111827', marginBottom: '4px' }}>
-                        {partner['Partner Name']}
-                      </div>
-                      <span style={{
-                        display: 'inline-block',
-                        padding: '2px 8px',
-                        borderRadius: '12px',
-                        fontSize: '11px',
-                        fontWeight: '600',
-                        background: partner['Organization Type'] === 'Company' ? '#BFDBFE' : '#FEF3C7',
-                        color: partner['Organization Type'] === 'Company' ? '#1E40AF' : '#92400E'
-                      }}>
-                        {partner['Organization Type']}
-                      </span>
-                    </div>
-
-                    {/* Port */}
-                    <div style={{ fontSize: '14px', color: '#6B7280' }}>
-                      {partner['Port']}
-                    </div>
-
-                    {/* Available Ports */}
-                    <div style={{ fontSize: '13px', color: '#9CA3AF' }}>
-                      {partner['Available Ports'] ? (
-                        partner['Available Ports'].split(',').length > 2
-                          ? `${partner['Available Ports'].split(',').slice(0, 2).join(', ')} +${partner['Available Ports'].split(',').length - 2}`
-                          : partner['Available Ports'].split(',').join(', ')
-                      ) : '—'}
-                    </div>
-
-                    {/* Rate */}
-                    <div style={{
-                      fontSize: '14px',
-                      fontWeight: '600',
-                      color: partner['Usual Rate (USD)'] ? '#059669' : '#9CA3AF'
-                    }}>
-                      {partner['Usual Rate (USD)'] || '—'}
-                    </div>
-
-                    {/* Rating */}
-                    <div>
-                      <StarRating rating={partner['Rating']} />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* ENGINEERS VIEW */}
-          {currentView === 'engineers' && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              {Object.entries(engineersByOffice).map(([office, officeEngineers]) => (
-                <div
-                  key={office}
-                  style={{
-                    background: 'white',
-                    border: '1px solid #E5E7EB',
-                    borderRadius: '8px',
-                    overflow: 'hidden'
-                  }}
-                >
-                  {/* Office Header */}
-                  <div
-                    onClick={() => setExpandedOffice(expandedOffice === office ? null : office)}
-                    style={{
-                      padding: '12px 16px',
-                      background: '#F9FAFB',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      borderBottom: expandedOffice === office ? '1px solid #E5E7EB' : 'none'
-                    }}
-                  >
-                    <div>
-                      <div style={{ fontSize: '15px', fontWeight: '600', color: '#111827' }}>
-                        {office}
-                      </div>
-                      <div style={{ fontSize: '13px', color: '#6B7280', marginTop: '2px' }}>
-                        {officeEngineers.length} engineers
-                      </div>
-                    </div>
-                    <span style={{ fontSize: '18px' }}>
-                      {expandedOffice === office ? '▼' : '▶'}
-                    </span>
-                  </div>
-
-                  {/* Engineers List */}
-                  {expandedOffice === office && officeEngineers.map((eng, idx) => (
-                    <div
-                      key={idx}
-                      style={{
-                        padding: '12px 16px',
-                        borderBottom: idx < officeEngineers.length - 1 ? '1px solid #F3F4F6' : 'none',
-                        display: 'grid',
-                        gridTemplateColumns: '2fr 1.5fr 1fr',
-                        gap: '1rem',
-                        alignItems: 'center'
-                      }}
-                    >
-                      <div>
-                        <div style={{ fontSize: '14px', fontWeight: '500', color: '#111827' }}>
-                          {eng['Engineer Name']}
-                        </div>
-                        {eng['Email'] && (
-                          <a
-                            href={`mailto:${eng['Email']}`}
-                            style={{
-                              fontSize: '13px',
-                              color: '#1D4ED8',
-                              textDecoration: 'none',
-                              display: 'block',
-                              marginTop: '2px'
-                            }}
-                          >
-                            {eng['Email']}
-                          </a>
-                        )}
-                      </div>
-                      <div style={{ fontSize: '13px', color: '#6B7280' }}>
-                        {eng['Phone'] || '—'}
-                      </div>
-                      <div>
-                        <span style={{ fontSize: '13px', color: '#9CA3AF' }}>—</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* PORT DIRECTORY */}
-          {currentView === 'ports' && (
-            <div style={{
-              background: 'white',
-              border: '1px solid #E5E7EB',
-              borderRadius: '8px',
-              overflow: 'hidden'
-            }}>
-              {/* Header */}
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: '2.5fr 1fr 1fr 1fr 1fr',
-                padding: '12px 16px',
-                background: '#F9FAFB',
-                borderBottom: '1px solid #E5E7EB',
-                fontSize: '12px',
-                fontWeight: '600',
-                color: '#6B7280',
-                textTransform: 'uppercase'
-              }}>
-                <div>Port Name</div>
-                <div>Country</div>
-                <div>City</div>
-                <div>Based Here</div>
-                <div>Can Attend</div>
-              </div>
-
-              {/* Rows */}
-              {ports.map((port, idx) => (
-                <div
-                  key={idx}
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: '2.5fr 1fr 1fr 1fr 1fr',
-                    padding: '14px 16px',
-                    borderBottom: idx < ports.length - 1 ? '1px solid #F3F4F6' : 'none',
-                    alignItems: 'center',
-                    fontSize: '14px'
-                  }}
-                >
-                  <div style={{ fontWeight: '500', color: '#111827' }}>{port['Port Name']}</div>
-                  <div style={{ color: '#6B7280' }}>{port['Country']}</div>
-                  <div style={{ color: '#6B7280' }}>{port['City']}</div>
-                  <div style={{ color: '#6B7280', textAlign: 'center' }}>{port['# Partners Based Here']}</div>
-                  <div style={{ color: '#6B7280', textAlign: 'center' }}>{port['# Partners Can Attend']}</div>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* PARTNER GALLERY VIEW */}
-          {currentView === 'gallery' && (
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-              gap: '1.5rem'
-            }}>
-              {filteredPartners.map((partner, idx) => (
-                <div
-                  key={idx}
-                  onClick={() => setSelectedPartner(partner)}
-                  style={{
-                    background: 'white',
-                    border: '1px solid #E5E7EB',
-                    borderRadius: '8px',
-                    padding: '1.5rem',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
-                    e.currentTarget.style.transform = 'translateY(-2px)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.boxShadow = 'none';
-                    e.currentTarget.style.transform = 'translateY(0)';
-                  }}
-                >
-                  <div style={{
-                    width: '60px',
-                    height: '60px',
-                    borderRadius: '50%',
-                    background: 'linear-gradient(135deg, #1D4ED8 0%, #2563EB 100%)',
-                    color: 'white',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '24px',
-                    fontWeight: '700',
-                    marginBottom: '1rem'
-                  }}>
-                    {partner['Partner Name'].charAt(0)}
-                  </div>
-                  <div style={{ fontSize: '16px', fontWeight: '600', color: '#111827', marginBottom: '8px' }}>
-                    {partner['Partner Name']}
-                  </div>
-                  <span style={{
-                    display: 'inline-block',
-                    padding: '2px 8px',
-                    borderRadius: '12px',
-                    fontSize: '11px',
-                    fontWeight: '600',
-                    background: partner['Organization Type'] === 'Company' ? '#BFDBFE' : '#FEF3C7',
-                    color: partner['Organization Type'] === 'Company' ? '#1E40AF' : '#92400E',
-                    marginBottom: '12px'
-                  }}>
-                    {partner['Organization Type']}
-                  </span>
-                  <div style={{ fontSize: '13px', color: '#6B7280', marginBottom: '8px' }}>
-                    📍 {partner['Port']}, {partner['Home Port Country']}
-                  </div>
-                  {partner['Usual Rate (USD)'] && (
-                    <div style={{ fontSize: '18px', fontWeight: '700', color: '#059669', marginBottom: '8px' }}>
-                      {partner['Usual Rate (USD)']}
-                    </div>
-                  )}
-                  <div style={{ paddingTop: '8px', borderTop: '1px solid #F3F4F6' }}>
-                    <StarRating rating={partner['Rating']} />
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* RATES DASHBOARD VIEW */}
-          {currentView === 'rates' && (
-            <div>
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-                gap: '1.5rem',
-                marginBottom: '2rem'
-              }}>
-                <div style={{ background: 'white', border: '1px solid #E5E7EB', borderRadius: '8px', padding: '1.5rem' }}>
-                  <div style={{ fontSize: '12px', color: '#6B7280', marginBottom: '8px', textTransform: 'uppercase', fontWeight: '600' }}>Average Rate</div>
-                  <div style={{ fontSize: '32px', fontWeight: '700', color: '#111827' }}>
-                    ${(() => {
-                      const validRates = partners.filter(p => p['Usual Rate (USD)'] && p['Usual Rate (USD)'] !== '');
-                      const rates = validRates.map(p => parseFloat(p['Usual Rate (USD)'].replace('$', '').replace(',', '')));
-                      return rates.length ? (rates.reduce((a, b) => a + b, 0) / rates.length).toFixed(2) : '0.00';
-                    })()}
-                  </div>
-                </div>
-                <div style={{ background: 'white', border: '1px solid #E5E7EB', borderRadius: '8px', padding: '1.5rem' }}>
-                  <div style={{ fontSize: '12px', color: '#6B7280', marginBottom: '8px', textTransform: 'uppercase', fontWeight: '600' }}>Minimum Rate</div>
-                  <div style={{ fontSize: '32px', fontWeight: '700', color: '#111827' }}>
-                    ${(() => {
-                      const validRates = partners.filter(p => p['Usual Rate (USD)'] && p['Usual Rate (USD)'] !== '');
-                      const rates = validRates.map(p => parseFloat(p['Usual Rate (USD)'].replace('$', '').replace(',', '')));
-                      return rates.length ? Math.min(...rates).toFixed(2) : '0.00';
-                    })()}
-                  </div>
-                </div>
-                <div style={{ background: 'white', border: '1px solid #E5E7EB', borderRadius: '8px', padding: '1.5rem' }}>
-                  <div style={{ fontSize: '12px', color: '#6B7280', marginBottom: '8px', textTransform: 'uppercase', fontWeight: '600' }}>Maximum Rate</div>
-                  <div style={{ fontSize: '32px', fontWeight: '700', color: '#111827' }}>
-                    ${(() => {
-                      const validRates = partners.filter(p => p['Usual Rate (USD)'] && p['Usual Rate (USD)'] !== '');
-                      const rates = validRates.map(p => parseFloat(p['Usual Rate (USD)'].replace('$', '').replace(',', '')));
-                      return rates.length ? Math.max(...rates).toFixed(2) : '0.00';
-                    })()}
-                  </div>
-                </div>
-                <div style={{ background: 'white', border: '1px solid #E5E7EB', borderRadius: '8px', padding: '1.5rem' }}>
-                  <div style={{ fontSize: '12px', color: '#6B7280', marginBottom: '8px', textTransform: 'uppercase', fontWeight: '600' }}>Total Partners</div>
-                  <div style={{ fontSize: '32px', fontWeight: '700', color: '#111827' }}>{partners.length}</div>
-                </div>
-              </div>
-              <div style={{ background: 'white', border: '1px solid #E5E7EB', borderRadius: '8px', padding: '2rem' }}>
-                <h3 style={{ fontSize: '18px', fontWeight: '600', color: '#111827', marginBottom: '1.5rem' }}>Rating Distribution</h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                  {[5, 4, 3, 2, 1].map(rating => {
-                    const count = partners.filter(p => parseInt(p['Rating']) === rating).length;
-                    const percentage = partners.length > 0 ? (count / partners.length) * 100 : 0;
-                    return (
-                      <div key={rating} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '4px', minWidth: '60px' }}>
-                          <span style={{ fontSize: '14px', fontWeight: '600' }}>{rating}</span>
-                          <span style={{ color: '#FBBF24' }}>★</span>
-                        </div>
-                        <div style={{ flex: 1, background: '#F3F4F6', borderRadius: '999px', height: '8px', overflow: 'hidden' }}>
-                          <div style={{
-                            width: `${percentage}%`,
-                            height: '100%',
-                            background: 'linear-gradient(90deg, #1D4ED8 0%, #2563EB 100%)',
-                            transition: 'width 0.3s'
-                          }} />
-                        </div>
-                        <span style={{ fontSize: '13px', color: '#6B7280', minWidth: '80px', textAlign: 'right' }}>
-                          {count} ({percentage.toFixed(0)}%)
-                        </span>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* CALENDAR PLACEHOLDER */}
-          {currentView === 'timeline' && (
-            <div style={{ textAlign: 'center', padding: '4rem', color: '#9CA3AF' }}>
-              <div style={{ fontSize: '48px', marginBottom: '1rem' }}>📅</div>
-              <div style={{ fontSize: '18px', fontWeight: '600', color: '#6B7280' }}>Calendar & Events Coming Soon</div>
-              <div style={{ fontSize: '14px', marginTop: '0.5rem' }}>Full calendar with rating functionality will be added next</div>
-            </div>
-          )}
-
-        </div>
-      </main>
-
-      {/* PARTNER DETAIL MODAL */}
-      {selectedPartner && (
-        <div
-          onClick={() => setSelectedPartner(null)}
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: 'rgba(0,0,0,0.4)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 1000,
-            padding: '2rem'
-          }}
-        >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            style={{
-              background: 'white',
-              borderRadius: '12px',
-              maxWidth: '700px',
-              width: '100%',
-              maxHeight: '80vh',
-              overflow: 'auto',
-              boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)'
-            }}
-          >
-            {/* Modal Header */}
-            <div style={{
-              padding: '1.5rem',
-              borderBottom: '1px solid #E5E7EB',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center'
-            }}>
-              <h2 style={{ fontSize: '20px', fontWeight: '600', margin: 0 }}>
-                {selectedPartner['Partner Name']}
-              </h2>
-              <button
-                onClick={() => setSelectedPartner(null)}
-                style={{
-                  background: 'none',
-                  border: '1px solid #E5E7EB',
-                  borderRadius: '6px',
-                  padding: '6px 12px',
-                  cursor: 'pointer',
-                  fontSize: '16px'
-                }}
-              >
-                ✕
-              </button>
-            </div>
-
-            {/* Modal Content */}
-            <div style={{ padding: '1.5rem' }}>
-              <div style={{ marginBottom: '1rem' }}>
-                <div style={{ fontSize: '12px', color: '#6B7280', marginBottom: '4px' }}>Organization Type</div>
-                <span style={{
-                  display: 'inline-block',
-                  padding: '4px 12px',
-                  borderRadius: '12px',
-                  fontSize: '13px',
-                  fontWeight: '600',
-                  background: selectedPartner['Organization Type'] === 'Company' ? '#BFDBFE' : '#FEF3C7',
-                  color: selectedPartner['Organization Type'] === 'Company' ? '#1E40AF' : '#92400E'
-                }}>
-                  {selectedPartner['Organization Type']}
-                </span>
-              </div>
-
-              {selectedPartner['Usual Rate (USD)'] && (
-                <div style={{ marginBottom: '1rem' }}>
-                  <div style={{ fontSize: '12px', color: '#6B7280', marginBottom: '4px' }}>Rate</div>
-                  <div style={{ fontSize: '24px', fontWeight: '700', color: '#059669' }}>
-                    {selectedPartner['Usual Rate (USD)']}
-                  </div>
-                </div>
-              )}
-
-              <div style={{ marginBottom: '1rem' }}>
-                <div style={{ fontSize: '12px', color: '#6B7280', marginBottom: '4px' }}>Rating</div>
-                <StarRating rating={selectedPartner['Rating']} />
-              </div>
-
-              <div style={{ marginBottom: '1rem' }}>
-                <div style={{ fontSize: '12px', color: '#6B7280', marginBottom: '4px' }}>Port</div>
-                <div style={{ fontSize: '14px', color: '#111827' }}>
-                  {selectedPartner['Port']}, {selectedPartner['Home Port Country']}
-                </div>
-              </div>
-
-              {selectedPartner['Email '] && (
-                <div style={{ marginBottom: '1rem' }}>
-                  <div style={{ fontSize: '12px', color: '#6B7280', marginBottom: '4px' }}>Email</div>
-                  <a href={`mailto:${selectedPartner['Email ']}`} style={{ fontSize: '14px', color: '#1D4ED8' }}>
-                    {selectedPartner['Email ']}
-                  </a>
-                </div>
-              )}
-
-              {selectedPartner['Phone Number'] && (
-                <div style={{ marginBottom: '1rem' }}>
-                  <div style={{ fontSize: '12px', color: '#6B7280', marginBottom: '4px' }}>Phone</div>
-                  <div style={{ fontSize: '14px', color: '#111827' }}>{selectedPartner['Phone Number']}</div>
-                </div>
-              )}
-
-              {selectedPartner['Available Ports'] && (
-                <div style={{ marginBottom: '1rem' }}>
-                  <div style={{ fontSize: '12px', color: '#6B7280', marginBottom: '8px' }}>Available Ports</div>
-                  <div style={{
-                    maxHeight: '200px',
-                    overflowY: 'auto',
-                    border: '1px solid #E5E7EB',
-                    borderRadius: '6px'
-                  }}>
-                    {selectedPartner['Available Ports'].split(',').map((port, idx) => (
-                      <div
-                        key={idx}
-                        style={{
-                          padding: '8px 12px',
-                          borderBottom: idx < selectedPartner['Available Ports'].split(',').length - 1 ? '1px solid #F3F4F6' : 'none',
-                          fontSize: '13px',
-                          color: '#111827',
-                          background: idx % 2 === 0 ? '#F9FAFB' : 'white'
-                        }}
-                      >
-                        {port.trim()}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {selectedPartner['Available Ports'] && (
-                <div style={{ marginBottom: '1rem' }}>
-                  <div style={{ fontSize: '12px', color: '#6B7280', marginBottom: '8px', fontWeight: '600' }}>
-                    Available Ports ({selectedPartner['Available Ports'].split(',').length})
-                  </div>
-                  <div style={{
-                    maxHeight: '200px',
-                    overflowY: 'auto',
-                    border: '1px solid #E5E7EB',
-                    borderRadius: '6px'
-                  }}>
-                    {selectedPartner['Available Ports'].split(',').map((port, idx) => (
-                      <div
-                        key={idx}
-                        style={{
-                          padding: '10px 12px',
-                          borderBottom: idx < selectedPartner['Available Ports'].split(',').length - 1 ? '1px solid #F3F4F6' : 'none',
-                          fontSize: '13px',
-                          color: '#374151'
-                        }}
-                      >
-                        {port.trim()}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
     </div>
-  );
-};
 
+    <script>
+        // Storage key
+        const HISTORY_KEY = 'shipsat_migration_history';
+        const MAX_HISTORY_WEEKS = 52;
 
+        // Global data
+        let vesselData = [];
+        let statusCounts = {};
+        let connectivityCounts = {};
+        let fleetSummary = {};
+        let pipelineChart = null;
+        let connectivityChart = null;
 
-        
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<PartnerPortal />);
+        // Status classification rules
+        function classifyStatus(comment) {
+            if (!comment || typeof comment !== 'string') {
+                return 'Not Started';
+            }
+            
+            const text = comment.toLowerCase().trim();
+            
+            if (!text) {
+                return 'Not Started';
+            }
+
+            // Completed
+            if (text.includes('completed') || text.includes('already migrated')) {
+                return 'Completed';
+            }
+
+            // In Transit
+            if (text.includes('in transit') || text.includes('zwana is delivered') || text.includes('expecting their signatures')) {
+                return 'In Transit';
+            }
+
+            // Blocked/Lost
+            if (text.includes('declined') || text.includes('owner changed the provider') || 
+                text.includes('ofac') || text.includes('detention') || text.includes('penalty clause')) {
+                return 'Blocked/Lost';
+            }
+
+            // Scheduled
+            if (text.includes('migration is planned') || text.includes('migration planned')) {
+                return 'Scheduled';
+            }
+
+            // In Discussion
+            if (text.includes('in progress') || text.includes('in discussion') || 
+                text.includes('under discussion') || text.includes('in touch') || 
+                text.includes('evaluating') || text.includes('proposed') || text.includes('considering')) {
+                return 'In Discussion';
+            }
+
+            // Pending Action
+            if (text.includes('followed up') || text.includes('notice sent') || 
+                text.includes('reaching out') || text.includes('left management') || text.includes('sold soon')) {
+                return 'Pending Action';
+            }
+
+            // Default
+            return 'In Discussion';
+        }
+
+        // Extract date from filename (pattern: DD-M-YYYY)
+        function extractDateFromFilename(filename) {
+            const match = filename.match(/(\d{1,2})-(\d{1,2})-(\d{4})/);
+            if (match) {
+                const day = match[1].padStart(2, '0');
+                const month = match[2].padStart(2, '0');
+                const year = match[3];
+                return `${year}-${month}-${day}`;
+            }
+            return new Date().toISOString().split('T')[0];
+        }
+
+        // Get week key from date
+        function getWeekKey(dateStr) {
+            const date = new Date(dateStr);
+            const startOfYear = new Date(date.getFullYear(), 0, 1);
+            const days = Math.floor((date - startOfYear) / (24 * 60 * 60 * 1000));
+            const weekNum = Math.ceil((days + startOfYear.getDay() + 1) / 7);
+            return `${date.getFullYear()}-W${weekNum.toString().padStart(2, '0')}`;
+        }
+
+        // Format date for display
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+        }
+
+        // Get status badge class
+        function getStatusBadgeClass(status) {
+            const classes = {
+                'Completed': 'status-completed',
+                'In Transit': 'status-transit',
+                'Scheduled': 'status-scheduled',
+                'In Discussion': 'status-discussion',
+                'Pending Action': 'status-pending',
+                'Blocked/Lost': 'status-blocked',
+                'Not Started': 'status-notstarted'
+            };
+            return classes[status] || 'status-notstarted';
+        }
+
+        // Process Excel data
+        function processExcelData(data, filename) {
+            vesselData = [];
+            statusCounts = {
+                'Completed': 0,
+                'In Transit': 0,
+                'Scheduled': 0,
+                'In Discussion': 0,
+                'Pending Action': 0,
+                'Blocked/Lost': 0,
+                'Not Started': 0
+            };
+            connectivityCounts = {};
+            fleetSummary = {};
+
+            // Find header row (look for "No." or similar)
+            let headerRowIndex = 0;
+            for (let i = 0; i < Math.min(10, data.length); i++) {
+                const row = data[i];
+                if (row && (row['No.'] !== undefined || row['No'] !== undefined || 
+                    Object.values(row).some(v => typeof v === 'string' && v.toLowerCase().includes('vessel')))) {
+                    headerRowIndex = i;
+                    break;
+                }
+            }
+
+            // Process each row
+            data.forEach((row, index) => {
+                if (!row) return;
+
+                // Try to extract data with flexible column names
+                const no = row['No.'] || row['No'] || row['#'] || '';
+                const fleet = row['Fleet'] || '';
+                const cam = row['Commercial Account Manager (CAM)'] || row['CAM'] || row['Commercial Account Manager'] || '';
+                const tam = row['Technical Account Manager (TAM)'] || row['TAM'] || row['Technical Account Manager'] || '';
+                const vessel = row['Vessel'] || row['Vessel Name'] || '';
+                const connectivity = row['Connectivity'] || row['Connectivity Type'] || '';
+                const comments = row['Comments from CAM'] || row['Comments'] || row['CAM Comments'] || '';
+
+                // Skip empty rows or header rows
+                if (!vessel && !fleet && !no) return;
+                if (typeof vessel === 'string' && vessel.toLowerCase() === 'vessel') return;
+
+                const status = classifyStatus(comments);
+
+                const vesselRecord = {
+                    no: no,
+                    fleet: fleet,
+                    cam: cam,
+                    tam: tam,
+                    vessel: vessel,
+                    connectivity: connectivity,
+                    comments: comments,
+                    status: status
+                };
+
+                vesselData.push(vesselRecord);
+
+                // Count statuses
+                statusCounts[status] = (statusCounts[status] || 0) + 1;
+
+                // Count connectivity types
+                const connType = connectivity || 'Unknown';
+                connectivityCounts[connType] = (connectivityCounts[connType] || 0) + 1;
+
+                // Fleet summary
+                const fleetName = fleet || 'Unknown';
+                if (!fleetSummary[fleetName]) {
+                    fleetSummary[fleetName] = {
+                        total: 0,
+                        'Completed': 0,
+                        'In Transit': 0,
+                        'Scheduled': 0,
+                        'In Discussion': 0,
+                        'Pending Action': 0,
+                        'Blocked/Lost': 0,
+                        'Not Started': 0
+                    };
+                }
+                fleetSummary[fleetName].total++;
+                fleetSummary[fleetName][status]++;
+            });
+
+            // Extract date and update header
+            const reportDate = extractDateFromFilename(filename);
+            document.getElementById('report-date').textContent = `Report Date: ${formatDate(reportDate)}`;
+
+            // Save to history
+            saveToHistory(reportDate, statusCounts, vesselData.length);
+
+            // Update dashboard
+            updateDashboard();
+        }
+
+        // Save to localStorage history
+        function saveToHistory(dateStr, counts, total) {
+            let history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+            const weekKey = getWeekKey(dateStr);
+
+            // Find or create entry for this week
+            const existingIndex = history.findIndex(h => h.weekKey === weekKey);
+            const entry = {
+                weekKey: weekKey,
+                date: dateStr,
+                total: total,
+                completed: counts['Completed'] || 0,
+                transit: counts['In Transit'] || 0,
+                scheduled: counts['Scheduled'] || 0,
+                discussion: counts['In Discussion'] || 0,
+                pending: counts['Pending Action'] || 0,
+                blocked: counts['Blocked/Lost'] || 0
+            };
+
+            if (existingIndex >= 0) {
+                history[existingIndex] = entry;
+            } else {
+                history.push(entry);
+            }
+
+            // Sort by week key descending
+            history.sort((a, b) => b.weekKey.localeCompare(a.weekKey));
+
+            // Keep only last 52 weeks
+            history = history.slice(0, MAX_HISTORY_WEEKS);
+
+            localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+        }
+
+        // Update dashboard
+        function updateDashboard() {
+            const total = vesselData.length;
+
+            // Update metrics
+            document.getElementById('metric-total').textContent = total;
+            document.getElementById('metric-completed').textContent = statusCounts['Completed'] || 0;
+            document.getElementById('metric-transit').textContent = statusCounts['In Transit'] || 0;
+            document.getElementById('metric-scheduled').textContent = statusCounts['Scheduled'] || 0;
+            document.getElementById('metric-discussion').textContent = statusCounts['In Discussion'] || 0;
+            document.getElementById('metric-pending').textContent = statusCounts['Pending Action'] || 0;
+            document.getElementById('metric-blocked').textContent = statusCounts['Blocked/Lost'] || 0;
+
+            // Update percentages
+            const pct = (val) => total > 0 ? ((val / total) * 100).toFixed(1) + '%' : '0%';
+            document.getElementById('percent-completed').textContent = pct(statusCounts['Completed'] || 0);
+            document.getElementById('percent-transit').textContent = pct(statusCounts['In Transit'] || 0);
+            document.getElementById('percent-scheduled').textContent = pct(statusCounts['Scheduled'] || 0);
+            document.getElementById('percent-discussion').textContent = pct(statusCounts['In Discussion'] || 0);
+            document.getElementById('percent-pending').textContent = pct(statusCounts['Pending Action'] || 0);
+            document.getElementById('percent-blocked').textContent = pct(statusCounts['Blocked/Lost'] || 0);
+
+            // Update charts
+            updateCharts();
+
+            // Update tables
+            updateHistoryTable();
+            updateFleetTable();
+            updateVesselTable();
+            populateCAMFilter();
+
+            // Show dashboard
+            document.getElementById('dashboard-content').classList.remove('hidden');
+        }
+
+        // Update charts
+        function updateCharts() {
+            const statusLabels = ['Completed', 'In Transit', 'Scheduled', 'In Discussion', 'Pending Action', 'Blocked/Lost', 'Not Started'];
+            const statusColors = ['#48bb78', '#4299e1', '#9f7aea', '#ed8936', '#ecc94b', '#f56565', '#a0aec0'];
+            const statusData = statusLabels.map(s => statusCounts[s] || 0);
+
+            // Pipeline Chart (horizontal bar)
+            const pipelineCtx = document.getElementById('pipeline-chart').getContext('2d');
+            if (pipelineChart) pipelineChart.destroy();
+            pipelineChart = new Chart(pipelineCtx, {
+                type: 'bar',
+                data: {
+                    labels: statusLabels,
+                    datasets: [{
+                        label: 'Vessels',
+                        data: statusData,
+                        backgroundColor: statusColors,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            grid: { color: '#e2e8f0' }
+                        },
+                        y: {
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+
+            // Connectivity Chart (doughnut)
+            const connLabels = Object.keys(connectivityCounts);
+            const connData = Object.values(connectivityCounts);
+            const connColors = ['#4299e1', '#48bb78', '#ed8936', '#9f7aea', '#f56565', '#ecc94b', '#38b2ac', '#667eea'];
+
+            const connectivityCtx = document.getElementById('connectivity-chart').getContext('2d');
+            if (connectivityChart) connectivityChart.destroy();
+            connectivityChart = new Chart(connectivityCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: connLabels,
+                    datasets: [{
+                        data: connData,
+                        backgroundColor: connColors.slice(0, connLabels.length),
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: { boxWidth: 12, padding: 12 }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Update history table
+        function updateHistoryTable() {
+            const history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+            const tbody = document.getElementById('history-body');
+            tbody.innerHTML = '';
+
+            if (history.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;color:#718096;">No history data yet</td></tr>';
+                return;
+            }
+
+            history.forEach((entry, index) => {
+                const prevEntry = history[index + 1];
+                let changeHtml = '-';
+                if (prevEntry) {
+                    const change = entry.completed - prevEntry.completed;
+                    if (change > 0) {
+                        changeHtml = `<span class="change-positive">+${change}</span>`;
+                    } else if (change < 0) {
+                        changeHtml = `<span class="change-negative">${change}</span>`;
+                    } else {
+                        changeHtml = '0';
+                    }
+                }
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${entry.weekKey}<br><small style="color:#718096;">${formatDate(entry.date)}</small></td>
+                    <td>${entry.total}</td>
+                    <td>${entry.completed}</td>
+                    <td>${changeHtml}</td>
+                    <td>${entry.transit}</td>
+                    <td>${entry.scheduled}</td>
+                    <td>${entry.discussion}</td>
+                    <td>${entry.pending}</td>
+                    <td>${entry.blocked}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Update fleet table
+        function updateFleetTable() {
+            const tbody = document.getElementById('fleet-body');
+            tbody.innerHTML = '';
+
+            const fleets = Object.entries(fleetSummary).sort((a, b) => b[1].total - a[1].total);
+
+            fleets.forEach(([fleetName, data]) => {
+                const completedPct = data.total > 0 ? ((data['Completed'] / data.total) * 100).toFixed(0) : 0;
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><strong>${fleetName}</strong></td>
+                    <td>${data.total}</td>
+                    <td><span class="status-badge status-completed">${data['Completed']}</span></td>
+                    <td><span class="status-badge status-transit">${data['In Transit']}</span></td>
+                    <td><span class="status-badge status-scheduled">${data['Scheduled']}</span></td>
+                    <td><span class="status-badge status-discussion">${data['In Discussion']}</span></td>
+                    <td><span class="status-badge status-pending">${data['Pending Action']}</span></td>
+                    <td><span class="status-badge status-blocked">${data['Blocked/Lost']}</span></td>
+                    <td>
+                        <div class="fleet-progress">
+                            <div class="progress-bar" style="width:100px;">
+                                <div class="progress-fill" style="width:${completedPct}%;"></div>
+                            </div>
+                            <span class="fleet-progress-text">${completedPct}%</span>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Populate CAM filter
+        function populateCAMFilter() {
+            const camSelect = document.getElementById('filter-cam');
+            const cams = [...new Set(vesselData.map(v => v.cam).filter(c => c))].sort();
+            
+            camSelect.innerHTML = '<option value="">All CAMs</option>';
+            cams.forEach(cam => {
+                const option = document.createElement('option');
+                option.value = cam;
+                option.textContent = cam;
+                camSelect.appendChild(option);
+            });
+        }
+
+        // Update vessel table
+        function updateVesselTable() {
+            const tbody = document.getElementById('vessel-body');
+            const statusFilter = document.getElementById('filter-status').value;
+            const camFilter = document.getElementById('filter-cam').value;
+            const searchFilter = document.getElementById('filter-search').value.toLowerCase();
+
+            tbody.innerHTML = '';
+
+            const filtered = vesselData.filter(v => {
+                if (statusFilter && v.status !== statusFilter) return false;
+                if (camFilter && v.cam !== camFilter) return false;
+                if (searchFilter) {
+                    const searchStr = `${v.vessel} ${v.fleet} ${v.cam} ${v.tam} ${v.comments}`.toLowerCase();
+                    if (!searchStr.includes(searchFilter)) return false;
+                }
+                return true;
+            });
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:#718096;">No vessels match the filters</td></tr>';
+                return;
+            }
+
+            filtered.forEach(v => {
+                const row = document.createElement('tr');
+                const commentsPreview = v.comments.length > 100 ? v.comments.substring(0, 100) + '...' : v.comments;
+                row.innerHTML = `
+                    <td>${v.no}</td>
+                    <td>${v.fleet}</td>
+                    <td>${v.cam}</td>
+                    <td>${v.tam}</td>
+                    <td><strong>${v.vessel}</strong></td>
+                    <td>${v.connectivity}</td>
+                    <td><span class="status-badge ${getStatusBadgeClass(v.status)}">${v.status}</span></td>
+                    <td title="${v.comments.replace(/"/g, '&quot;')}">${commentsPreview}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // File handling
+        function handleFile(file) {
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                    const jsonData = XLSX.utils.sheet_to_json(firstSheet, { defval: '' });
+                    processExcelData(jsonData, file.name);
+                } catch (error) {
+                    console.error('Error processing file:', error);
+                    alert('Error processing Excel file. Please ensure it is a valid Excel file with the expected columns.');
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropZone = document.getElementById('drop-zone');
+            const fileInput = document.getElementById('file-input');
+
+            // Click to browse
+            dropZone.addEventListener('click', () => fileInput.click());
+
+            // File input change
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) {
+                    handleFile(e.target.files[0]);
+                }
+            });
+
+            // Drag and drop
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.classList.add('dragover');
+            });
+
+            dropZone.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('dragover');
+            });
+
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('dragover');
+                if (e.dataTransfer.files.length > 0) {
+                    handleFile(e.dataTransfer.files[0]);
+                }
+            });
+
+            // Filter events
+            document.getElementById('filter-status').addEventListener('change', updateVesselTable);
+            document.getElementById('filter-cam').addEventListener('change', updateVesselTable);
+            document.getElementById('filter-search').addEventListener('input', updateVesselTable);
+
+            // Clear history
+            document.getElementById('clear-history-btn').addEventListener('click', () => {
+                if (confirm('Are you sure you want to clear all history data?')) {
+                    localStorage.removeItem(HISTORY_KEY);
+                    updateHistoryTable();
+                }
+            });
+
+            // Load existing history on page load
+            updateHistoryTable();
+        });
     </script>
 </body>
 </html>
