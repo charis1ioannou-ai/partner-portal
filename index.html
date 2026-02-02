@@ -236,6 +236,28 @@ Akhil Mannarathadathil,India - Kochi,akhil.mannarathadathil@wlnet.com,9162388110
 Midhun Jose,India - Kochi,midhun.jose@wlnet.com,919995129283`;
 
 
+
+// Airtable Configuration
+const AIRTABLE_TOKEN = 'patAeXISeohaxhRpk.f3b705fd9889b89153efb4ac361c04b73069aa2bbc97cb8587d4c45004c1d8be';
+const BASE_ID = 'app50a64gcsm1upgB';
+const AIRTABLE_API = `https://api.airtable.com/v0/${BASE_ID}`;
+
+// Airtable API helper
+const airtableRequest = async (table, method = 'GET', body = null) => {
+  const options = {
+    method,
+    headers: {
+      'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
+      'Content-Type': 'application/json'
+    }
+  };
+  if (body) options.body = JSON.stringify(body);
+  
+  const response = await fetch(`${AIRTABLE_API}/${table}`, options);
+  if (!response.ok) throw new Error(`Airtable error: ${response.statusText}`);
+  return response.json();
+};
+
 function parseCSV(csv) {
   const lines = csv.trim().split('\n');
   const headers = lines[0].split(',');
@@ -299,6 +321,80 @@ const PartnerPortal = () => {
     completed: false
   });
   
+
+  // Load data from Airtable on mount
+  React.useEffect(() => {
+    const loadData = async () => {
+      try {
+        // Load Partners
+        const partnersData = await airtableRequest('Partners');
+        if (partnersData.records) {
+          const partners = partnersData.records.map(r => ({
+            id: r.id,
+            'Partner Name': r.fields['Partner Name'] || '',
+            'Organization Type': r.fields['Organization Type'] || 'Company',
+            'Port': r.fields['Port'] || '',
+            'Home Port Country': r.fields['Home Port Country'] || '',
+            'Available Ports': r.fields['Available Ports'] || '',
+            'Usual Rate (USD)': r.fields['Usual Rate (USD)'] || '',
+            'Rating': r.fields['Rating'] || '',
+            'Email ': r.fields['Email'] || '',
+            'Phone Number': r.fields['Phone Number'] || ''
+          }));
+          setCustomPartners(partners);
+        }
+
+        // Load Engineers
+        const engineersData = await airtableRequest('Engineers');
+        if (engineersData.records) {
+          const engineers = engineersData.records.map(r => ({
+            id: r.id,
+            'Engineer Name': r.fields['Engineer Name'] || '',
+            'Office': r.fields['Office'] || 'Cyprus',
+            'Email': r.fields['Email'] || '',
+            'Phone': r.fields['Phone'] || ''
+          }));
+          setCustomEngineers(engineers);
+        }
+
+        // Load Ports
+        const portsData = await airtableRequest('Ports');
+        if (portsData.records) {
+          const ports = portsData.records.map(r => ({
+            id: r.id,
+            'Port Name': r.fields['Port Name'] || '',
+            'Country': r.fields['Country'] || '',
+            'City': r.fields['City'] || '',
+            '# Partners Based Here': r.fields['Partners Based Here'] || '0',
+            '# Partners Can Attend': r.fields['Partners Can Attend'] || '0'
+          }));
+          setCustomPorts(ports);
+        }
+
+        // Load Events
+        const eventsData = await airtableRequest('Events');
+        if (eventsData.records) {
+          const events = eventsData.records.map(r => ({
+            id: r.id,
+            vessel: r.fields['Vessel Name'] || '',
+            date: r.fields['Date'] || '',
+            attendeeType: r.fields['Attendee Type'] || 'partner',
+            attendeeName: r.fields['Attendee Name'] || '',
+            port: r.fields['Port'] || '',
+            rating: r.fields['Rating'] || 0,
+            completed: false
+          }));
+          setEvents(events);
+        }
+      } catch (error) {
+        console.error('Error loading from Airtable:', error);
+        alert('Error loading data from Airtable. Check console for details.');
+      }
+    };
+    
+    loadData();
+  }, []);
+
   // ============================================================================
   // DATA - Merged original + custom
   // ============================================================================
@@ -354,47 +450,186 @@ const PartnerPortal = () => {
     setShowEditModal(true);
   };
   
-  const handleSave = () => {
-    if (editType === 'partner') {
-      if (!formData['Partner Name']) { alert('Partner name required'); return; }
-      if (editingItem) {
-        const idx = customPartners.indexOf(editingItem);
-        const updated = [...customPartners];
-        updated[idx] = formData;
-        setCustomPartners(updated);
-      } else {
-        setCustomPartners([...customPartners, formData]);
+  const handleSave = async () => {
+    try {
+      if (editType === 'partner') {
+        if (!formData['Partner Name']) { alert('Partner name required'); return; }
+        
+        if (editingItem && editingItem.id) {
+          // Update existing in Airtable
+          await fetch(`${AIRTABLE_API}/Partners/${editingItem.id}`, {
+            method: 'PATCH',
+            headers: {
+              'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              fields: {
+                'Partner Name': formData['Partner Name'],
+                'Organization Type': formData['Organization Type'],
+                'Port': formData['Port'],
+                'Home Port Country': formData['Home Port Country'],
+                'Available Ports': formData['Available Ports'],
+                'Usual Rate (USD)': formData['Usual Rate (USD)'],
+                'Rating': parseInt(formData['Rating']) || 0,
+                'Email': formData['Email '],
+                'Phone Number': formData['Phone Number']
+              }
+            })
+          });
+          
+          const idx = customPartners.findIndex(p => p.id === editingItem.id);
+          const updated = [...customPartners];
+          updated[idx] = { ...formData, id: editingItem.id };
+          setCustomPartners(updated);
+        } else {
+          // Create new in Airtable
+          const response = await fetch(`${AIRTABLE_API}/Partners`, {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              fields: {
+                'Partner Name': formData['Partner Name'],
+                'Organization Type': formData['Organization Type'],
+                'Port': formData['Port'],
+                'Home Port Country': formData['Home Port Country'],
+                'Available Ports': formData['Available Ports'],
+                'Usual Rate (USD)': formData['Usual Rate (USD)'],
+                'Rating': parseInt(formData['Rating']) || 0,
+                'Email': formData['Email '],
+                'Phone Number': formData['Phone Number']
+              }
+            })
+          });
+          const data = await response.json();
+          setCustomPartners([...customPartners, { ...formData, id: data.id }]);
+        }
+      } else if (editType === 'engineer') {
+        if (!formData['Engineer Name']) { alert('Engineer name required'); return; }
+        
+        if (editingItem && editingItem.id) {
+          await fetch(`${AIRTABLE_API}/Engineers/${editingItem.id}`, {
+            method: 'PATCH',
+            headers: {
+              'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              fields: {
+                'Engineer Name': formData['Engineer Name'],
+                'Office': formData['Office'],
+                'Email': formData['Email'],
+                'Phone': formData['Phone']
+              }
+            })
+          });
+          
+          const idx = customEngineers.findIndex(e => e.id === editingItem.id);
+          const updated = [...customEngineers];
+          updated[idx] = { ...formData, id: editingItem.id };
+          setCustomEngineers(updated);
+        } else {
+          const response = await fetch(`${AIRTABLE_API}/Engineers`, {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              fields: {
+                'Engineer Name': formData['Engineer Name'],
+                'Office': formData['Office'],
+                'Email': formData['Email'],
+                'Phone': formData['Phone']
+              }
+            })
+          });
+          const data = await response.json();
+          setCustomEngineers([...customEngineers, { ...formData, id: data.id }]);
+        }
+      } else if (editType === 'port') {
+        if (!formData['Port Name']) { alert('Port name required'); return; }
+        
+        if (editingItem && editingItem.id) {
+          await fetch(`${AIRTABLE_API}/Ports/${editingItem.id}`, {
+            method: 'PATCH',
+            headers: {
+              'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              fields: {
+                'Port Name': formData['Port Name'],
+                'Country': formData['Country'],
+                'City': formData['City']
+              }
+            })
+          });
+          
+          const idx = customPorts.findIndex(p => p.id === editingItem.id);
+          const updated = [...customPorts];
+          updated[idx] = { ...formData, id: editingItem.id };
+          setCustomPorts(updated);
+        } else {
+          const response = await fetch(`${AIRTABLE_API}/Ports`, {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              fields: {
+                'Port Name': formData['Port Name'],
+                'Country': formData['Country'],
+                'City': formData['City'],
+                'Partners Based Here': 0,
+                'Partners Can Attend': 0
+              }
+            })
+          });
+          const data = await response.json();
+          setCustomPorts([...customPorts, { ...formData, id: data.id }]);
+        }
       }
-    } else if (editType === 'engineer') {
-      if (!formData['Engineer Name']) { alert('Engineer name required'); return; }
-      if (editingItem) {
-        const idx = customEngineers.indexOf(editingItem);
-        const updated = [...customEngineers];
-        updated[idx] = formData;
-        setCustomEngineers(updated);
-      } else {
-        setCustomEngineers([...customEngineers, formData]);
-      }
-    } else if (editType === 'port') {
-      if (!formData['Port Name']) { alert('Port name required'); return; }
-      if (editingItem) {
-        const idx = customPorts.indexOf(editingItem);
-        const updated = [...customPorts];
-        updated[idx] = formData;
-        setCustomPorts(updated);
-      } else {
-        setCustomPorts([...customPorts, formData]);
-      }
+      
+      setShowEditModal(false);
+      setEditingItem(null);
+    } catch (error) {
+      console.error('Error saving to Airtable:', error);
+      alert('Error saving data. Check console for details.');
     }
-    setShowEditModal(false);
-    setEditingItem(null);
   };
   
-  const handleDelete = (type, item) => {
+  const handleDelete = async (type, item) => {
     if (!confirm(`Delete this ${type}?`)) return;
-    if (type === 'partner') setCustomPartners(customPartners.filter(p => p !== item));
-    else if (type === 'engineer') setCustomEngineers(customEngineers.filter(e => e !== item));
-    else if (type === 'port') setCustomPorts(customPorts.filter(p => p !== item));
+    
+    try {
+      if (type === 'partner' && item.id) {
+        await fetch(`${AIRTABLE_API}/Partners/${item.id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${AIRTABLE_TOKEN}` }
+        });
+        setCustomPartners(customPartners.filter(p => p.id !== item.id));
+      } else if (type === 'engineer' && item.id) {
+        await fetch(`${AIRTABLE_API}/Engineers/${item.id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${AIRTABLE_TOKEN}` }
+        });
+        setCustomEngineers(customEngineers.filter(e => e.id !== item.id));
+      } else if (type === 'port' && item.id) {
+        await fetch(`${AIRTABLE_API}/Ports/${item.id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${AIRTABLE_TOKEN}` }
+        });
+        setCustomPorts(customPorts.filter(p => p.id !== item.id));
+      }
+    } catch (error) {
+      console.error('Error deleting from Airtable:', error);
+      alert('Error deleting. Check console for details.');
+    }
   };
   
   // Calendar functions
@@ -410,14 +645,50 @@ const PartnerPortal = () => {
     return events.filter(e => new Date(e.date).toDateString() === date.toDateString());
   };
   
-  const handleAddEvent = () => {
+  const handleAddEvent = async () => {
     if (!eventForm.vessel || !eventForm.attendeeName || !eventForm.port) {
       alert('Please fill all required fields');
       return;
     }
-    setEvents([...events, { id: Date.now(), date: selectedDate.toISOString(), ...eventForm }]);
-    setShowCalendarModal(false);
-    setEventForm({ vessel: '', attendeeType: 'partner', attendeeName: '', port: '', rating: 0, completed: false });
+    
+    try {
+      const response = await fetch(`${AIRTABLE_API}/Events`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          fields: {
+            'Vessel Name': eventForm.vessel,
+            'Date': selectedDate.toISOString().split('T')[0],
+            'Attendee Type': eventForm.attendeeType,
+            'Attendee Name': eventForm.attendeeName,
+            'Port': eventForm.port,
+            'Rating': 0
+          }
+        })
+      });
+      
+      const data = await response.json();
+      const newEvent = {
+        id: data.id,
+        vessel: eventForm.vessel,
+        date: selectedDate.toISOString(),
+        attendeeType: eventForm.attendeeType,
+        attendeeName: eventForm.attendeeName,
+        port: eventForm.port,
+        rating: 0,
+        completed: false
+      };
+      
+      setEvents([...events, newEvent]);
+      setShowCalendarModal(false);
+      setEventForm({ vessel: '', attendeeType: 'partner', attendeeName: '', port: '', rating: 0, completed: false });
+    } catch (error) {
+      console.error('Error saving event to Airtable:', error);
+      alert('Error saving event. Check console for details.');
+    }
   };
   
   // Star rating component
@@ -955,20 +1226,45 @@ const PartnerPortal = () => {
                               ))}
                             </div>
                           ) : (
-                            <button onClick={() => {
+                            <button onClick={async () => {
                               const rating = prompt('Rate this event (1-5):');
                               if (rating && rating >= 1 && rating <= 5) {
-                                const updated = events.map(e => e.id === event.id ? {...e, rating: parseInt(rating)} : e);
-                                setEvents(updated);
+                                try {
+                                  await fetch(`${AIRTABLE_API}/Events/${event.id}`, {
+                                    method: 'PATCH',
+                                    headers: {
+                                      'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
+                                      'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({
+                                      fields: { 'Rating': parseInt(rating) }
+                                    })
+                                  });
+                                  
+                                  const updated = events.map(e => e.id === event.id ? {...e, rating: parseInt(rating)} : e);
+                                  setEvents(updated);
+                                } catch (error) {
+                                  console.error('Error rating event:', error);
+                                  alert('Error saving rating');
+                                }
                               }
                             }} style={{
                               padding: '4px 12px', fontSize: '12px', background: '#1D4ED8',
                               color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer'
                             }}>Rate Event</button>
                           )}
-                          <button onClick={() => {
+                          <button onClick={async () => {
                             if (confirm('Delete this event?')) {
-                              setEvents(events.filter(e => e.id !== event.id));
+                              try {
+                                await fetch(`${AIRTABLE_API}/Events/${event.id}`, {
+                                  method: 'DELETE',
+                                  headers: { 'Authorization': `Bearer ${AIRTABLE_TOKEN}` }
+                                });
+                                setEvents(events.filter(e => e.id !== event.id));
+                              } catch (error) {
+                                console.error('Error deleting event:', error);
+                                alert('Error deleting event');
+                              }
                             }
                           }} style={{
                             padding: '4px 8px', fontSize: '12px', background: '#FEE2E2',
