@@ -654,13 +654,20 @@ const PartnerPortal = () => {
                       style={{ cursor: 'pointer' }}>
                       <StarRating rating={partner['Rating']} />
                     </div>
-                    <div>
+                    <div style={{ display: 'flex', gap: '4px' }}>
                       {customPartners.includes(partner) && (
-                        <button onClick={(e) => { e.stopPropagation(); openEditModal('partner', partner); }}
-                          style={{
-                            padding: '4px 8px', fontSize: '12px', background: '#F3F4F6',
-                            border: '1px solid #E5E7EB', borderRadius: '4px', cursor: 'pointer'
-                          }}>Edit</button>
+                        <>
+                          <button onClick={(e) => { e.stopPropagation(); openEditModal('partner', partner); }}
+                            style={{
+                              padding: '4px 8px', fontSize: '12px', background: '#F3F4F6',
+                              border: '1px solid #E5E7EB', borderRadius: '4px', cursor: 'pointer'
+                            }}>Edit</button>
+                          <button onClick={(e) => { e.stopPropagation(); handleDelete('partner', partner); }}
+                            style={{
+                              padding: '4px 8px', fontSize: '12px', background: '#FEE2E2',
+                              border: '1px solid #FCA5A5', borderRadius: '4px', cursor: 'pointer', color: '#DC2626'
+                            }}>Delete</button>
+                        </>
                       )}
                     </div>
                   </div>
@@ -697,7 +704,7 @@ const PartnerPortal = () => {
                       <div key={idx} style={{
                         padding: '12px 16px',
                         borderBottom: idx < officeEngineers.length - 1 ? '1px solid #F3F4F6' : 'none',
-                        display: 'grid', gridTemplateColumns: '2fr 1.5fr 1fr', gap: '1rem', alignItems: 'center'
+                        display: 'grid', gridTemplateColumns: '2fr 1.5fr 1.5fr', gap: '1rem', alignItems: 'center'
                       }}>
                         <div>
                           <div style={{ fontSize: '14px', fontWeight: '500', color: '#111827' }}>{eng['Engineer Name']}</div>
@@ -708,7 +715,24 @@ const PartnerPortal = () => {
                           )}
                         </div>
                         <div style={{ fontSize: '13px', color: '#6B7280' }}>{eng['Phone'] || '—'}</div>
-                        <div><span style={{ fontSize: '13px', color: '#9CA3AF' }}>—</span></div>
+                        <div style={{ display: 'flex', gap: '4px' }}>
+                          {customEngineers.includes(eng) ? (
+                            <>
+                              <button onClick={() => openEditModal('engineer', eng)}
+                                style={{
+                                  padding: '4px 8px', fontSize: '12px', background: '#F3F4F6',
+                                  border: '1px solid #E5E7EB', borderRadius: '4px', cursor: 'pointer'
+                                }}>Edit</button>
+                              <button onClick={() => handleDelete('engineer', eng)}
+                                style={{
+                                  padding: '4px 8px', fontSize: '12px', background: '#FEE2E2',
+                                  border: '1px solid #FCA5A5', borderRadius: '4px', cursor: 'pointer', color: '#DC2626'
+                                }}>Delete</button>
+                            </>
+                          ) : (
+                            <span style={{ fontSize: '13px', color: '#9CA3AF' }}>—</span>
+                          )}
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -775,15 +799,15 @@ const PartnerPortal = () => {
               </div>
               <div style={{ background: 'white', border: '1px solid #E5E7EB', borderRadius: '8px', overflow: 'hidden' }}>
                 <div style={{
-                  display: 'grid', gridTemplateColumns: '2.5fr 1fr 1fr 1fr 1fr',
+                  display: 'grid', gridTemplateColumns: '2.5fr 1fr 1fr 1fr 1fr 1fr',
                   padding: '12px 16px', background: '#F9FAFB', borderBottom: '1px solid #E5E7EB',
                   fontSize: '12px', fontWeight: '600', color: '#6B7280', textTransform: 'uppercase'
                 }}>
-                  <div>Port Name</div><div>Country</div><div>City</div><div>Based Here</div><div>Can Attend</div>
+                  <div>Port Name</div><div>Country</div><div>City</div><div>Based Here</div><div>Can Attend</div><div>Actions</div>
                 </div>
                 {ports.map((port, idx) => (
                   <div key={idx} style={{
-                    display: 'grid', gridTemplateColumns: '2.5fr 1fr 1fr 1fr 1fr',
+                    display: 'grid', gridTemplateColumns: '2.5fr 1fr 1fr 1fr 1fr 1fr',
                     padding: '14px 16px',
                     borderBottom: idx < ports.length - 1 ? '1px solid #F3F4F6' : 'none',
                     alignItems: 'center', fontSize: '14px'
@@ -793,6 +817,22 @@ const PartnerPortal = () => {
                     <div style={{ color: '#6B7280' }}>{port['City']}</div>
                     <div style={{ color: '#6B7280', textAlign: 'center' }}>{port['# Partners Based Here']}</div>
                     <div style={{ color: '#6B7280', textAlign: 'center' }}>{port['# Partners Can Attend']}</div>
+                    <div style={{ display: 'flex', gap: '4px' }}>
+                      {customPorts.includes(port) && (
+                        <>
+                          <button onClick={() => openEditModal('port', port)}
+                            style={{
+                              padding: '4px 8px', fontSize: '12px', background: '#F3F4F6',
+                              border: '1px solid #E5E7EB', borderRadius: '4px', cursor: 'pointer'
+                            }}>Edit</button>
+                          <button onClick={() => handleDelete('port', port)}
+                            style={{
+                              padding: '4px 8px', fontSize: '12px', background: '#FEE2E2',
+                              border: '1px solid #FCA5A5', borderRadius: '4px', cursor: 'pointer', color: '#DC2626'
+                            }}>Delete</button>
+                        </>
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -907,7 +947,7 @@ const PartnerPortal = () => {
                             {new Date(event.date).toLocaleDateString()} • {event.attendeeName} • {event.port}
                           </div>
                         </div>
-                        <div>
+                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                           {event.rating > 0 ? (
                             <div style={{ display: 'flex', gap: '2px' }}>
                               {[...Array(5)].map((_, i) => (
@@ -926,6 +966,14 @@ const PartnerPortal = () => {
                               color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer'
                             }}>Rate Event</button>
                           )}
+                          <button onClick={() => {
+                            if (confirm('Delete this event?')) {
+                              setEvents(events.filter(e => e.id !== event.id));
+                            }
+                          }} style={{
+                            padding: '4px 8px', fontSize: '12px', background: '#FEE2E2',
+                            border: '1px solid #FCA5A5', borderRadius: '4px', cursor: 'pointer', color: '#DC2626'
+                          }}>Delete</button>
                         </div>
                       </div>
                     ))}
