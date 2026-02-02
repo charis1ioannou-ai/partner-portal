@@ -1608,7 +1608,7 @@ const PartnerPortal = () => {
             
             <div style={{ padding: '1.5rem' }}>
               {modalType === 'partner' && (
-                <>
+                <div>
                   <div style={{ marginBottom: '1rem' }}>
                     <label style={{ fontSize: '13px', fontWeight: '600', display: 'block', marginBottom: '4px' }}>Partner Name *</label>
                     <input type="text" value={formData['Partner Name'] || ''} onChange={(e) => setFormData({...formData, 'Partner Name': e.target.value})} style={{ width: '100%', padding: '8px', border: '1px solid #E5E7EB', borderRadius: '6px' }} />
@@ -1640,11 +1640,11 @@ const PartnerPortal = () => {
                     <label style={{ fontSize: '13px', fontWeight: '600', display: 'block', marginBottom: '4px' }}>Rate (USD)</label>
                     <input type="text" value={formData['Usual Rate (USD)'] || ''} onChange={(e) => setFormData({...formData, 'Usual Rate (USD)': e.target.value})} style={{ width: '100%', padding: '8px', border: '1px solid #E5E7EB', borderRadius: '6px' }} placeholder="$000.00" />
                   </div>
-                </>
+                </div>
               )}
 
               {modalType === 'engineer' && (
-                <>
+                <div>
                   <div style={{ marginBottom: '1rem' }}>
                     <label style={{ fontSize: '13px', fontWeight: '600', display: 'block', marginBottom: '4px' }}>Engineer Name *</label>
                     <input type="text" value={formData['Engineer Name'] || ''} onChange={(e) => setFormData({...formData, 'Engineer Name': e.target.value})} style={{ width: '100%', padding: '8px', border: '1px solid #E5E7EB', borderRadius: '6px' }} />
@@ -1668,11 +1668,11 @@ const PartnerPortal = () => {
                     <label style={{ fontSize: '13px', fontWeight: '600', display: 'block', marginBottom: '4px' }}>Phone</label>
                     <input type="tel" value={formData['Phone'] || ''} onChange={(e) => setFormData({...formData, 'Phone': e.target.value})} style={{ width: '100%', padding: '8px', border: '1px solid #E5E7EB', borderRadius: '6px' }} />
                   </div>
-                </>
+                </div>
               )}
 
               {modalType === 'port' && (
-                <>
+                <div>
                   <div style={{ marginBottom: '1rem' }}>
                     <label style={{ fontSize: '13px', fontWeight: '600', display: 'block', marginBottom: '4px' }}>Port Name *</label>
                     <input type="text" value={formData['Port Name'] || ''} onChange={(e) => setFormData({...formData, 'Port Name': e.target.value})} style={{ width: '100%', padding: '8px', border: '1px solid #E5E7EB', borderRadius: '6px' }} />
@@ -1685,7 +1685,7 @@ const PartnerPortal = () => {
                     <label style={{ fontSize: '13px', fontWeight: '600', display: 'block', marginBottom: '4px' }}>City</label>
                     <input type="text" value={formData['City'] || ''} onChange={(e) => setFormData({...formData, 'City': e.target.value})} style={{ width: '100%', padding: '8px', border: '1px solid #E5E7EB', borderRadius: '6px' }} />
                   </div>
-                </>
+                </div>
               )}
 
               <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end', marginTop: '1.5rem' }}>
